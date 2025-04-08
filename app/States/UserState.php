@@ -20,9 +20,9 @@ class UserState extends State
 
     public bool $is_admin;
 
-    public Collection $supported_character_ids;
+    public array $supported_character_ids = [];
 
-    public Collection $character_ids;
+    public array $character_ids = [];
 
     public function model()
     {

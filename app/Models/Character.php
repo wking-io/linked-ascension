@@ -20,6 +20,7 @@ class Character extends Model
      * @var list<string>
      */
     protected $fillable = [
+        'id',
         'health',
         'unlocked_armor_at',
         'unlocked_weapon_at',
@@ -27,6 +28,8 @@ class Character extends Model
         'claimed_at',
         'last_acted_at',
         'expended_points',
+        'game_id',
+        'user_id',
     ];
 
     /**

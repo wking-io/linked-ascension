@@ -20,11 +20,12 @@ class AdminCreatedCharacter extends Event
     public function applyToCharacter(CharacterState $state)
     {
         $state->game_id = $this->game_id;
+        $state->health = CharacterState::INITIAL_HEALTH;
     }
 
     public function applyToGame(GameState $state)
     {
-        $state->character_ids->push($this->character_id);
+        collect($state->character_ids)->push($this->character_id);
     }
 
     public function handle(CharacterState $state)
@@ -33,6 +34,7 @@ class AdminCreatedCharacter extends Event
             [
                 'id' => $state->id,
                 'game_id' => $state->game_id,
+                'health' => $state->health,
             ]
         );
     }

@@ -24,17 +24,16 @@ class AdminCreatedGame extends Event
         $state->name = $this->name;
         $state->starts_at = $this->starts_at;
         $state->ends_at = $this->ends_at;
-        $state->character_ids = collect();
     }
 
-    public function handle(GameState $game)
+    public function handle(GameState $state)
     {
         Game::create(
             [
-                'id' => $game->id,
-                'name' => $game->name,
-                'starts_at' => $game->starts_at,
-                'ends_at' => $game->ends_at,
+                'id' => $this->game_id,
+                'name' => $state->name,
+                'starts_at' => $state->starts_at,
+                'ends_at' => $state->ends_at,
             ]
         );
     }

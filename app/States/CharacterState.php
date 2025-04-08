@@ -10,6 +10,8 @@ use Thunk\Verbs\State;
 
 class CharacterState extends State
 {
+    public const INITIAL_HEALTH = 6;
+
     public Snowflake $user_id;
 
     public Snowflake $game_id;
@@ -18,7 +20,7 @@ class CharacterState extends State
 
     public ?string $element = null;
 
-    public bool $weapon;
+    public bool $weapon = false;
 
     public bool $armor;
 
@@ -30,7 +32,7 @@ class CharacterState extends State
 
     public int $expended_points = 0;
 
-    public Collection $supported_by_ids;
+    public array $supported_by_ids = [];
 
     public function model()
     {

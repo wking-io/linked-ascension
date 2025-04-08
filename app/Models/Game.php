@@ -18,6 +18,7 @@ class Game extends Model
      * @var list<string>
      */
     protected $fillable = [
+        'id',
         'name',
         'starts_at',
         'ends_at',

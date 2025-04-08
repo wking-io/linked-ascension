@@ -11,7 +11,7 @@ class GameState extends State
 {
     public string $name;
 
-    public Collection $character_ids;
+    public array $character_ids = [];
 
     public Carbon $starts_at;
 
