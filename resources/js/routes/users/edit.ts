@@ -3,7 +3,7 @@ import { queryParams, type QueryParams } from './../../wayfinder'
 /**
  * @see \App\Http\Controllers\UserController::edit
  * @see app/Http/Controllers/UserController.php:23
- * @route /user/{user}/edit
+ * @route /users/{user}/edit
  */
 export const edit = (args: { user: string | { id: string } } | [user: string | { id: string }] | string | { id: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -15,13 +15,13 @@ export const edit = (args: { user: string | { id: string } } | [user: string | {
 
 edit.definition = {
     methods: ['get','head'],
-    url: '\/user\/{user}\/edit',
+    url: '\/users\/{user}\/edit',
 }
 
 /**
  * @see \App\Http\Controllers\UserController::edit
  * @see app/Http/Controllers/UserController.php:23
- * @route /user/{user}/edit
+ * @route /users/{user}/edit
  */
 edit.url = (args: { user: string | { id: string } } | [user: string | { id: string }] | string | { id: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
@@ -52,7 +52,7 @@ edit.url = (args: { user: string | { id: string } } | [user: string | { id: stri
 /**
  * @see \App\Http\Controllers\UserController::edit
  * @see app/Http/Controllers/UserController.php:23
- * @route /user/{user}/edit
+ * @route /users/{user}/edit
  */
 edit.get = (args: { user: string | { id: string } } | [user: string | { id: string }] | string | { id: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -65,7 +65,7 @@ edit.get = (args: { user: string | { id: string } } | [user: string | { id: stri
 /**
  * @see \App\Http\Controllers\UserController::edit
  * @see app/Http/Controllers/UserController.php:23
- * @route /user/{user}/edit
+ * @route /users/{user}/edit
  */
 edit.head = (args: { user: string | { id: string } } | [user: string | { id: string }] | string | { id: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,

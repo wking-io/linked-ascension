@@ -29,6 +29,6 @@ class GameState extends State
 
     public function characters()
     {
-        return collect($this->character_ids)->map(fn ($id) => CharacterState::load($id));
+        return collect($this->character_ids)->map(fn($id) => CharacterState::load($id));
     }
 }

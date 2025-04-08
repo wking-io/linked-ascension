@@ -2,8 +2,8 @@ import { queryParams, type QueryParams } from './../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\GameController::edit
- * @see app/Http/Controllers/GameController.php:28
- * @route /game/{game}/edit
+ * @see app/Http/Controllers/GameController.php:56
+ * @route /games/{game}/edit
  */
 export const edit = (args: { game: string | { id: string } } | [game: string | { id: string }] | string | { id: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -15,13 +15,13 @@ export const edit = (args: { game: string | { id: string } } | [game: string | {
 
 edit.definition = {
     methods: ['get','head'],
-    url: '\/game\/{game}\/edit',
+    url: '\/games\/{game}\/edit',
 }
 
 /**
  * @see \App\Http\Controllers\GameController::edit
- * @see app/Http/Controllers/GameController.php:28
- * @route /game/{game}/edit
+ * @see app/Http/Controllers/GameController.php:56
+ * @route /games/{game}/edit
  */
 edit.url = (args: { game: string | { id: string } } | [game: string | { id: string }] | string | { id: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
@@ -51,8 +51,8 @@ edit.url = (args: { game: string | { id: string } } | [game: string | { id: stri
 
 /**
  * @see \App\Http\Controllers\GameController::edit
- * @see app/Http/Controllers/GameController.php:28
- * @route /game/{game}/edit
+ * @see app/Http/Controllers/GameController.php:56
+ * @route /games/{game}/edit
  */
 edit.get = (args: { game: string | { id: string } } | [game: string | { id: string }] | string | { id: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -64,8 +64,8 @@ edit.get = (args: { game: string | { id: string } } | [game: string | { id: stri
 
 /**
  * @see \App\Http\Controllers\GameController::edit
- * @see app/Http/Controllers/GameController.php:28
- * @route /game/{game}/edit
+ * @see app/Http/Controllers/GameController.php:56
+ * @route /games/{game}/edit
  */
 edit.head = (args: { game: string | { id: string } } | [game: string | { id: string }] | string | { id: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,

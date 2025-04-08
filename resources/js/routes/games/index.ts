@@ -1,11 +1,12 @@
-import show from './show'
-import edit from './edit'
 import create from './create'
+import store from './store'
+import edit from './edit'
+import show from './show'
 import { queryParams, type QueryParams } from './../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\GameController::index
- * @see app/Http/Controllers/GameController.php:11
+ * @see app/Http/Controllers/GameController.php:15
  * @route /games
  */
 export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -23,7 +24,7 @@ index.definition = {
 
 /**
  * @see \App\Http\Controllers\GameController::index
- * @see app/Http/Controllers/GameController.php:11
+ * @see app/Http/Controllers/GameController.php:15
  * @route /games
  */
 index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -32,7 +33,7 @@ index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
  * @see \App\Http\Controllers\GameController::index
- * @see app/Http/Controllers/GameController.php:11
+ * @see app/Http/Controllers/GameController.php:15
  * @route /games
  */
 index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -45,7 +46,7 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
  * @see \App\Http\Controllers\GameController::index
- * @see app/Http/Controllers/GameController.php:11
+ * @see app/Http/Controllers/GameController.php:15
  * @route /games
  */
 index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -56,11 +57,12 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     method: 'head',
 })
 
-const game = {
-    index, 
-    show, 
+const games = {
+    create, 
+    store, 
     edit, 
-    create,
+    index, 
+    show,
 }
 
-export default game
+export default games

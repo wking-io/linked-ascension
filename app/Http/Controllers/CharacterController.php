@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\AdminCreatedCharacter;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Character;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Game;
+use Illuminate\Http\RedirectResponse;
 
 class CharacterController extends Controller
 {
@@ -14,11 +17,6 @@ class CharacterController extends Controller
         return Inertia::render('characters/show', [
             'character' => $character
         ]);
-    }
-
-    public function create()
-    {
-        return Inertia::render('characters/create');
     }
 
     public function edit(Character $character)
@@ -34,17 +32,17 @@ class CharacterController extends Controller
 
         // 1. Redirect if user owns the character
         if ($user && $character->user_id === $user->id) {
-            return redirect()->route('character.show');
+            return redirect()->route('characters.show', $character);
         }
 
         // 2. Redirect if character is claimed
         if ($character->user_id !== null) {
-            return redirect()->route('character.support', ['character' => $character->id]);
+            return redirect()->route('characters.support', $character);
         }
 
         // 3. Redirect if there is a logged-in user and character is unclaimed
         if ($user && $character->user_id === null) {
-            return redirect()->route('character.claim', ['character' => $character->id]);
+            return redirect()->route('characters.claim', $character);
         }
 
         return Inertia::render('characters/welcome', [
@@ -63,12 +61,21 @@ class CharacterController extends Controller
     {
         $user = Auth::user();
         if ($character->user_id === $user->id) {
-            return redirect()->route('character.show');
+            return redirect()->route('characters.show', $character);
         }
 
         return Inertia::render('characters/claim', [
             'character' => $character,
             'user_id' => $user->id
         ]);
+    }
+
+    public function store(Game $game): RedirectResponse
+    {
+        AdminCreatedCharacter::fire(
+            game_id: $game->id,
+        )->game_id;
+
+        return redirect()->route('games.show', $game);
     }
 }

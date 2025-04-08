@@ -3,7 +3,7 @@ import { queryParams, type QueryParams } from './../../wayfinder'
 /**
  * @see \App\Http\Controllers\UserController::show
  * @see app/Http/Controllers/UserController.php:16
- * @route /user/{user}
+ * @route /users/{user}
  */
 export const show = (args: { user: string | { id: string } } | [user: string | { id: string }] | string | { id: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -15,13 +15,13 @@ export const show = (args: { user: string | { id: string } } | [user: string | {
 
 show.definition = {
     methods: ['get','head'],
-    url: '\/user\/{user}',
+    url: '\/users\/{user}',
 }
 
 /**
  * @see \App\Http\Controllers\UserController::show
  * @see app/Http/Controllers/UserController.php:16
- * @route /user/{user}
+ * @route /users/{user}
  */
 show.url = (args: { user: string | { id: string } } | [user: string | { id: string }] | string | { id: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
@@ -52,7 +52,7 @@ show.url = (args: { user: string | { id: string } } | [user: string | { id: stri
 /**
  * @see \App\Http\Controllers\UserController::show
  * @see app/Http/Controllers/UserController.php:16
- * @route /user/{user}
+ * @route /users/{user}
  */
 show.get = (args: { user: string | { id: string } } | [user: string | { id: string }] | string | { id: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -65,7 +65,7 @@ show.get = (args: { user: string | { id: string } } | [user: string | { id: stri
 /**
  * @see \App\Http\Controllers\UserController::show
  * @see app/Http/Controllers/UserController.php:16
- * @route /user/{user}
+ * @route /users/{user}
  */
 show.head = (args: { user: string | { id: string } } | [user: string | { id: string }] | string | { id: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,

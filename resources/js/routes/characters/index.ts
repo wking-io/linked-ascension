@@ -1,17 +1,17 @@
 import welcome from './welcome'
 import support from './support'
+import edit from './edit'
 import show from './show'
 import claim from './claim'
-import edit from './edit'
-import create from './create'
+import store from './store'
 
-const character = {
+const characters = {
     welcome, 
     support, 
+    edit, 
     show, 
     claim, 
-    edit, 
-    create,
+    store,
 }
 
-export default character
+export default characters

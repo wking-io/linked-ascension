@@ -4,15 +4,15 @@ namespace App\States;
 
 use App\Models\Character;
 use Carbon\Carbon;
+use Glhd\Bits\Snowflake;
 use Illuminate\Support\Collection;
 use Thunk\Verbs\State;
-use Thunk\VerbsHistory\States\Traits\HasHistory;
 
 class CharacterState extends State
 {
-    public int $user_id;
+    public Snowflake $user_id;
 
-    public int $game_id;
+    public Snowflake $game_id;
 
     public int $health;
 
@@ -67,7 +67,8 @@ class CharacterState extends State
         return collect($this->supported_by_ids)->length() - $this->expended_points;
     }
 
-    public function supportedBy() {
+    public function supportedBy()
+    {
         return collect($this->supported_by_ids)->map(fn($id) => UserState::load($id));
     }
 }

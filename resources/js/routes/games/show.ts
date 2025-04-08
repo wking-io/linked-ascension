@@ -2,8 +2,8 @@ import { queryParams, type QueryParams } from './../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\GameController::show
- * @see app/Http/Controllers/GameController.php:16
- * @route /game/{game}
+ * @see app/Http/Controllers/GameController.php:30
+ * @route /games/{game}
  */
 export const show = (args: { game: string | { id: string } } | [game: string | { id: string }] | string | { id: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -15,13 +15,13 @@ export const show = (args: { game: string | { id: string } } | [game: string | {
 
 show.definition = {
     methods: ['get','head'],
-    url: '\/game\/{game}',
+    url: '\/games\/{game}',
 }
 
 /**
  * @see \App\Http\Controllers\GameController::show
- * @see app/Http/Controllers/GameController.php:16
- * @route /game/{game}
+ * @see app/Http/Controllers/GameController.php:30
+ * @route /games/{game}
  */
 show.url = (args: { game: string | { id: string } } | [game: string | { id: string }] | string | { id: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
@@ -51,8 +51,8 @@ show.url = (args: { game: string | { id: string } } | [game: string | { id: stri
 
 /**
  * @see \App\Http\Controllers\GameController::show
- * @see app/Http/Controllers/GameController.php:16
- * @route /game/{game}
+ * @see app/Http/Controllers/GameController.php:30
+ * @route /games/{game}
  */
 show.get = (args: { game: string | { id: string } } | [game: string | { id: string }] | string | { id: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -64,8 +64,8 @@ show.get = (args: { game: string | { id: string } } | [game: string | { id: stri
 
 /**
  * @see \App\Http\Controllers\GameController::show
- * @see app/Http/Controllers/GameController.php:16
- * @route /game/{game}
+ * @see app/Http/Controllers/GameController.php:30
+ * @route /games/{game}
  */
 show.head = (args: { game: string | { id: string } } | [game: string | { id: string }] | string | { id: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,

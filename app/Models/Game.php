@@ -49,4 +49,9 @@ class Game extends Model
     {
         return $this->hasMany(Character::class);
     }
+
+    public function isActive(): bool
+    {
+        return $this->starts_at <= now() && $this->ends_at >= now();
+    }
 }

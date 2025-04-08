@@ -33,14 +33,14 @@ class UserAuthenticated extends Event
     {
         User::updateOrCreate(
             [
-                'id' => $user->id,
+                'provider_id' => $user->provider_id,
             ],
             [
+                'id' => $user->id,
                 'name' => $user->name,
                 'username' => $user->username,
                 'email' => $user->email,
                 'provider' => 'github',
-                'provider_id' => $user->provider_id,
                 'is_admin' => $user->is_admin,
             ]
         );
