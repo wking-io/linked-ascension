@@ -2,7 +2,7 @@ import { queryParams, type QueryParams } from './../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\CharacterController::show
- * @see app/Http/Controllers/CharacterController.php:18
+ * @see app/Http/Controllers/CharacterController.php:22
  * @route /games/{game}/characters/{character}
  */
 export const show = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -20,7 +20,7 @@ show.definition = {
 
 /**
  * @see \App\Http\Controllers\CharacterController::show
- * @see app/Http/Controllers/CharacterController.php:18
+ * @see app/Http/Controllers/CharacterController.php:22
  * @route /games/{game}/characters/{character}
  */
 show.url = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -48,7 +48,7 @@ show.url = (args: { game: string | { id: string }, character: string | { id: str
 
 /**
  * @see \App\Http\Controllers\CharacterController::show
- * @see app/Http/Controllers/CharacterController.php:18
+ * @see app/Http/Controllers/CharacterController.php:22
  * @route /games/{game}/characters/{character}
  */
 show.get = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -61,7 +61,7 @@ show.get = (args: { game: string | { id: string }, character: string | { id: str
 
 /**
  * @see \App\Http\Controllers\CharacterController::show
- * @see app/Http/Controllers/CharacterController.php:18
+ * @see app/Http/Controllers/CharacterController.php:22
  * @route /games/{game}/characters/{character}
  */
 show.head = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

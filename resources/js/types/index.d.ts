@@ -45,8 +45,8 @@ export interface CharacterResponse {
     id: string;
     name: string;
     health: number;
-    game_id: number;
-    user_id: number;
+    game_id: string;
+    user_id: string;
     element?: string;
     armor?: boolean;
     weapon?: boolean;
@@ -60,8 +60,8 @@ export interface CharacterResponse {
 export interface Character {
     id: string;
     name: string;
-    game_id: number;
-    user_id: number;
+    game_id: string;
+    user_id: string;
     tier: Tier;
     claimed_at: string;
     last_acted: string;

@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Events\AdminCreatedCharacter;
 use App\Events\CharacterAttackedCharacter;
 use App\Events\CharacterCollectedSupport;
+use App\Events\CharacterUnlockedArmor;
+use App\Events\CharacterUnlockedElement;
+use App\Events\CharacterUnlockedSpecial;
+use App\Events\CharacterUnlockedWeapon;
 use App\Events\UserClaimedCharacter;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -141,5 +145,71 @@ class CharacterController extends Controller
 
         return redirect()->route('characters.target', [$game, $character])
             ->with('success', 'Attack successful!');
+    }
+
+    public function unlockElement(Game $game, Character $character, Request $request)
+    {
+        $user = Auth::user();
+
+        if (!$character->user_id?->is($user->id)) {
+            return redirect()->route('games.show', [$game]);
+        }
+
+        // @TODO: Add other elements
+        $request->validate([
+            'element' => ['required', 'string', 'in:fire,water,earth,air']
+        ]);
+
+        CharacterUnlockedElement::fire(
+            character_id: $character->id,
+            element: $request->element
+        );
+
+        return redirect()->route('characters.show', [$game, $character]);
+    }
+
+    public function unlockArmor(Game $game, Character $character)
+    {
+        $user = Auth::user();
+
+        if (!$character->user_id?->is($user->id)) {
+            return redirect()->route('games.show', [$game]);
+        }
+
+        CharacterUnlockedArmor::fire(
+            character_id: $character->id,
+        );
+
+        return redirect()->route('characters.show', [$game, $character]);
+    }
+
+    public function unlockWeapon(Game $game, Character $character)
+    {
+        $user = Auth::user();
+
+        if (!$character->user_id?->is($user->id)) {
+            return redirect()->route('games.show', [$game]);
+        }
+
+        CharacterUnlockedWeapon::fire(
+            character_id: $character->id,
+        );
+
+        return redirect()->route('characters.show', [$game, $character]);
+    }
+
+    public function unlockSpecial(Game $game, Character $character)
+    {
+        $user = Auth::user();
+
+        if (!$character->user_id?->is($user->id)) {
+            return redirect()->route('games.show', [$game]);
+        }
+
+        CharacterUnlockedSpecial::fire(
+            character_id: $character->id,
+        );
+
+        return redirect()->route('characters.show', [$game, $character]);
     }
 }
