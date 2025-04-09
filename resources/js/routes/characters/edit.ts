@@ -2,10 +2,10 @@ import { queryParams, type QueryParams } from './../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\CharacterController::edit
- * @see app/Http/Controllers/CharacterController.php:22
+ * @see app/Http/Controllers/CharacterController.php:25
  * @route /games/{game}/characters/{character}/edit
  */
-export const edit = (args: { game: string | number, character: string | { id: string } } | [game: string | number, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const edit = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
@@ -20,10 +20,10 @@ edit.definition = {
 
 /**
  * @see \App\Http\Controllers\CharacterController::edit
- * @see app/Http/Controllers/CharacterController.php:22
+ * @see app/Http/Controllers/CharacterController.php:25
  * @route /games/{game}/characters/{character}/edit
  */
-edit.url = (args: { game: string | number, character: string | { id: string } } | [game: string | number, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+edit.url = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (Array.isArray(args)) {
         args = {
             game: args[0],
@@ -32,7 +32,9 @@ edit.url = (args: { game: string | number, character: string | { id: string } } 
     }
 
     const parsedArgs = {
-        game: args.game,
+        game: typeof args.game === 'object'
+            ? args.game.id
+            : args.game,
         character: typeof args.character === 'object'
             ? args.character.id
             : args.character,
@@ -46,10 +48,10 @@ edit.url = (args: { game: string | number, character: string | { id: string } } 
 
 /**
  * @see \App\Http\Controllers\CharacterController::edit
- * @see app/Http/Controllers/CharacterController.php:22
+ * @see app/Http/Controllers/CharacterController.php:25
  * @route /games/{game}/characters/{character}/edit
  */
-edit.get = (args: { game: string | number, character: string | { id: string } } | [game: string | number, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+edit.get = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
@@ -59,10 +61,10 @@ edit.get = (args: { game: string | number, character: string | { id: string } } 
 
 /**
  * @see \App\Http\Controllers\CharacterController::edit
- * @see app/Http/Controllers/CharacterController.php:22
+ * @see app/Http/Controllers/CharacterController.php:25
  * @route /games/{game}/characters/{character}/edit
  */
-edit.head = (args: { game: string | number, character: string | { id: string } } | [game: string | number, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+edit.head = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({

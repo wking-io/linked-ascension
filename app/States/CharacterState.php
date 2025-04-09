@@ -22,17 +22,22 @@ class CharacterState extends State
 
     public bool $weapon = false;
 
-    public bool $armor;
+    public bool $armor = false;
 
-    public bool $special;
+    public bool $special = false;
 
     public ?Carbon $claimed_at = null;
 
-    public ?Carbon $last_acted = null;
+    public ?Carbon $last_acted_at = null;
 
     public int $expended_points = 0;
 
-    public array $supported_by_ids = [];
+    public Collection $supported_by_ids;
+
+    public function __construct()
+    {
+        $this->supported_by_ids = collect();
+    }
 
     public function model()
     {
@@ -56,12 +61,12 @@ class CharacterState extends State
 
     public function defensePower()
     {
-        return $this->armor ? 2 : 1;
+        return $this->armor ? 1 : 0;
     }
 
     public function canAct(): bool
     {
-        return $this->health > 0 && $this->last_acted->addHour() < now();
+        return $this->health > 0 && $this->last_acted_at->addHour() < now();
     }
 
     public function supportPoints(): int
@@ -72,5 +77,10 @@ class CharacterState extends State
     public function supportedBy()
     {
         return collect($this->supported_by_ids)->map(fn($id) => UserState::load($id));
+    }
+
+    public function isSupportedBy(Snowflake $user_id): bool
+    {
+        return $this->supported_by_ids->contains($user_id);
     }
 }

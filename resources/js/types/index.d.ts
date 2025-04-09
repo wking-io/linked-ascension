@@ -22,31 +22,31 @@ export interface SharedData {
 }
 
 export interface User {
-    id: number;
+    id: string;
     is_admin: boolean;
     name: string;
     username: string;
     email: string;
     provider: string;
     characters?: Array<Character>;
-    supportedCharacters?: Array<Character>;
+    supported_characters?: Array<Character>;
 }
 
 export type UserOverview = Pick<User, 'id' | 'name' | 'username'>;
 
 export interface Game {
-    id: number;
+    id: string;
     name: string;
-    startsAt: string;
-    endsAt: string;
+    starts_at: string;
+    ends_at: string;
 }
 
 export interface CharacterResponse {
-    id: number;
+    id: string;
     name: string;
     health: number;
-    gameId: number;
-    userId: number;
+    game_id: number;
+    user_id: number;
     element?: string;
     armor?: boolean;
     weapon?: boolean;
@@ -58,15 +58,15 @@ export interface CharacterResponse {
 }
 
 export interface Character {
-    id: number;
+    id: string;
     name: string;
-    gameId: number;
-    userId: number;
+    game_id: number;
+    user_id: number;
     tier: Tier;
-    claimedAt: string;
-    lastActed: string;
-    expendedPoints: number;
-    supportedBy: Array<UserOverview>;
+    claimed_at: string;
+    last_acted: string;
+    expended_points: number;
+    supported_by: Array<UserOverview>;
 }
 
 interface TierZero {

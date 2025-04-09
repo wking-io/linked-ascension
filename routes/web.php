@@ -24,6 +24,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('games/{game}/characters/{character}', [CharacterController::class, 'show'])->name('characters.show');
     Route::get('games/{game}/characters/{character}/claim', [CharacterController::class, 'claim'])->name('characters.claim');
+    Route::get('games/{game}/characters/{character}/target', [CharacterController::class, 'target'])->name('characters.target');
+    Route::post('games/{game}/characters/{character}/attack', [CharacterController::class, 'attack'])->name('characters.attack');
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {

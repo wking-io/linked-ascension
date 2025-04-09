@@ -2,7 +2,7 @@ import { queryParams, type QueryParams } from './../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\CharacterController::store
- * @see app/Http/Controllers/CharacterController.php:73
+ * @see app/Http/Controllers/CharacterController.php:102
  * @route /games/{game}
  */
 export const store = (args: { game: string | { id: string } } | [game: string | { id: string }] | string | { id: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -20,7 +20,7 @@ store.definition = {
 
 /**
  * @see \App\Http\Controllers\CharacterController::store
- * @see app/Http/Controllers/CharacterController.php:73
+ * @see app/Http/Controllers/CharacterController.php:102
  * @route /games/{game}
  */
 store.url = (args: { game: string | { id: string } } | [game: string | { id: string }] | string | { id: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -51,7 +51,7 @@ store.url = (args: { game: string | { id: string } } | [game: string | { id: str
 
 /**
  * @see \App\Http\Controllers\CharacterController::store
- * @see app/Http/Controllers/CharacterController.php:73
+ * @see app/Http/Controllers/CharacterController.php:102
  * @route /games/{game}
  */
 store.post = (args: { game: string | { id: string } } | [game: string | { id: string }] | string | { id: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

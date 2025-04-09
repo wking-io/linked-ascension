@@ -49,7 +49,7 @@ class AuthController extends Controller
         Auth::login($user, true);
 
         // Redirect to the saved route or fallback
-        $redirect = session()->pull('post_auth_redirect', route('user.show', $user));
+        $redirect = session()->pull('post_auth_redirect', route('users.show', $user));
 
         return redirect()->to($redirect);
     }

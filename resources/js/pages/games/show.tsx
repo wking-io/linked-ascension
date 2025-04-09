@@ -1,7 +1,9 @@
 import { store } from '@/actions/App/Http/Controllers/CharacterController';
+import Layout from '@/layouts/layout';
+import show from '@/routes/characters/show';
 import { CharacterResponse, Game, SharedData } from '@/types';
 import { type PageProps } from '@inertiajs/core';
-import { useForm, usePage } from '@inertiajs/react';
+import { Link, useForm, usePage } from '@inertiajs/react';
 import { FormEvent } from 'react';
 
 interface Props extends PageProps {
@@ -16,20 +18,31 @@ export default function Show({ game, characters }: Props) {
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        submit(store(`${game.id}`));
+        submit(store(game.id));
     };
 
+    console.log(characters);
     return (
-        <>
+        <Layout user={auth.user}>
             <p>{game.name}</p>
-            <p>{characters.length}</p>
+            <p>Available Characters: {characters.filter((c) => !c.user_id).length}</p>
             {auth.user.is_admin && (
-                <form onSubmit={handleSubmit}>
-                    <button type="submit" disabled={processing}>
-                        Create Character
-                    </button>
-                </form>
+                <>
+                    {characters.map((c) => (
+                        <p key={c.id}>
+                            <Link href={show({ game: game.id, character: c.id })}>
+                                {c.id}
+                                {c.user_id ? ' (taken)' : ''}
+                            </Link>
+                        </p>
+                    ))}
+                    <form onSubmit={handleSubmit}>
+                        <button type="submit" disabled={processing}>
+                            Create Character
+                        </button>
+                    </form>
+                </>
             )}
-        </>
+        </Layout>
     );
 }

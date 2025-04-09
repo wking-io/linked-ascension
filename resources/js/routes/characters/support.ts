@@ -2,10 +2,10 @@ import { queryParams, type QueryParams } from './../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\CharacterController::support
- * @see app/Http/Controllers/CharacterController.php:53
+ * @see app/Http/Controllers/CharacterController.php:56
  * @route /games/{game}/characters/{character}/support
  */
-export const support = (args: { game: string | number, character: string | { id: string } } | [game: string | number, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const support = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
@@ -20,10 +20,10 @@ support.definition = {
 
 /**
  * @see \App\Http\Controllers\CharacterController::support
- * @see app/Http/Controllers/CharacterController.php:53
+ * @see app/Http/Controllers/CharacterController.php:56
  * @route /games/{game}/characters/{character}/support
  */
-support.url = (args: { game: string | number, character: string | { id: string } } | [game: string | number, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+support.url = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (Array.isArray(args)) {
         args = {
             game: args[0],
@@ -32,7 +32,9 @@ support.url = (args: { game: string | number, character: string | { id: string }
     }
 
     const parsedArgs = {
-        game: args.game,
+        game: typeof args.game === 'object'
+            ? args.game.id
+            : args.game,
         character: typeof args.character === 'object'
             ? args.character.id
             : args.character,
@@ -46,10 +48,10 @@ support.url = (args: { game: string | number, character: string | { id: string }
 
 /**
  * @see \App\Http\Controllers\CharacterController::support
- * @see app/Http/Controllers/CharacterController.php:53
+ * @see app/Http/Controllers/CharacterController.php:56
  * @route /games/{game}/characters/{character}/support
  */
-support.get = (args: { game: string | number, character: string | { id: string } } | [game: string | number, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+support.get = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
@@ -59,10 +61,10 @@ support.get = (args: { game: string | number, character: string | { id: string }
 
 /**
  * @see \App\Http\Controllers\CharacterController::support
- * @see app/Http/Controllers/CharacterController.php:53
+ * @see app/Http/Controllers/CharacterController.php:56
  * @route /games/{game}/characters/{character}/support
  */
-support.head = (args: { game: string | number, character: string | { id: string } } | [game: string | number, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+support.head = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({

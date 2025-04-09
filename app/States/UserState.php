@@ -3,6 +3,7 @@
 namespace App\States;
 
 use App\Models\User;
+use Glhd\Bits\Snowflake;
 use Illuminate\Support\Collection;
 use Thunk\Verbs\State;
 
@@ -20,9 +21,25 @@ class UserState extends State
 
     public bool $is_admin;
 
-    public array $supported_character_ids = [];
+    public Collection $supported_character_ids;
 
-    public array $character_ids = [];
+    public Collection $character_ids;
+
+    public function __construct()
+    {
+        $this->character_ids = collect();
+        $this->supported_character_ids = collect();
+    }
+
+    public function addCharacter(Snowflake $character_id): void
+    {
+        $this->character_ids = $this->character_ids->push($character_id);
+    }
+
+    public function hasCharacter(Snowflake $character_id): bool
+    {
+        return $this->character_ids->contains(fn($id) => $id->is($character_id));
+    }
 
     public function model()
     {
@@ -31,16 +48,16 @@ class UserState extends State
 
     public function supportedCharacters()
     {
-        return collect($this->supported_character_ids)->map(fn($id) => CharacterState::load($id));
+        return $this->supported_character_ids->map(fn($id) => CharacterState::load($id));
     }
 
     public function characters()
     {
-        return collect($this->character_ids)->map(fn($id) => CharacterState::load($id));
+        return $this->character_ids->map(fn($id) => CharacterState::load($id));
     }
 
-    public function hasSupportedCharacter($character_id)
+    public function hasSupportedCharacter(Snowflake $character_id)
     {
-        return collect($this->character_ids)->contains(fn($id) => $id === $character_id);
+        return $this->supported_character_ids->contains(fn($id) => $id->is($character_id));
     }
 }
