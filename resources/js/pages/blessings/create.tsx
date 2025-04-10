@@ -11,7 +11,7 @@ export default function Create({ blessingTypes }: Props) {
         name: '',
         slug: '',
         description: '',
-        type: '',
+        type: blessingTypes[0],
     });
 
     const handleSubmit = (e: React.FormEvent) => {

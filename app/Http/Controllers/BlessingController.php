@@ -44,7 +44,7 @@ class BlessingController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['required', 'string', 'alpha_dash', 'max:255', 'unique:blessings'],
-            'type' => ['required', 'string', 'in:' . implode(',', BlessingType::cases())],
+            'type' => ['required', 'string', 'in:' . implode(',', array_column(BlessingType::cases(), 'value'))],
             'description' => ['required', 'string'],
         ]);
 
@@ -52,6 +52,7 @@ class BlessingController extends Controller
             name: $validated['name'],
             slug: $validated['slug'],
             description: $validated['description'],
+            type: BlessingType::from($validated['type']),
         );
 
         return redirect()->route('blessings.index');

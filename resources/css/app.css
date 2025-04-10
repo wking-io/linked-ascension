@@ -1,16 +1,61 @@
-@import 'tailwindcss';
+@layer theme, base, components, utilities;
 
-@plugin 'tailwindcss-animate';
+@import 'tailwindcss';
 
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 
-@theme {
-    --font-sans:
-        'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+@import '../js/components/action.css';
 
-    --color-background: var(--background);
-    --color-foreground: var(--foreground);
+@font-face {
+    font-family: 'Silkscreen';
+    src: url('../fonts/silkscreen.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@theme {
+    --font-sans: 'Silkscreen', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* RED */
+    --background-fire: oklch(0.98 0.034 25);
+    --foreground-fire: oklch(0.15 0.034 25);
+
+    /* BLUE */
+    --background-water: oklch(0.98 0.034 257);
+    --foreground-water: oklch(0.15 0.034 257);
+
+    /* YELLOW */
+    --background-lightning: oklch(0.98 0.034 93);
+    --foreground-lightning: oklch(0.15 0.034 93);
+
+    /* BROWN */
+    --background-earth: oklch(0.98 0.034 50);
+    --foreground-earth: oklch(0.15 0.034 50);
+
+    /* PURPLE */
+    --background-ice: oklch(0.98 0.034 294);
+    --foreground-ice: oklch(0.15 0.034 294);
+
+    /* CYAN */
+    --background-air: oklch(0.98 0.034 194);
+    --foreground-air: oklch(0.15 0.034 194);
+
+    /* SILVER */
+    --background-metal: oklch(0.98 0 230);
+    --foreground-metal: oklch(0.15 0 230);
+
+    /* GREEN */
+    --background-nature: oklch(0.98 0.034 145);
+    --foreground-nature: oklch(0.15 0.034 145);
+
+    /* PINK */
+    --background-default: oklch(0.98 0.015 329);
+    --foreground-default: oklch(0.15 0.03 329);
+
+    --color-background: var(--background-default);
+    --color-foreground: var(--foreground-default);
 
     --color-destructive: var(--destructive);
     --color-destructive-foreground: var(--destructive-foreground);
@@ -44,8 +89,14 @@
     }
 
     body {
-        @apply bg-background text-foreground;
+        @apply bg-background text-foreground font-sans;
+        text-rendering: geometricPrecision;
     }
+}
+
+body {
+    min-height: 100vh;
+    min-width: 100vw;
 }
 
 button {

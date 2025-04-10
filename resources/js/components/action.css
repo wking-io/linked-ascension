@@ -1,0 +1,92 @@
+@layer components {
+    .action-shadow {
+        --action-depth: 10px;
+        position: relative;
+        padding-bottom: 2px;
+        border-bottom: 2px solid --alpha(var(--color-foreground) / 40%);
+        box-shadow: 0 2px 0 0 --alpha(var(--color-foreground) / 20%);
+    }
+
+    .action-shadow:before {
+        content: '';
+        position: absolute;
+        left: -2px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        border-bottom: 2px solid --alpha(var(--color-foreground) / 40%);
+        box-shadow: 0 2px 0 0 --alpha(var(--color-foreground) / 20%);
+    }
+
+    .action-shadow:after {
+        content: '';
+        position: absolute;
+        right: -2px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        border-bottom: 2px solid --alpha(var(--color-foreground) / 40%);
+        box-shadow: 0 2px 0 0 --alpha(var(--color-foreground) / 20%);
+    }
+
+    .action-shadow:active {
+        --action-depth: 4px;
+        transform: translateY(6px);
+    }
+
+    .action-outer {
+        display: block;
+        position: relative;
+        background: --alpha(var(--color-foreground) / 20%);
+        border-top: 2px solid --alpha(var(--color-foreground) / 30%);
+        border-bottom: var(--action-depth) solid --alpha(var(--color-foreground) / 30%);
+        box-shadow: 0 2px 0 0 --alpha(var(--color-foreground) / 70%);
+    }
+
+    .action-outer:before {
+        content: '';
+        background: var(--color-background);
+        position: absolute;
+        left: 2px;
+        right: 2px;
+        top: 0;
+        bottom: 0;
+    }
+
+    .action-outer:after {
+        content: '';
+        background: var(--color-background);
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 2px;
+        bottom: 2px;
+    }
+
+    .action-inner {
+        display: block;
+        padding: --spacing(2) --spacing(4);
+        position: relative;
+        z-index: 1;
+    }
+
+    .action-inner:before {
+        content: '';
+        background: --alpha(var(--color-foreground) / 70%);
+        position: absolute;
+        left: -2px;
+        top: 0;
+        bottom: calc(-1 * var(--action-depth));
+        width: 2px;
+    }
+
+    .action-inner:after {
+        content: '';
+        background: --alpha(var(--color-foreground) / 70%);
+        position: absolute;
+        right: -2px;
+        top: 0;
+        bottom: calc(-1 * var(--action-depth));
+        width: 2px;
+    }
+}

@@ -225,7 +225,7 @@ show.head = (args: { game: string | { id: string }, character: string | { id: st
 
 /**
  * @see \App\Http\Controllers\BlessingController::claim
- * @see app/Http/Controllers/BlessingController.php:60
+ * @see app/Http/Controllers/BlessingController.php:61
  * @route /games/{game}/characters/{character}/blessings/{blessing}/claim
  */
 export const claim = (args: { game: string | { id: string }, character: string | { id: string }, blessing: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }, blessing: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -243,7 +243,7 @@ claim.definition = {
 
 /**
  * @see \App\Http\Controllers\BlessingController::claim
- * @see app/Http/Controllers/BlessingController.php:60
+ * @see app/Http/Controllers/BlessingController.php:61
  * @route /games/{game}/characters/{character}/blessings/{blessing}/claim
  */
 claim.url = (args: { game: string | { id: string }, character: string | { id: string }, blessing: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }, blessing: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -276,7 +276,7 @@ claim.url = (args: { game: string | { id: string }, character: string | { id: st
 
 /**
  * @see \App\Http\Controllers\BlessingController::claim
- * @see app/Http/Controllers/BlessingController.php:60
+ * @see app/Http/Controllers/BlessingController.php:61
  * @route /games/{game}/characters/{character}/blessings/{blessing}/claim
  */
 claim.post = (args: { game: string | { id: string }, character: string | { id: string }, blessing: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }, blessing: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
