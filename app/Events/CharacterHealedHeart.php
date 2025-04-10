@@ -23,7 +23,7 @@ class CharacterHealedHeart extends Event
 
     public function applyToCharacter(CharacterState $character)
     {
-        $character->health += 4;
+        $character->health = min($character->health + 4, 12);
         $character->expended_points++;
     }
 

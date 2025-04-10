@@ -1,5 +1,5 @@
 import Action from '@/components/action';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const welcomeText = [
     "Well aren't we a lucky traveler. You have found a coveted character gem. One of eight currently scattered around the venue. Listen carefully to what I am about to tell you. A game of connections and combat is underway and here is what you need to earn your way to the top.",
@@ -18,7 +18,7 @@ export default function Welcome() {
     const [currentLine, setCurrentLine] = useState(0);
     const [isTyping, setIsTyping] = useState(true);
     const [showContinue, setShowContinue] = useState(false);
-
+    const canvasRef = useRef<HTMLCanvasElement>(null);
     useEffect(() => {
         if (currentLine >= welcomeText.length) return;
 
@@ -56,7 +56,8 @@ export default function Welcome() {
     };
 
     return (
-        <div className="mx-auto max-w-sm p-5">
+        <div className="mx-auto flex max-w-sm flex-col justify-end p-5">
+            <canvas ref={canvasRef} className="h-[364px] w-full" />
             <div className="relative mb-5 min-h-[240px]">
                 <div className="flex flex-col gap-2">
                     {currentText.split('\n').map((line, i) => (
