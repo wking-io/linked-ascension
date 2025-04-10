@@ -5,6 +5,10 @@ import show from './show'
 import claim from './claim'
 import target from './target'
 import attack from './attack'
+import unlockElement from './unlockElement'
+import unlockArmor from './unlockArmor'
+import unlockWeapon from './unlockWeapon'
+import unlockSpecial from './unlockSpecial'
 import store from './store'
 
 const characters = {
@@ -15,6 +19,10 @@ const characters = {
     claim, 
     target, 
     attack, 
+    unlockElement, 
+    unlockArmor, 
+    unlockWeapon, 
+    unlockSpecial, 
     store,
 }
 

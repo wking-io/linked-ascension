@@ -490,6 +490,242 @@ attack.post = (args: { game: string | { id: string }, character: string | { id: 
 })
 
 /**
+ * @see \App\Http\Controllers\CharacterController::unlockElement
+ * @see app/Http/Controllers/CharacterController.php:150
+ * @route /games/{game}/characters/{character}/unlock-element
+ */
+export const unlockElement = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'post',
+} => ({
+    url: unlockElement.url(args, options),
+    method: 'post',
+})
+
+unlockElement.definition = {
+    methods: ['post'],
+    url: '\/games\/{game}\/characters\/{character}\/unlock-element',
+}
+
+/**
+ * @see \App\Http\Controllers\CharacterController::unlockElement
+ * @see app/Http/Controllers/CharacterController.php:150
+ * @route /games/{game}/characters/{character}/unlock-element
+ */
+unlockElement.url = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (Array.isArray(args)) {
+        args = {
+            game: args[0],
+            character: args[1],
+        }
+    }
+
+    const parsedArgs = {
+        game: typeof args.game === 'object'
+            ? args.game.id
+            : args.game,
+        character: typeof args.character === 'object'
+            ? args.character.id
+            : args.character,
+    }
+
+    return unlockElement.definition.url
+            .replace('{game}', parsedArgs.game.toString())
+            .replace('{character}', parsedArgs.character.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+ * @see \App\Http\Controllers\CharacterController::unlockElement
+ * @see app/Http/Controllers/CharacterController.php:150
+ * @route /games/{game}/characters/{character}/unlock-element
+ */
+unlockElement.post = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'post',
+} => ({
+    url: unlockElement.url(args, options),
+    method: 'post',
+})
+
+/**
+ * @see \App\Http\Controllers\CharacterController::unlockArmor
+ * @see app/Http/Controllers/CharacterController.php:171
+ * @route /games/{game}/characters/{character}/unlock-armor
+ */
+export const unlockArmor = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'post',
+} => ({
+    url: unlockArmor.url(args, options),
+    method: 'post',
+})
+
+unlockArmor.definition = {
+    methods: ['post'],
+    url: '\/games\/{game}\/characters\/{character}\/unlock-armor',
+}
+
+/**
+ * @see \App\Http\Controllers\CharacterController::unlockArmor
+ * @see app/Http/Controllers/CharacterController.php:171
+ * @route /games/{game}/characters/{character}/unlock-armor
+ */
+unlockArmor.url = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (Array.isArray(args)) {
+        args = {
+            game: args[0],
+            character: args[1],
+        }
+    }
+
+    const parsedArgs = {
+        game: typeof args.game === 'object'
+            ? args.game.id
+            : args.game,
+        character: typeof args.character === 'object'
+            ? args.character.id
+            : args.character,
+    }
+
+    return unlockArmor.definition.url
+            .replace('{game}', parsedArgs.game.toString())
+            .replace('{character}', parsedArgs.character.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+ * @see \App\Http\Controllers\CharacterController::unlockArmor
+ * @see app/Http/Controllers/CharacterController.php:171
+ * @route /games/{game}/characters/{character}/unlock-armor
+ */
+unlockArmor.post = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'post',
+} => ({
+    url: unlockArmor.url(args, options),
+    method: 'post',
+})
+
+/**
+ * @see \App\Http\Controllers\CharacterController::unlockWeapon
+ * @see app/Http/Controllers/CharacterController.php:186
+ * @route /games/{game}/characters/{character}/unlock-weapon
+ */
+export const unlockWeapon = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'post',
+} => ({
+    url: unlockWeapon.url(args, options),
+    method: 'post',
+})
+
+unlockWeapon.definition = {
+    methods: ['post'],
+    url: '\/games\/{game}\/characters\/{character}\/unlock-weapon',
+}
+
+/**
+ * @see \App\Http\Controllers\CharacterController::unlockWeapon
+ * @see app/Http/Controllers/CharacterController.php:186
+ * @route /games/{game}/characters/{character}/unlock-weapon
+ */
+unlockWeapon.url = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (Array.isArray(args)) {
+        args = {
+            game: args[0],
+            character: args[1],
+        }
+    }
+
+    const parsedArgs = {
+        game: typeof args.game === 'object'
+            ? args.game.id
+            : args.game,
+        character: typeof args.character === 'object'
+            ? args.character.id
+            : args.character,
+    }
+
+    return unlockWeapon.definition.url
+            .replace('{game}', parsedArgs.game.toString())
+            .replace('{character}', parsedArgs.character.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+ * @see \App\Http\Controllers\CharacterController::unlockWeapon
+ * @see app/Http/Controllers/CharacterController.php:186
+ * @route /games/{game}/characters/{character}/unlock-weapon
+ */
+unlockWeapon.post = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'post',
+} => ({
+    url: unlockWeapon.url(args, options),
+    method: 'post',
+})
+
+/**
+ * @see \App\Http\Controllers\CharacterController::unlockSpecial
+ * @see app/Http/Controllers/CharacterController.php:201
+ * @route /games/{game}/characters/{character}/unlock-special
+ */
+export const unlockSpecial = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'post',
+} => ({
+    url: unlockSpecial.url(args, options),
+    method: 'post',
+})
+
+unlockSpecial.definition = {
+    methods: ['post'],
+    url: '\/games\/{game}\/characters\/{character}\/unlock-special',
+}
+
+/**
+ * @see \App\Http\Controllers\CharacterController::unlockSpecial
+ * @see app/Http/Controllers/CharacterController.php:201
+ * @route /games/{game}/characters/{character}/unlock-special
+ */
+unlockSpecial.url = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (Array.isArray(args)) {
+        args = {
+            game: args[0],
+            character: args[1],
+        }
+    }
+
+    const parsedArgs = {
+        game: typeof args.game === 'object'
+            ? args.game.id
+            : args.game,
+        character: typeof args.character === 'object'
+            ? args.character.id
+            : args.character,
+    }
+
+    return unlockSpecial.definition.url
+            .replace('{game}', parsedArgs.game.toString())
+            .replace('{character}', parsedArgs.character.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+ * @see \App\Http\Controllers\CharacterController::unlockSpecial
+ * @see app/Http/Controllers/CharacterController.php:201
+ * @route /games/{game}/characters/{character}/unlock-special
+ */
+unlockSpecial.post = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'post',
+} => ({
+    url: unlockSpecial.url(args, options),
+    method: 'post',
+})
+
+/**
  * @see \App\Http\Controllers\CharacterController::store
  * @see app/Http/Controllers/CharacterController.php:106
  * @route /games/{game}
@@ -551,6 +787,6 @@ store.post = (args: { game: string | { id: string } } | [game: string | { id: st
     method: 'post',
 })
 
-const CharacterController = { welcome, support, edit, show, claim, target, attack, store }
+const CharacterController = { welcome, support, edit, show, claim, target, attack, unlockElement, unlockArmor, unlockWeapon, unlockSpecial, store }
 
 export default CharacterController
