@@ -10,7 +10,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        return Inertia::render('users/list');
+        return Inertia::render('users/index');
     }
 
     public function show(User $user)

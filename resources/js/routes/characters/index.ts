@@ -9,6 +9,7 @@ import unlockElement from './unlockElement'
 import unlockArmor from './unlockArmor'
 import unlockWeapon from './unlockWeapon'
 import unlockSpecial from './unlockSpecial'
+import healHeart from './healHeart'
 import store from './store'
 
 const characters = {
@@ -23,6 +24,7 @@ const characters = {
     unlockArmor, 
     unlockWeapon, 
     unlockSpecial, 
+    healHeart, 
     store,
 }
 

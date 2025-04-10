@@ -15,7 +15,6 @@ class CharacterHealedHeart extends Event
 
     public function validate(CharacterState $character)
     {
-        $required_threshold = $character->weapon ? GameState::THIRD_THRESHOLD : GameState::SECOND_THRESHOLD;
         $this->assert(
             $character->supportPoints() > 0,
             'Character does not have enough support points to heal.'

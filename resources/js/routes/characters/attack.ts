@@ -2,7 +2,7 @@ import { queryParams, type QueryParams } from './../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\CharacterController::attack
- * @see app/Http/Controllers/CharacterController.php:128
+ * @see app/Http/Controllers/CharacterController.php:131
  * @route /games/{game}/characters/{character}/attack
  */
 export const attack = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -20,7 +20,7 @@ attack.definition = {
 
 /**
  * @see \App\Http\Controllers\CharacterController::attack
- * @see app/Http/Controllers/CharacterController.php:128
+ * @see app/Http/Controllers/CharacterController.php:131
  * @route /games/{game}/characters/{character}/attack
  */
 attack.url = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -48,7 +48,7 @@ attack.url = (args: { game: string | { id: string }, character: string | { id: s
 
 /**
  * @see \App\Http\Controllers\CharacterController::attack
- * @see app/Http/Controllers/CharacterController.php:128
+ * @see app/Http/Controllers/CharacterController.php:131
  * @route /games/{game}/characters/{character}/attack
  */
 attack.post = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

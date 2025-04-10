@@ -4,6 +4,7 @@ namespace App\Events;
 
 use App\States\CharacterState;
 use App\States\GameState;
+use Carbon\Carbon;
 use Glhd\Bits\Snowflake;
 use Thunk\Verbs\Event;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
@@ -12,6 +13,13 @@ class CharacterUnlockedSpecial extends Event
 {
     #[StateId(CharacterState::class)]
     public Snowflake $character_id;
+
+    public ?Carbon $unlocked_at;
+
+    public function __construct()
+    {
+        $this->unlocked_at = now();
+    }
 
     public function validate(CharacterState $character)
     {
@@ -23,7 +31,7 @@ class CharacterUnlockedSpecial extends Event
 
     public function applyToCharacter(CharacterState $character)
     {
-        $character->special = true;
+        $character->unlocked_special_at = $this->unlocked_at;
     }
 
     public function handle(CharacterState $state)
@@ -32,7 +40,7 @@ class CharacterUnlockedSpecial extends Event
         $characterModel = $state->model();
 
         // Update the model with the state values
-        $characterModel->special = $state->special;
+        $characterModel->unlocked_special_at = $this->unlocked_at;
 
         // Save the model
         $characterModel->save();

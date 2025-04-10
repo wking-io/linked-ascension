@@ -48,9 +48,9 @@ export interface CharacterResponse {
     game_id: string;
     user_id: string;
     element?: string;
-    armor?: boolean;
-    weapon?: boolean;
-    special?: boolean;
+    unlocked_armor_at?: string;
+    unlocked_weapon_at?: string;
+    unlocked_special_at?: string;
     claimed_at?: string;
     last_acted?: string;
     expended_points: number;
@@ -95,3 +95,10 @@ interface TierFour {
 }
 
 type Tier = TierZero | TierOne | TierTwo | TierThree | TierFour;
+
+export interface Blessing {
+    id: string;
+    name: string;
+    slug: string;
+    description: string;
+}

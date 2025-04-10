@@ -1,7 +1,7 @@
 import { queryParams, type QueryParams } from './../wayfinder'
 
 /**
- * @see routes/web.php:9
+ * @see routes/web.php:10
  * @route /
  */
 export const home = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -18,7 +18,7 @@ home.definition = {
 }
 
 /**
- * @see routes/web.php:9
+ * @see routes/web.php:10
  * @route /
  */
 home.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -26,7 +26,7 @@ home.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 }
 
 /**
- * @see routes/web.php:9
+ * @see routes/web.php:10
  * @route /
  */
 home.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -38,7 +38,7 @@ home.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 
 /**
- * @see routes/web.php:9
+ * @see routes/web.php:10
  * @route /
  */
 home.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

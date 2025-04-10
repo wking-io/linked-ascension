@@ -10,27 +10,35 @@ use Thunk\Verbs\State;
 
 class CharacterState extends State
 {
-    public const INITIAL_HEALTH = 6;
+    public const INITIAL_HEALTH = 20;
 
-    public Snowflake $user_id;
+    public ?Snowflake $user_id = null;
 
     public Snowflake $game_id;
 
-    public int $health;
+    public ?Snowflake $blessing_id = null;
+
+    public int $health = self::INITIAL_HEALTH;
 
     public ?string $element = null;
 
-    public bool $weapon = false;
+    public ?Carbon $unlocked_weapon_at = null;
 
-    public bool $armor = false;
+    public ?Carbon $unlocked_armor_at = null;
 
-    public bool $special = false;
+    public ?Carbon $unlocked_special_at = null;
 
     public ?Carbon $claimed_at = null;
+
+    public ?Carbon $blessing_claimed_at = null;
+
+    public bool $is_blessing_active = false;
 
     public ?Carbon $last_acted_at = null;
 
     public int $expended_points = 0;
+
+    public int $bonus_points = 0;
 
     public Collection $supported_by_ids;
 
@@ -51,17 +59,22 @@ class CharacterState extends State
 
     public function owner()
     {
-        return UserState::load($this->user_id);
+        return $this->user_id ? UserState::load($this->user_id) : null;
+    }
+
+    public function blessing()
+    {
+        return $this->blessing_id && $this->is_blessing_active ? BlessingState::load($this->blessing_id) : null;
     }
 
     public function attackPower()
     {
-        return $this->weapon ? 2 : 1;
+        return $this->unlocked_weapon_at ? 2 : 1;
     }
 
     public function defensePower()
     {
-        return $this->armor ? 1 : 0;
+        return $this->unlocked_armor_at ? 1 : 0;
     }
 
     public function canAct(): bool
@@ -71,12 +84,12 @@ class CharacterState extends State
 
     public function supportPoints(): int
     {
-        return collect($this->supported_by_ids)->length() - $this->expended_points;
+        return $this->supported_by_ids->count() - $this->expended_points + $this->bonus_points;
     }
 
     public function supportedBy()
     {
-        return collect($this->supported_by_ids)->map(fn($id) => UserState::load($id));
+        return $this->supported_by_ids->map(fn($id) => UserState::load($id));
     }
 
     public function isSupportedBy(Snowflake $user_id): bool

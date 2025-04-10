@@ -26,10 +26,13 @@ class Character extends Model
         'unlocked_weapon_at',
         'element',
         'claimed_at',
+        'blessing_claimed_at',
         'last_acted_at',
         'expended_points',
+        'bonus_points',
         'game_id',
         'user_id',
+        'blessing_id',
     ];
 
     /**
@@ -43,12 +46,15 @@ class Character extends Model
             'id' => Snowflake::class,
             'health' => 'int',
             'expended_points' => 'int',
+            'bonus_points' => 'int',
             'user_id' => Snowflake::class,
             'game_id' => Snowflake::class,
+            'blessing_id' => Snowflake::class,
             'unlocked_armor_at' => 'datetime',
             'unlocked_weapon_at' => 'datetime',
             'claimed_at' => 'datetime',
             'last_acted_at' => 'datetime',
+            'blessing_claimed_at' => 'datetime',
         ];
     }
 
@@ -79,5 +85,13 @@ class Character extends Model
     public function game(): BelongsTo
     {
         return $this->belongsTo(Game::class);
+    }
+
+    /**
+     * Get the blessing that this character has.
+     */
+    public function blessing(): BelongsTo
+    {
+        return $this->belongsTo(Blessing::class);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\Character;
+use App\Enums\BlessingType;
 use App\States\CharacterState;
 use App\States\GameState;
 use App\States\UserState;
@@ -37,11 +37,24 @@ class CharacterCollectedSupport extends Event
     public function applyToCharacter(CharacterState $character)
     {
         $character->supported_by_ids->push($this->supporter_id);
+
+        $blessing = $character->blessing();
+
+        if ($blessing?->type === BlessingType::DOUBLE_SUPPORT) {
+            if ($character->blessing_claimed_at->addMinutes(15) < now()) {
+                $character->bonus_points += 1;
+            } else {
+                $character->is_blessing_active = false;
+            }
+        }
     }
 
     public function handle(CharacterState $state)
     {
-        $state->model()->supportedBy()->attach($this->supporter_id->id());
-        $state->model()->save();
+        $characterModel = $state->model();
+        $characterModel->supportedBy()->attach($this->supporter_id->id());
+        $characterModel->bonus_points = $state->bonus_points;
+        $characterModel->is_blessing_active = $state->is_blessing_active;
+        $characterModel->save();
     }
 }

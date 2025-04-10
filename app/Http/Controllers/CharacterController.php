@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\AdminCreatedCharacter;
 use App\Events\CharacterAttackedCharacter;
 use App\Events\CharacterCollectedSupport;
+use App\Events\CharacterHealedHeart;
 use App\Events\CharacterUnlockedArmor;
 use App\Events\CharacterUnlockedElement;
 use App\Events\CharacterUnlockedSpecial;
@@ -22,6 +23,7 @@ class CharacterController extends Controller
     public function show(Game $game, Character $character)
     {
         return Inertia::render('characters/show', [
+            'game' => $game,
             'character' => $character
         ]);
     }
@@ -29,6 +31,7 @@ class CharacterController extends Controller
     public function edit(Game $game, Character $character)
     {
         return Inertia::render('characters/edit', [
+            'game' => $game,
             'character' => $character
         ]);
     }
@@ -207,6 +210,21 @@ class CharacterController extends Controller
         }
 
         CharacterUnlockedSpecial::fire(
+            character_id: $character->id,
+        );
+
+        return redirect()->route('characters.show', [$game, $character]);
+    }
+
+    public function healHeart(Game $game, Character $character)
+    {
+        $user = Auth::user();
+
+        if (!$character->user_id?->is($user->id)) {
+            return redirect()->route('games.show', [$game]);
+        }
+
+        CharacterHealedHeart::fire(
             character_id: $character->id,
         );
 

@@ -2,7 +2,7 @@ import { queryParams, type QueryParams } from './../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\CharacterController::edit
- * @see app/Http/Controllers/CharacterController.php:29
+ * @see app/Http/Controllers/CharacterController.php:31
  * @route /games/{game}/characters/{character}/edit
  */
 export const edit = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -20,7 +20,7 @@ edit.definition = {
 
 /**
  * @see \App\Http\Controllers\CharacterController::edit
- * @see app/Http/Controllers/CharacterController.php:29
+ * @see app/Http/Controllers/CharacterController.php:31
  * @route /games/{game}/characters/{character}/edit
  */
 edit.url = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -48,7 +48,7 @@ edit.url = (args: { game: string | { id: string }, character: string | { id: str
 
 /**
  * @see \App\Http\Controllers\CharacterController::edit
- * @see app/Http/Controllers/CharacterController.php:29
+ * @see app/Http/Controllers/CharacterController.php:31
  * @route /games/{game}/characters/{character}/edit
  */
 edit.get = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -61,7 +61,7 @@ edit.get = (args: { game: string | { id: string }, character: string | { id: str
 
 /**
  * @see \App\Http\Controllers\CharacterController::edit
- * @see app/Http/Controllers/CharacterController.php:29
+ * @see app/Http/Controllers/CharacterController.php:31
  * @route /games/{game}/characters/{character}/edit
  */
 edit.head = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

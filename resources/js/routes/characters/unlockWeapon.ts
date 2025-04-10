@@ -2,7 +2,7 @@ import { queryParams, type QueryParams } from './../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\CharacterController::unlockWeapon
- * @see app/Http/Controllers/CharacterController.php:186
+ * @see app/Http/Controllers/CharacterController.php:189
  * @route /games/{game}/characters/{character}/unlock-weapon
  */
 export const unlockWeapon = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -20,7 +20,7 @@ unlockWeapon.definition = {
 
 /**
  * @see \App\Http\Controllers\CharacterController::unlockWeapon
- * @see app/Http/Controllers/CharacterController.php:186
+ * @see app/Http/Controllers/CharacterController.php:189
  * @route /games/{game}/characters/{character}/unlock-weapon
  */
 unlockWeapon.url = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -48,7 +48,7 @@ unlockWeapon.url = (args: { game: string | { id: string }, character: string | {
 
 /**
  * @see \App\Http\Controllers\CharacterController::unlockWeapon
- * @see app/Http/Controllers/CharacterController.php:186
+ * @see app/Http/Controllers/CharacterController.php:189
  * @route /games/{game}/characters/{character}/unlock-weapon
  */
 unlockWeapon.post = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

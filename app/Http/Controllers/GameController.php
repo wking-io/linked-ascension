@@ -14,7 +14,7 @@ class GameController extends Controller
 {
     public function index(): Response
     {
-        return Inertia::render('games/list', [
+        return Inertia::render('games/index', [
             'games' => Game::query()
                 ->orderBy('starts_at', 'desc')
                 ->get()

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BlessingController;
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -30,6 +31,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('games/{game}/characters/{character}/unlock-armor', [CharacterController::class, 'unlockArmor'])->name('characters.unlockArmor');
     Route::post('games/{game}/characters/{character}/unlock-weapon', [CharacterController::class, 'unlockWeapon'])->name('characters.unlockWeapon');
     Route::post('games/{game}/characters/{character}/unlock-special', [CharacterController::class, 'unlockSpecial'])->name('characters.unlockSpecial');
+    Route::post('games/{game}/characters/{character}/heal-heart', [CharacterController::class, 'healHeart'])->name('characters.healHeart');
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -45,7 +47,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('users', [UserController::class, 'index'])->name('users.list');
+    Route::get('users', [UserController::class, 'index'])->name('users.index');
 });
 
 Route::middleware(['auth'])->group(function () {
@@ -53,5 +55,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
 });
 
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('blessings', [BlessingController::class, 'index'])->name('blessings.index');
+    Route::get('blessings/create', [BlessingController::class, 'create'])->name('blessings.create');
+    Route::post('blessings', [BlessingController::class, 'store'])->name('blessings.store');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('games/{game}/characters/{character}/blessings/{blessing}', [BlessingController::class, 'show'])->name('blessings.show');
+    Route::post('games/{game}/characters/{character}/blessings/{blessing}/claim', [BlessingController::class, 'claim'])->name('blessings.claim');
+});
 
 require __DIR__ . '/auth.php';

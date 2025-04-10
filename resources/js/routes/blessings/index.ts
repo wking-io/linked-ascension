@@ -1,11 +1,13 @@
+import create from './create'
+import store from './store'
 import show from './show'
-import edit from './edit'
+import claim from './claim'
 import { queryParams, type QueryParams } from './../../wayfinder'
 
 /**
- * @see \App\Http\Controllers\UserController::index
- * @see app/Http/Controllers/UserController.php:11
- * @route /users
+ * @see \App\Http\Controllers\BlessingController::index
+ * @see app/Http/Controllers/BlessingController.php:19
+ * @route /blessings
  */
 export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -17,22 +19,22 @@ export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams 
 
 index.definition = {
     methods: ['get','head'],
-    url: '\/users',
+    url: '\/blessings',
 }
 
 /**
- * @see \App\Http\Controllers\UserController::index
- * @see app/Http/Controllers/UserController.php:11
- * @route /users
+ * @see \App\Http\Controllers\BlessingController::index
+ * @see app/Http/Controllers/BlessingController.php:19
+ * @route /blessings
  */
 index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return index.definition.url + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\UserController::index
- * @see app/Http/Controllers/UserController.php:11
- * @route /users
+ * @see \App\Http\Controllers\BlessingController::index
+ * @see app/Http/Controllers/BlessingController.php:19
+ * @route /blessings
  */
 index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -43,9 +45,9 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 
 /**
- * @see \App\Http\Controllers\UserController::index
- * @see app/Http/Controllers/UserController.php:11
- * @route /users
+ * @see \App\Http\Controllers\BlessingController::index
+ * @see app/Http/Controllers/BlessingController.php:19
+ * @route /blessings
  */
 index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -55,10 +57,12 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     method: 'head',
 })
 
-const users = {
+const blessings = {
     index, 
+    create, 
+    store, 
     show, 
-    edit,
+    claim,
 }
 
-export default users
+export default blessings
