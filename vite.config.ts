@@ -24,11 +24,4 @@ export default defineConfig({
     esbuild: {
         jsx: 'automatic',
     },
-    resolve: {
-        alias: {
-            '@actions/': './resources/js/actions',
-            '@routes/': './resources/js/routes',
-            '@images/': './resources/images',
-        },
-    },
 });

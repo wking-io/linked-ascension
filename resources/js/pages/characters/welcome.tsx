@@ -127,8 +127,8 @@ export default function Welcome({ game_id, character_id }: Props) {
     };
 
     return (
-        <div className="mx-auto flex max-w-sm flex-col justify-end p-5">
-            <div className="h-16"></div>
+        <div className="mx-auto flex h-screen max-w-sm flex-col justify-end p-5">
+            <div className="flex-1"></div>
             <div className="relative mb-5 flex flex-col items-center">
                 <img src={bg} className="pixelated absolute bottom-0 left-1/2 -translate-x-1/2" width={256} height={128} />
                 <canvas ref={canvasRef} className="pixelated relative" width={CANVAS_WIDTH} height={CANVAS_HEIGHT} />
