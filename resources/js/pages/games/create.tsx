@@ -1,4 +1,4 @@
-import { store } from '@/actions/App/Http/Controllers/GameController';
+import { store } from '@actions/App/Http/Controllers/GameController';
 import { useForm } from '@inertiajs/react';
 import format from 'date-fns/format';
 import { ChangeEvent, FormEvent } from 'react';

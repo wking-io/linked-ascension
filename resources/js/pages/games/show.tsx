@@ -1,9 +1,9 @@
-import { store } from '@/actions/App/Http/Controllers/CharacterController';
 import Layout from '@/layouts/layout';
-import show from '@/routes/characters/show';
 import { CharacterResponse, Game, SharedData } from '@/types';
+import { store } from '@actions/App/Http/Controllers/CharacterController';
 import { type PageProps } from '@inertiajs/core';
 import { Link, useForm, usePage } from '@inertiajs/react';
+import show from '@routes/characters/show';
 import { FormEvent } from 'react';
 
 interface Props extends PageProps {

@@ -1,8 +1,8 @@
-import { healHeart, unlockArmor, unlockElement, unlockSpecial, unlockWeapon } from '@/actions/App/Http/Controllers/CharacterController';
-import support from '@/routes/characters/support';
 import { CharacterResponse, Game, SharedData } from '@/types';
+import { healHeart, unlockArmor, unlockElement, unlockSpecial, unlockWeapon } from '@actions/App/Http/Controllers/CharacterController';
 import { type PageProps } from '@inertiajs/core';
 import { Link, useForm, usePage } from '@inertiajs/react';
+import support from '@routes/characters/support';
 interface Props extends PageProps {
     game: Game;
     character: CharacterResponse;

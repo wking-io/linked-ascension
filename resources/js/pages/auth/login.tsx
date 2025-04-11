@@ -1,4 +1,4 @@
-import { redirect } from '@/actions/App/Http/Controllers/Auth/AuthController';
+import { redirect } from '@actions/App/Http/Controllers/Auth/AuthController';
 import { Head } from '@inertiajs/react';
 
 export default function Login() {

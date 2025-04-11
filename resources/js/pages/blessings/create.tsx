@@ -1,6 +1,6 @@
-import store from '@/routes/blessings/store';
 import type { PageProps } from '@inertiajs/core';
 import { useForm } from '@inertiajs/react';
+import store from '@routes/blessings/store';
 
 interface Props extends PageProps {
     blessingTypes: string[];

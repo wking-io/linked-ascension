@@ -1,6 +1,6 @@
-import claim from '@/routes/blessings/claim';
 import { Blessing, Character, Game } from '@/types';
 import { useForm } from '@inertiajs/react';
+import claim from '@routes/blessings/claim';
 
 interface Props {
     blessing: Blessing;

@@ -1,8 +1,8 @@
-import create from '@/routes/games/create';
-import show from '@/routes/games/show';
 import { Game, SharedData } from '@/types';
 import { type PageProps } from '@inertiajs/core';
 import { Link, usePage } from '@inertiajs/react';
+import create from '@routes/games/create';
+import show from '@routes/games/show';
 
 interface Props extends PageProps {
     games: Game[];

@@ -1,7 +1,7 @@
-import create from '@/routes/blessings/create';
 import { Blessing } from '@/types';
 import { PageProps } from '@inertiajs/core';
 import { Link } from '@inertiajs/react';
+import create from '@routes/blessings/create';
 
 interface Props extends PageProps {
     blessings: Blessing[];

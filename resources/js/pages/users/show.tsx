@@ -1,8 +1,8 @@
 import Layout from '@/layouts/layout';
-import create from '@/routes/games/create';
 import { SharedData, User } from '@/types';
 import { type PageProps } from '@inertiajs/core';
 import { Link, usePage } from '@inertiajs/react';
+import create from '@routes/games/create';
 
 interface Props extends PageProps {
     user: User;

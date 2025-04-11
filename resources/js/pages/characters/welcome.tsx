@@ -1,7 +1,7 @@
 import { ActionButton, ActionLink } from '@/components/action';
 import { DialogueArrow } from '@/components/dialogue-arrow';
-import claim from '@/routes/characters/claim';
 import type { PageProps } from '@inertiajs/core';
+import claim from '@routes/characters/claim';
 import { useEffect, useRef, useState } from 'react';
 import bg from '../../../images/bg.png';
 import spriteSheet from '../../../images/gem.png';

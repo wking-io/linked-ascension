@@ -1,8 +1,8 @@
-import blessingRoutes from '@/routes/blessings';
-import gameRoutes from '@/routes/games';
-import userRoutes from '@/routes/users';
 import { SharedData, User } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
+import blessingRoutes from '@routes/blessings';
+import gameRoutes from '@routes/games';
+import userRoutes from '@routes/users';
 
 export default function Nav({ user }: { user: User }) {
     const { auth } = usePage<SharedData>().props;

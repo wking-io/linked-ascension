@@ -1,5 +1,5 @@
-import { attack } from '@/actions/App/Http/Controllers/CharacterController';
 import { CharacterResponse, Game } from '@/types';
+import { attack } from '@actions/App/Http/Controllers/CharacterController';
 import { type PageProps } from '@inertiajs/core';
 import { useForm } from '@inertiajs/react';
 import { FormEvent } from 'react';
