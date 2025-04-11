@@ -6,13 +6,6 @@ import { run } from 'vite-plugin-run';
 
 export default defineConfig({
     plugins: [
-        laravel({
-            input: ['resources/css/app.css', 'resources/js/app.tsx'],
-            ssr: 'resources/js/ssr.tsx',
-            refresh: true,
-        }),
-        react(),
-        tailwindcss(),
         run([
             {
                 name: 'wayfinder',
@@ -20,6 +13,13 @@ export default defineConfig({
                 pattern: ['routes/**/*.php', 'app/**/Http/**/*.php'],
             },
         ]),
+        laravel({
+            input: ['resources/css/app.css', 'resources/js/app.tsx'],
+            ssr: 'resources/js/ssr.tsx',
+            refresh: true,
+        }),
+        react(),
+        tailwindcss(),
     ],
     esbuild: {
         jsx: 'automatic',

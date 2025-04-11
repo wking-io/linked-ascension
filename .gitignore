@@ -23,3 +23,6 @@ yarn-error.log
 /.vscode
 /.zed
 .DS_Store
+resources/js/routes
+resources/js/actions
+resources/js/wayfinder
