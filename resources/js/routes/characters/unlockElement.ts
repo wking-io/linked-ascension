@@ -2,7 +2,7 @@ import { queryParams, type QueryParams } from './../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\CharacterController::unlockElement
- * @see app/Http/Controllers/CharacterController.php:153
+ * @see app/Http/Controllers/CharacterController.php:154
  * @route /games/{game}/characters/{character}/unlock-element
  */
 export const unlockElement = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -20,7 +20,7 @@ unlockElement.definition = {
 
 /**
  * @see \App\Http\Controllers\CharacterController::unlockElement
- * @see app/Http/Controllers/CharacterController.php:153
+ * @see app/Http/Controllers/CharacterController.php:154
  * @route /games/{game}/characters/{character}/unlock-element
  */
 unlockElement.url = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -48,7 +48,7 @@ unlockElement.url = (args: { game: string | { id: string }, character: string | 
 
 /**
  * @see \App\Http\Controllers\CharacterController::unlockElement
- * @see app/Http/Controllers/CharacterController.php:153
+ * @see app/Http/Controllers/CharacterController.php:154
  * @route /games/{game}/characters/{character}/unlock-element
  */
 unlockElement.post = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

@@ -67,6 +67,7 @@
         display: block;
         padding: --spacing(2) --spacing(4);
         position: relative;
+        text-align: center;
         z-index: 1;
     }
 

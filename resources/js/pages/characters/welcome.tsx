@@ -1,5 +1,18 @@
-import Action from '@/components/action';
+import { ActionButton, ActionLink } from '@/components/action';
+import { DialogueArrow } from '@/components/dialogue-arrow';
+import claim from '@/routes/characters/claim';
+import type { PageProps } from '@inertiajs/core';
 import { useEffect, useRef, useState } from 'react';
+import bg from '../../../images/bg.png';
+import spriteSheet from '../../../images/gem.png';
+
+const SPRITE_WIDTH = 128; // Adjust based on your sprite dimensions
+const SPRITE_HEIGHT = 128;
+const CANVAS_SCALE = 1;
+const CANVAS_WIDTH = SPRITE_WIDTH * CANVAS_SCALE;
+const CANVAS_HEIGHT = SPRITE_HEIGHT * CANVAS_SCALE;
+const FRAME_COUNT = 12; // Adjust based on your sprite sheet
+const FPS = 16;
 
 const welcomeText = [
     "Well aren't we a lucky traveler. You have found a coveted character gem. One of eight currently scattered around the venue. Listen carefully to what I am about to tell you. A game of connections and combat is underway and here is what you need to earn your way to the top.",
@@ -12,13 +25,71 @@ const welcomeText = [
     'Soooooo, you in or not? If not just put the character gem back where you found it and go be lame somewhere else.',
 ];
 
-export default function Welcome() {
+interface Props extends PageProps {
+    game_id: string;
+    character_id: string;
+}
+
+export default function Welcome({ game_id, character_id }: Props) {
     const [currentText, setCurrentText] = useState('');
     const [currentIndex, setCurrentIndex] = useState(0);
     const [currentLine, setCurrentLine] = useState(0);
     const [isTyping, setIsTyping] = useState(true);
     const [showContinue, setShowContinue] = useState(false);
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const animationFrameRef = useRef<number>(0);
+    const spriteImageRef = useRef<HTMLImageElement | null>(null);
+    const currentFrameRef = useRef(0);
+    const lastFrameTimeRef = useRef(0);
+    const isLastLine = currentLine === welcomeText.length - 1;
+
+    useEffect(() => {
+        const img = new Image();
+        img.src = spriteSheet;
+        spriteImageRef.current = img;
+
+        const canvas = canvasRef.current;
+        if (!canvas || !spriteImageRef.current) return;
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        const animate = (timestamp: number) => {
+            if (!lastFrameTimeRef.current) {
+                lastFrameTimeRef.current = timestamp;
+            }
+
+            const elapsed = timestamp - lastFrameTimeRef.current;
+            const frameInterval = 1000 / FPS;
+
+            if (elapsed > frameInterval) {
+                // Clear canvas
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // Calculate current frame
+                currentFrameRef.current = (currentFrameRef.current + 1) % FRAME_COUNT;
+
+                // Draw current frame
+                const sourceX = currentFrameRef.current * SPRITE_WIDTH;
+                if (spriteImageRef.current) {
+                    ctx.drawImage(spriteImageRef.current, sourceX, 0, SPRITE_WIDTH, SPRITE_HEIGHT, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+                }
+
+                lastFrameTimeRef.current = timestamp - (elapsed % frameInterval);
+            }
+
+            animationFrameRef.current = requestAnimationFrame(animate);
+        };
+
+        animationFrameRef.current = requestAnimationFrame(animate);
+
+        return () => {
+            if (animationFrameRef.current) {
+                cancelAnimationFrame(animationFrameRef.current);
+            }
+        };
+    }, []);
+
     useEffect(() => {
         if (currentLine >= welcomeText.length) return;
 
@@ -57,7 +128,11 @@ export default function Welcome() {
 
     return (
         <div className="mx-auto flex max-w-sm flex-col justify-end p-5">
-            <canvas ref={canvasRef} className="h-[364px] w-full" />
+            <div className="h-16"></div>
+            <div className="relative mb-5 flex flex-col items-center">
+                <img src={bg} className="pixelated absolute bottom-0 left-1/2 -translate-x-1/2" width={256} height={128} />
+                <canvas ref={canvasRef} className="pixelated relative" width={CANVAS_WIDTH} height={CANVAS_HEIGHT} />
+            </div>
             <div className="relative mb-5 min-h-[240px]">
                 <div className="flex flex-col gap-2">
                     {currentText.split('\n').map((line, i) => (
@@ -67,13 +142,17 @@ export default function Welcome() {
                         </div>
                     ))}
                 </div>
-                {showContinue && (
-                    <div className="border-t-foreground absolute bottom-0 left-1/2 h-0 w-0 -translate-x-1/2 animate-bounce border-8 border-b-0 border-transparent" />
-                )}
+                {showContinue && <DialogueArrow className="absolute -bottom-1 left-1/2 -translate-x-1/2 animate-bounce" />}
             </div>
-            <Action onClick={handleContinue} className="w-full">
-                Continue
-            </Action>
+            {isLastLine ? (
+                <ActionButton onClick={handleContinue} className="w-full">
+                    Continue
+                </ActionButton>
+            ) : (
+                <ActionLink href={claim([game_id, character_id])} className="w-full">
+                    Claim Character
+                </ActionLink>
+            )}
         </div>
     );
 }

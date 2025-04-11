@@ -2,7 +2,7 @@ import { queryParams, type QueryParams } from './../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\CharacterController::healHeart
- * @see app/Http/Controllers/CharacterController.php:219
+ * @see app/Http/Controllers/CharacterController.php:220
  * @route /games/{game}/characters/{character}/heal-heart
  */
 export const healHeart = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -20,7 +20,7 @@ healHeart.definition = {
 
 /**
  * @see \App\Http\Controllers\CharacterController::healHeart
- * @see app/Http/Controllers/CharacterController.php:219
+ * @see app/Http/Controllers/CharacterController.php:220
  * @route /games/{game}/characters/{character}/heal-heart
  */
 healHeart.url = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -48,7 +48,7 @@ healHeart.url = (args: { game: string | { id: string }, character: string | { id
 
 /**
  * @see \App\Http\Controllers\CharacterController::healHeart
- * @see app/Http/Controllers/CharacterController.php:219
+ * @see app/Http/Controllers/CharacterController.php:220
  * @route /games/{game}/characters/{character}/heal-heart
  */
 healHeart.post = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

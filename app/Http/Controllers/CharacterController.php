@@ -56,6 +56,7 @@ class CharacterController extends Controller
         // }
 
         return Inertia::render('characters/welcome', [
+            'game_id' => $game->id,
             'character_id' => $character->id
         ]);
     }

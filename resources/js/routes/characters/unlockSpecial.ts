@@ -2,7 +2,7 @@ import { queryParams, type QueryParams } from './../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\CharacterController::unlockSpecial
- * @see app/Http/Controllers/CharacterController.php:204
+ * @see app/Http/Controllers/CharacterController.php:205
  * @route /games/{game}/characters/{character}/unlock-special
  */
 export const unlockSpecial = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -20,7 +20,7 @@ unlockSpecial.definition = {
 
 /**
  * @see \App\Http\Controllers\CharacterController::unlockSpecial
- * @see app/Http/Controllers/CharacterController.php:204
+ * @see app/Http/Controllers/CharacterController.php:205
  * @route /games/{game}/characters/{character}/unlock-special
  */
 unlockSpecial.url = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -48,7 +48,7 @@ unlockSpecial.url = (args: { game: string | { id: string }, character: string | 
 
 /**
  * @see \App\Http\Controllers\CharacterController::unlockSpecial
- * @see app/Http/Controllers/CharacterController.php:204
+ * @see app/Http/Controllers/CharacterController.php:205
  * @route /games/{game}/characters/{character}/unlock-special
  */
 unlockSpecial.post = (args: { game: string | { id: string }, character: string | { id: string } } | [game: string | { id: string }, character: string | { id: string }], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

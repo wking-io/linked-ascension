@@ -28,6 +28,7 @@ export default defineConfig({
         alias: {
             '@actions/': './resources/js/actions',
             '@routes/': './resources/js/routes',
+            '@images/': './resources/images',
         },
     },
 });

@@ -54,8 +54,8 @@
     --background-default: oklch(0.98 0.015 329);
     --foreground-default: oklch(0.15 0.03 329);
 
-    --color-background: var(--background-default);
-    --color-foreground: var(--foreground-default);
+    --color-background: var(--background-earth);
+    --color-foreground: var(--foreground-earth);
 
     --color-destructive: var(--destructive);
     --color-destructive-foreground: var(--destructive-foreground);
@@ -105,4 +105,8 @@ button {
 
 button:disabled {
     cursor: not-allowed;
+}
+
+.pixelated {
+    image-rendering: pixelated;
 }
