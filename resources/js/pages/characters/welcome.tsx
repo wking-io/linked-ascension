@@ -148,13 +148,13 @@ export default function Welcome({ game_id, character_id }: Props) {
                 {showContinue && <DialogueArrow className="absolute -bottom-1 left-1/2 -translate-x-1/2 animate-bounce" />}
             </div>
             {isLastLine ? (
-                <ActionButton onClick={handleContinue} className="w-full">
-                    Continue
-                </ActionButton>
-            ) : (
                 <ActionLink href={claim([game_id, character_id])} className="w-full">
                     Claim Character
                 </ActionLink>
+            ) : (
+                <ActionButton onClick={handleContinue} className="w-full">
+                    Continue
+                </ActionButton>
             )}
         </div>
     );
