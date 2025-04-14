@@ -31,17 +31,11 @@ export default function Target({ character, game, characters }: Props) {
 
     return (
         <div className="p-5">
-            <div className="flex gap-2">
-                <ActionLink href={show({ game, character })} size="icon">
-                    <span className="sr-only">Back to character</span>
-                    <BackIcon />
-                </ActionLink>
-                <h1 className="mt-[5px]">Choose Target</h1>
-            </div>
-            <form onSubmit={handleSubmit} className="">
+            <h1 className="mb-2">Choose Target:</h1>
+            <form onSubmit={handleSubmit} className={cn(data.target_id && 'mb-[103px]')}>
                 <fieldset>
                     <legend className="sr-only">Target</legend>
-                    <div className={cn(data.target_id && 'mb-[103px]', 'flex flex-col gap-2')}>
+                    <div className="flex flex-col gap-2">
                         {characters.map((c) => {
                             const notTarget = data.target_id.length && data.target_id !== c.id;
                             const isTarget = data.target_id.length && data.target_id === c.id;
@@ -82,6 +76,12 @@ export default function Target({ character, game, characters }: Props) {
                                 </div>
                             );
                         })}
+                    </div>
+                    <div className="mt-2">
+                        <ActionLink href={show({ game, character })}>
+                            <BackIcon />
+                            <span>Back to character</span>
+                        </ActionLink>
                     </div>
                 </fieldset>
                 <div

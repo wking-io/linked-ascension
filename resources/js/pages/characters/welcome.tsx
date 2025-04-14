@@ -21,7 +21,7 @@ const welcomeText = [
     'As you collect more points your character will increase in strength. Why? Because throughout the rest of this game you and the other players will be attempting to bring each other down. So I would highly recommend growing your strength as quickly as you can.',
     "New powers, improved stats, and hidden power up's that could change the dynamic of the game for the player who uncovers them are in your future. Does this sound like fun? I haven't even gotten to the rewards yet.",
 
-    `A set of rewards await the top 3. In order of ranking they will choose from the following:\n- Free ticket to next React Miami\n- $200 of Cloudflare Credits\n- $200 of Vercel Credits`,
+    `A set of rewards await the top 3. In order of ranking they will choose from the following:\n- Free ticket to next React Miami\n- $100 to Laravel Cloud and a free ticket to Laracon US\n- $5,000 in Cloudflare Credits`,
 
     'Soooooo, you in or not? If not just put the character gem back where you found it and go be lame somewhere else.',
 ];

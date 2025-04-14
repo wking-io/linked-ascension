@@ -64,7 +64,9 @@
     }
 
     .action-inner {
-        display: block;
+        display: flex;
+        align-items: center;
+        gap: --spacing(1.5);
         position: relative;
         text-align: center;
         z-index: 1;
