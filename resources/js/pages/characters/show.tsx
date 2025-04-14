@@ -1,11 +1,11 @@
-import { ActionAnchor, ActionLink } from '@/components/action';
+import { healHeart } from '@/actions/App/Http/Controllers/CharacterController';
+import { ActionAnchor, ActionButton, ActionLink } from '@/components/action';
 import { Health } from '@/components/health';
 import { SupportPointsIcon } from '@/icons/support-points-icon';
-import show from '@/routes/characters/show';
 import target from '@/routes/characters/target';
 import { CharacterResponse, Game, SharedData } from '@/types';
 import { type PageProps } from '@inertiajs/core';
-import { usePage } from '@inertiajs/react';
+import { useForm, usePage } from '@inertiajs/react';
 import { useEffect, useRef, useState } from 'react';
 import bg from '../../../images/bg.png';
 
@@ -21,14 +21,19 @@ const SPRITE_HEIGHT = 128;
 const CANVAS_SCALE = 1;
 const CANVAS_WIDTH = SPRITE_WIDTH * CANVAS_SCALE;
 const CANVAS_HEIGHT = SPRITE_HEIGHT * CANVAS_SCALE;
-const FRAME_COUNT = 12; // Adjust based on your sprite sheet
-const FPS = 16;
+// const FRAME_COUNT = 12; // Adjust based on your sprite sheet
+// const FPS = 16;
 
 export default function Show({ game, character, next_threshold, github_username }: Props) {
     const { auth } = usePage<SharedData>().props;
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [timeRemaining, setTimeRemaining] = useState<number | null>(null);
-    const [canAttack, setCanAttack] = useState(false);
+    const healForm = useForm();
+
+    const handleHealHeart = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        healForm.submit(healHeart({ game, character }));
+    };
 
     useEffect(() => {
         if (!character.last_acted_at) {
@@ -69,10 +74,6 @@ export default function Show({ game, character, next_threshold, github_username 
     return (
         <div className="flex h-[100dvh] flex-col">
             <div className="flex items-center gap-2 p-5">
-                {/* <ActionButton className="text-foreground" size="icon">
-                    <span className="sr-only">menu</span>
-                    <MenuIcon />
-                </ActionButton> */}
                 <Health className="flex-1" health={character.health} />
                 <p className="flex items-center gap-2 text-2xl">
                     <SupportPointsIcon />
@@ -88,7 +89,11 @@ export default function Show({ game, character, next_threshold, github_username 
                     <ActionLink href={target({ game, character })} className="font-numeric col-span-2" inert={timeRemaining !== null}>
                         Attack {timeRemaining !== null ? `in ${formatTime(timeRemaining)}` : 'Now!'}
                     </ActionLink>
-                    <ActionAnchor href={show({ game, character }).url}>Refresh</ActionAnchor>
+                    <form onSubmit={handleHealHeart}>
+                        <ActionButton disabled={character.support_points === 0} type="submit">
+                            Heal Heart
+                        </ActionButton>
+                    </form>
                     <ActionAnchor href="https://t.me/+1ccKQVHfyChjMmUx" target="_blank">
                         Chat
                     </ActionAnchor>
