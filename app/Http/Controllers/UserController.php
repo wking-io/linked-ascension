@@ -13,6 +13,7 @@ class UserController extends Controller
         return Inertia::render('users/index');
     }
 
+    // @TODO: Make this a page that shows links to the user's characters. Or a link to the video ontro.
     public function show(User $user)
     {
         return Inertia::render('users/show', [

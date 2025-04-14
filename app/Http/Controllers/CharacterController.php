@@ -22,9 +22,17 @@ class CharacterController extends Controller
 {
     public function show(Game $game, Character $character)
     {
+        if ($character->user_id === null) {
+            return to_route('characters.welcome', [$game, $character]);
+        }
+
+        $player = $character->user;
+
         return Inertia::render('characters/show', [
             'game' => $game,
-            'character' => $character
+            'character' => array_merge($character->toArray(), ['support_points' => $character->state()->supportPoints()]),
+            'next_threshold' => $character->state()->nextThreshold(),
+            'github_username' => $player?->username,
         ]);
     }
 
@@ -32,7 +40,8 @@ class CharacterController extends Controller
     {
         return Inertia::render('characters/edit', [
             'game' => $game,
-            'character' => $character
+            'character' => $character,
+            'next_threshold' => $character->state()->nextThreshold(),
         ]);
     }
 
@@ -41,19 +50,19 @@ class CharacterController extends Controller
         $user = Auth::user(); // Get current user from session
 
         // 1. Redirect if user owns the character
-        // if ($user && $character->user_id === $user->id) {
-        //     return redirect()->route('characters.show', $character);
-        // }
+        if ($user && $character->user_id === $user->id) {
+            return to_route('characters.show', [$game, $character]);
+        }
 
-        // // 2. Redirect if character is claimed
-        // if ($character->user_id !== null) {
-        //     return redirect()->route('characters.support', $character);
-        // }
+        // 2. Redirect if character is claimed or user has a character in this game
+        if ($character->user_id !== null || $game->characters()->where('user_id', $user->id)->exists()) {
+            return to_route('characters.support', [$game, $character]);
+        }
 
-        // // 3. Redirect if there is a logged-in user and character is unclaimed
-        // if ($user && $character->user_id === null) {
-        //     return redirect()->route('characters.claim', $character);
-        // }
+        // 3. Redirect if there is a logged-in user and character is unclaimed
+        if ($user && $character->user_id === null) {
+            return to_route('characters.claim', [$game, $character]);
+        }
 
         return Inertia::render('characters/welcome', [
             'game_id' => $game->id,
@@ -65,8 +74,14 @@ class CharacterController extends Controller
     {
         $user = Auth::user();
 
+        // 1. Redirect if character is unclaimed
+        if ($character->user_id === null) {
+            return to_route('users.show', $user);
+        }
+
+        // 2. Redirect if user owns this character or already supports this character
         if ($character->user_id?->is($user->id) || $character->state()->isSupportedBy($user->id)) {
-            return redirect()->route('characters.show', [$game, $character]);
+            return to_route('characters.show', [$game, $character]);
         }
 
         CharacterCollectedSupport::fire(
@@ -76,6 +91,7 @@ class CharacterController extends Controller
         );
 
         return Inertia::render('characters/support', [
+            'game' => $game,
             'character' => $character
         ]);
     }
@@ -86,12 +102,12 @@ class CharacterController extends Controller
 
         // Check if user already owns this character
         if ($character->user_id?->is($user->id)) {
-            return redirect()->route('characters.show', [$game, $character]);
+            return to_route('characters.show', [$game, $character]);
         }
 
         // Check if user already has a character in this game
         if ($game->characters()->where('user_id', $user->id)->exists()) {
-            return redirect()->route('characters.support', [$game, $character])
+            return to_route('characters.support', [$game, $character])
                 ->with('error', 'You already have a character in this game.');
         }
 
@@ -113,26 +129,36 @@ class CharacterController extends Controller
             game_id: $game->id,
         )->game_id;
 
-        return redirect()->route('games.show', $game);
+        return to_route('games.show', $game);
     }
 
     public function target(Game $game, Character $character)
     {
         if (!$character->user_id?->is(Auth::user()->id)) {
-            return redirect()->route('games.show', [$game]);
+            return to_route('games.show', [$game]);
         }
+
+        $characters = $game->characters()
+            ->where('id', '!=', $character->id)
+            ->with(['user:id,name,username'])
+            ->get()
+            ->map(function ($character) {
+                return array_merge($character->toArray(), [
+                    'support_points' => $character->state()->supportPoints(),
+                ]);
+            });
 
         return Inertia::render('characters/target', [
             'character' => $character,
             'game' => $game,
-            'characters' => $game->characters()->where('id', '!=', $character->id)->get(),
+            'characters' => $characters,
         ]);
     }
 
     public function attack(Game $game, Character $character, Request $request)
     {
         if (!$character->user_id?->is(Auth::user()->id)) {
-            return redirect()->route('games.show', [$game]);
+            return to_route('games.show', [$game]);
         }
 
         $request->validate([
@@ -147,7 +173,7 @@ class CharacterController extends Controller
             target_id: $target->id
         );
 
-        return redirect()->route('characters.target', [$game, $character])
+        return to_route('characters.show', [$game, $character])
             ->with('success', 'Attack successful!');
     }
 
@@ -156,7 +182,7 @@ class CharacterController extends Controller
         $user = Auth::user();
 
         if (!$character->user_id?->is($user->id)) {
-            return redirect()->route('games.show', [$game]);
+            return to_route('games.show', [$game]);
         }
 
         // @TODO: Add other elements
@@ -169,7 +195,7 @@ class CharacterController extends Controller
             element: $request->element
         );
 
-        return redirect()->route('characters.show', [$game, $character]);
+        return to_route('characters.show', [$game, $character]);
     }
 
     public function unlockArmor(Game $game, Character $character)
@@ -177,14 +203,14 @@ class CharacterController extends Controller
         $user = Auth::user();
 
         if (!$character->user_id?->is($user->id)) {
-            return redirect()->route('games.show', [$game]);
+            return to_route('games.show', [$game]);
         }
 
         CharacterUnlockedArmor::fire(
             character_id: $character->id,
         );
 
-        return redirect()->route('characters.show', [$game, $character]);
+        return to_route('characters.show', [$game, $character]);
     }
 
     public function unlockWeapon(Game $game, Character $character)
@@ -192,14 +218,14 @@ class CharacterController extends Controller
         $user = Auth::user();
 
         if (!$character->user_id?->is($user->id)) {
-            return redirect()->route('games.show', [$game]);
+            return to_route('games.show', [$game]);
         }
 
         CharacterUnlockedWeapon::fire(
             character_id: $character->id,
         );
 
-        return redirect()->route('characters.show', [$game, $character]);
+        return to_route('characters.show', [$game, $character]);
     }
 
     public function unlockSpecial(Game $game, Character $character)
@@ -207,14 +233,14 @@ class CharacterController extends Controller
         $user = Auth::user();
 
         if (!$character->user_id?->is($user->id)) {
-            return redirect()->route('games.show', [$game]);
+            return to_route('games.show', [$game]);
         }
 
         CharacterUnlockedSpecial::fire(
             character_id: $character->id,
         );
 
-        return redirect()->route('characters.show', [$game, $character]);
+        return to_route('characters.show', [$game, $character]);
     }
 
     public function healHeart(Game $game, Character $character)
@@ -222,13 +248,13 @@ class CharacterController extends Controller
         $user = Auth::user();
 
         if (!$character->user_id?->is($user->id)) {
-            return redirect()->route('games.show', [$game]);
+            return to_route('games.show', [$game]);
         }
 
         CharacterHealedHeart::fire(
             character_id: $character->id,
         );
 
-        return redirect()->route('characters.show', [$game, $character]);
+        return to_route('characters.show', [$game, $character]);
     }
 }

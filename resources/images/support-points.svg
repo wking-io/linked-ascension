@@ -1,0 +1,36 @@
+<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g className="fill-foreground/30">
+<path d="M6 0H5V1H6V0Z"/>
+<path d="M7 3H8V4H7V3Z"/>
+<path d="M7 3V2H6V3H7Z"/>
+<path d="M11 5H12V6H11V5Z"/>
+<path d="M9 6H10V7H9V6Z"/>
+<path d="M9 7V8H8V7H9Z"/>
+<path d="M4 4H3V5H2V6H3V5H4V4Z"/>
+<path d="M4 8H5V9H4V8Z"/>
+<path d="M5 9H6V10H5V9Z"/>
+<path d="M0 6H1V7H0V6Z"/>
+<path d="M6 11H7V12H6V11Z"/>
+</g>
+<g className="fill-foreground/50">
+<path d="M6 1H7V2H6V1Z"/>
+<path d="M1 5H2V6H1V5Z"/>
+<path d="M11 6H10V7H11V6Z"/>
+<path d="M5 10H6V11H5V10Z"/>
+</g>
+<g className="fill-foreground/70">
+<path d="M5 2H6V3H5V2Z"/>
+<path d="M7 4H6V3H7V4Z"/>
+<path d="M7 4H8V5H7V4Z"/>
+<path d="M9 5H10V6H9V5Z"/>
+<path d="M8 7V6H9V7H8Z"/>
+<path d="M8 7V8H7V7H8Z"/>
+<path d="M4 4H5V5H4V4Z"/>
+<path d="M3 6V5H4V6H3Z"/>
+<path d="M3 6V7H2V6H3Z"/>
+<path d="M5 7H4V8H5V9H6V10H7V9H6V8H5V7Z"/>
+</g>
+<g className="fill-foreground">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M5 3V4V5H4V6H3V7H4H5V8H6V9H7V8V7H8V6H9V5H8H7V4H6V3H5Z"/>
+</g>
+</svg>

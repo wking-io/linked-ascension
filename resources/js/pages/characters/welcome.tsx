@@ -1,6 +1,6 @@
 import { ActionButton, ActionLink } from '@/components/action';
-import { DialogueArrow } from '@/components/dialogue-arrow';
 import { Title } from '@/components/title';
+import { DialogueArrow } from '@/icons/dialogue-arrow-icon';
 import type { PageProps } from '@inertiajs/core';
 import claim from '@routes/characters/claim';
 import { useEffect, useRef, useState } from 'react';
@@ -133,7 +133,7 @@ export default function Welcome({ game_id, character_id }: Props) {
                 <Title />
             </div>
             <div className="relative mb-5 flex flex-col items-center">
-                <img src={bg} className="pixelated absolute bottom-0 left-1/2 -translate-x-1/2" width={256} height={128} />
+                <img src={bg} className="pixelated absolute bottom-0 left-1/2 -translate-x-1/2" width={512} height={256} />
                 <canvas ref={canvasRef} className="pixelated relative" width={CANVAS_WIDTH} height={CANVAS_HEIGHT} />
             </div>
             <div className="relative mb-5 min-h-[240px]">

@@ -50,7 +50,7 @@ class GameController extends Controller
             ends_at: $validated['ends_at'],
         )->game_id;
 
-        return redirect()->route('games.show', $game_id);
+        return to_route('games.show', $game_id);
     }
 
     public function edit(Game $game): Response

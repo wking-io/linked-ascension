@@ -52,9 +52,18 @@ export interface CharacterResponse {
     unlocked_weapon_at?: string;
     unlocked_special_at?: string;
     claimed_at?: string;
-    last_acted?: string;
+    last_acted_at?: string;
     expended_points: number;
+    support_points: number;
     supported_by: Array<UserOverview>;
+}
+
+export interface CharacterWithUser extends CharacterResponse {
+    user: {
+        id: string;
+        name: string;
+        username: string;
+    };
 }
 
 export interface Character {

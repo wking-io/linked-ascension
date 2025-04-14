@@ -6,6 +6,7 @@
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 
 @import '../js/components/action.css';
+@import '../js/components/box.css';
 
 @font-face {
     font-family: 'Silkscreen';
@@ -56,6 +57,7 @@
 
     --color-background: var(--background-earth);
     --color-foreground: var(--foreground-earth);
+    --color-foreground-muted: --alpha(var(--foreground-earth) / 60%);
 
     --color-destructive: var(--destructive);
     --color-destructive-foreground: var(--destructive-foreground);
@@ -91,6 +93,12 @@
     body {
         @apply bg-background text-foreground font-sans;
         text-rendering: geometricPrecision;
+    }
+}
+
+@layer utilities {
+    .font-numeric {
+        font-variant-numeric: tabular-nums;
     }
 }
 

@@ -55,13 +55,13 @@ class BlessingController extends Controller
             type: BlessingType::from($validated['type']),
         );
 
-        return redirect()->route('blessings.index');
+        return to_route('blessings.index');
     }
 
     public function claim(Game $game, Character $character, Blessing $blessing): RedirectResponse
     {
         if (!$character->user_id?->is(Auth::user()->id)) {
-            return redirect()->route('games.show', [$game]);
+            return to_route('games.show', [$game]);
         }
 
         CharacterClaimedBlessing::fire(
@@ -69,7 +69,7 @@ class BlessingController extends Controller
             blessing_id: $blessing->id,
         );
 
-        return redirect()->route('characters.show', [$game, $character])
+        return to_route('characters.show', [$game, $character])
             ->with('success', 'Blessing claimed successfully!');
     }
 }

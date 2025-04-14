@@ -9,9 +9,9 @@ use App\Http\Controllers\BlessingController;
 
 Route::get('/', function () {
     if (Auth::check()) {
-        return redirect()->route('users.show', Auth::user());
+        return to_route('users.show', Auth::user());
     }
-    return redirect()->route('login');
+    return to_route('login');
 })->name('home');
 
 // Public character routes

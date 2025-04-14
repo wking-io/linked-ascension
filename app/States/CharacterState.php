@@ -10,7 +10,7 @@ use Thunk\Verbs\State;
 
 class CharacterState extends State
 {
-    public const INITIAL_HEALTH = 20;
+    public const INITIAL_HEALTH = 12;
 
     public ?Snowflake $user_id = null;
 
@@ -95,5 +95,28 @@ class CharacterState extends State
     public function isSupportedBy(Snowflake $user_id): bool
     {
         return $this->supported_by_ids->contains($user_id);
+    }
+
+    public function nextThreshold(): int
+    {
+        $points = $this->supportPoints();
+
+        if ($points >= GameState::FOURTH_THRESHOLD || $this->unlocked_special_at) {
+            return 999;
+        }
+
+        if ($points >= GameState::THIRD_THRESHOLD || ($this->unlocked_armor_at && $this->unlocked_weapon_at)) {
+            return GameState::FOURTH_THRESHOLD;
+        }
+
+        if ($points >= GameState::SECOND_THRESHOLD || $this->unlocked_armor_at || $this->unlocked_weapon_at) {
+            return GameState::THIRD_THRESHOLD;
+        }
+
+        if ($points >= GameState::FIRST_THRESHOLD || $this->element) {
+            return GameState::SECOND_THRESHOLD;
+        }
+
+        return GameState::FIRST_THRESHOLD;
     }
 }
