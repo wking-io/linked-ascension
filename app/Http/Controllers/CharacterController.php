@@ -49,21 +49,6 @@ class CharacterController extends Controller
     {
         $user = Auth::user(); // Get current user from session
 
-        // 1. Redirect if user owns the character
-        if ($user && $character->user_id === $user->id) {
-            return to_route('characters.show', [$game, $character]);
-        }
-
-        // 2. Redirect if character is claimed or user has a character in this game
-        if ($character->user_id !== null || $game->characters()->where('user_id', $user->id)->exists()) {
-            return to_route('characters.support', [$game, $character]);
-        }
-
-        // 3. Redirect if there is a logged-in user and character is unclaimed
-        if ($user && $character->user_id === null) {
-            return to_route('characters.claim', [$game, $character]);
-        }
-
         return Inertia::render('characters/welcome', [
             'game_id' => $game->id,
             'character_id' => $character->id

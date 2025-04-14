@@ -130,10 +130,10 @@ export default function Welcome({ game_id, character_id }: Props) {
     return (
         <div className="mx-auto flex h-[100dvh] max-w-sm flex-col justify-end p-5">
             <div className="flex flex-1 items-center justify-center">
-                <Title />
+                <Title className="-translate-y-4" />
             </div>
             <div className="relative mb-5 flex flex-col items-center">
-                <img src={bg} className="pixelated absolute bottom-0 left-1/2 -translate-x-1/2" width={512} height={256} />
+                <img src={bg} className="pixelated absolute bottom-0 left-1/2 max-w-none -translate-x-1/2" width={512} height={256} />
                 <canvas ref={canvasRef} className="pixelated relative" width={CANVAS_WIDTH} height={CANVAS_HEIGHT} />
             </div>
             <div className="relative mb-5 min-h-[240px]">

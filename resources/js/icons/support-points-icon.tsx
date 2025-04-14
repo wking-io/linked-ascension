@@ -18,7 +18,7 @@ export function SupportPointsIcon({ className }: { className?: string }) {
             <path d="M5 9H6V10H5V9Z" fill="#A49BA3" />
             <path d="M0 6H1V7H0V6Z" fill="#A49BA3" />
             <path d="M6 11H7V12H6V11Z" fill="#A49BA3" />
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M5 3V4V5H4V6H3V7H4H5V8H6V9H7V8V7H8V6H9V5H8H7V4H6V3H5Z" fill="#322B32" />
+            <path fillRule="evenodd" clipRule="evenodd" d="M5 3V4V5H4V6H3V7H4H5V8H6V9H7V8V7H8V6H9V5H8H7V4H6V3H5Z" fill="#322B32" />
             <path d="M5 2H6V3H5V2Z" fill="#686067" />
             <path d="M7 4H6V3H7V4Z" fill="#686067" />
             <path d="M7 4H8V5H7V4Z" fill="#686067" />

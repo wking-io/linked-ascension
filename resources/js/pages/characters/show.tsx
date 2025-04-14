@@ -6,7 +6,7 @@ import target from '@/routes/characters/target';
 import { CharacterResponse, Game, SharedData } from '@/types';
 import { type PageProps } from '@inertiajs/core';
 import { useForm, usePage } from '@inertiajs/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import bg from '../../../images/bg.png';
 
 interface Props extends PageProps {
@@ -81,7 +81,7 @@ export default function Show({ game, character, next_threshold, github_username 
                 </p>
             </div>
             <div className="relative flex-1">
-                <img src={bg} className="pixelated absolute bottom-0 left-1/2 -translate-x-1/2" width={512} height={256} />
+                <img src={bg} className="pixelated absolute bottom-0 left-1/2 max-w-none -translate-x-1/2" width={512} height={256} />
                 <canvas ref={canvasRef} className="pixelated relative" width={CANVAS_WIDTH} height={CANVAS_HEIGHT} />
             </div>
             {auth.user.id === character.user_id ? (

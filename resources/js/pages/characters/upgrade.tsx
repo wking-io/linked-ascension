@@ -78,7 +78,7 @@ export default function Upgrade({ game, character, tier, next_threshold }: Props
                 </p>
             </div>
             <div className="relative flex-1">
-                <img src={bg} className="pixelated absolute bottom-0 left-1/2 -translate-x-1/2" width={512} height={256} />
+                <img src={bg} className="pixelated absolute bottom-0 left-1/2 max-w-none -translate-x-1/2" width={512} height={256} />
                 <canvas className="pixelated relative" width={CANVAS_WIDTH} height={CANVAS_HEIGHT} />
             </div>
             <div className="grid grid-cols-3 gap-x-3 gap-y-2 p-5">
