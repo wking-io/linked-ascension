@@ -8,6 +8,7 @@ use App\Events\CharacterClaimedBlessing;
 use App\Models\Blessing;
 use App\Models\Character;
 use App\Models\Game;
+use App\States\CharacterState;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -23,8 +24,17 @@ class BlessingController extends Controller
         ]);
     }
 
-    public function show(Game $game, Character $character, Blessing $blessing): Response
+    public function show(Game $game, Character $character, Blessing $blessing)
     {
+        $user = Auth::user();
+        if (!$character->user_id?->is($user->id)) {
+            return to_route('users.show', [$user]);
+        }
+
+        if ($character->blessing_id) {
+            return to_route('characters.show', [$game, $character]);
+        }
+
         return Inertia::render('blessings/show', [
             'blessing' => $blessing,
             'character' => $character,
@@ -71,5 +81,27 @@ class BlessingController extends Controller
 
         return to_route('characters.show', [$game, $character])
             ->with('success', 'Blessing claimed successfully!');
+    }
+
+    public function withCharacter(Blessing $blessing)
+    {
+        $user = Auth::user();
+
+        // Get the user's character in an active game
+        $character = Character::query()
+            ->where(function ($query) use ($user) {
+                $query->where('user_id', $user->id->id());
+            })
+            ->first();
+
+        $state = CharacterState::load($character->id);
+        $game = $state->game();
+
+        if (!$character || $game->isActive()) {
+            return to_route('users.show', [$user])
+                ->with('error', 'You don\'t have any characters in active games.');
+        }
+
+        return to_route('blessings.show', [$character->game, $character, $blessing]);
     }
 }
