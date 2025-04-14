@@ -85,12 +85,12 @@ export default function Show({ game, character, next_threshold, github_username 
                 <canvas ref={canvasRef} className="pixelated relative" width={CANVAS_WIDTH} height={CANVAS_HEIGHT} />
             </div>
             {auth.user.id === character.user_id ? (
-                <div className="grid grid-cols-2 gap-2 p-5">
+                <div className="grid grid-cols-2 gap-x-3 gap-y-2 p-5">
                     <ActionLink href={target({ game, character })} className="font-numeric col-span-2" inert={timeRemaining !== null}>
                         Attack {timeRemaining !== null ? `in ${formatTime(timeRemaining)}` : 'Now!'}
                     </ActionLink>
                     <form onSubmit={handleHealHeart}>
-                        <ActionButton disabled={character.support_points === 0} type="submit">
+                        <ActionButton disabled={character.support_points === 0} type="submit" className="w-full">
                             Heal Heart
                         </ActionButton>
                     </form>
