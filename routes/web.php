@@ -27,9 +27,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('games/{game}/characters/{character}/claim', [CharacterController::class, 'claim'])->name('characters.claim');
     Route::get('games/{game}/characters/{character}/target', [CharacterController::class, 'target'])->name('characters.target');
     Route::post('games/{game}/characters/{character}/attack', [CharacterController::class, 'attack'])->name('characters.attack');
-    Route::post('games/{game}/characters/{character}/unlock-element', [CharacterController::class, 'unlockElement'])->name('characters.unlockElement');
-    Route::post('games/{game}/characters/{character}/unlock-armor', [CharacterController::class, 'unlockArmor'])->name('characters.unlockArmor');
-    Route::post('games/{game}/characters/{character}/unlock-weapon', [CharacterController::class, 'unlockWeapon'])->name('characters.unlockWeapon');
+    Route::get('games/{game}/characters/{character}/upgrade', [CharacterController::class, 'upgrade'])->name('characters.upgrade');
+    Route::post('games/{game}/characters/{character}/unlock-element', [CharacterController::class, 'unlockElement'])->name('characters.element.store');
+    Route::post('games/{game}/characters/{character}/unlock-armor', [CharacterController::class, 'unlockArmor'])->name('characters.armor.store');
+    Route::post('games/{game}/characters/{character}/unlock-weapon', [CharacterController::class, 'unlockWeapon'])->name('characters.weapon.store');
     Route::post('games/{game}/characters/{character}/unlock-special', [CharacterController::class, 'unlockSpecial'])->name('characters.unlockSpecial');
     Route::post('games/{game}/characters/{character}/heal-heart', [CharacterController::class, 'healHeart'])->name('characters.healHeart');
 });

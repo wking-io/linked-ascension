@@ -177,6 +177,27 @@ class CharacterController extends Controller
             ->with('success', 'Attack successful!');
     }
 
+    public function upgrade(Game $game, Character $character)
+    {
+        $user = Auth::user();
+
+        if ($character->user_id?->is($user->id)) {
+            return to_route('characters.show', [$game, $character]);
+        }
+
+        $tier = $character->state()->tier();
+
+        if ($tier === 0) {
+            return to_route('characters.show', [$game, $character]);
+        }
+
+        return Inertia::render('characters/upgrade', [
+            'game' => $game,
+            'character' => $character,
+            'tier' => $tier,
+        ]);
+    }
+
     public function unlockElement(Game $game, Character $character, Request $request)
     {
         $user = Auth::user();

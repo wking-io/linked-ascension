@@ -6,7 +6,7 @@ import target from '@/routes/characters/target';
 import { CharacterResponse, Game, SharedData } from '@/types';
 import { type PageProps } from '@inertiajs/core';
 import { useForm, usePage } from '@inertiajs/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import bg from '../../../images/bg.png';
 
 interface Props extends PageProps {
@@ -16,7 +16,7 @@ interface Props extends PageProps {
     next_threshold: number;
 }
 
-const SPRITE_WIDTH = 128; // Adjust based on your sprite dimensions
+const SPRITE_WIDTH = 128;
 const SPRITE_HEIGHT = 128;
 const CANVAS_SCALE = 1;
 const CANVAS_WIDTH = SPRITE_WIDTH * CANVAS_SCALE;

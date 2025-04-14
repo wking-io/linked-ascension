@@ -119,4 +119,27 @@ class CharacterState extends State
 
         return GameState::FIRST_THRESHOLD;
     }
+
+    public function tier(): int
+    {
+        $points = $this->supportPoints();
+
+        if ($points >= GameState::FOURTH_THRESHOLD) {
+            return 4;
+        }
+
+        if ($points >= GameState::THIRD_THRESHOLD) {
+            return 3;
+        }
+
+        if ($points >= GameState::SECOND_THRESHOLD) {
+            return 2;
+        }
+
+        if ($points >= GameState::FIRST_THRESHOLD) {
+            return 1;
+        }
+
+        return 0;
+    }
 }
