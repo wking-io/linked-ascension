@@ -9,4 +9,5 @@ enum BlessingType: string
     case INVINCIBLE = 'invincible';
     case DOUBLE_ACTION = 'double-action';
     case FREE_HEART = 'free-heart';
+    case EVADE = 'evade';
 }

@@ -49,6 +49,21 @@ class CharacterController extends Controller
     {
         $user = Auth::user(); // Get current user from session
 
+        // 1. Redirect if user owns the character
+        if ($user && $character->user_id === $user->id) {
+            return to_route('characters.show', [$game, $character]);
+        }
+
+        // 2. Redirect if character is claimed or user has a character in this game
+        if ($character->user_id !== null || $game->characters()->where('user_id', $user->id)->exists()) {
+            return to_route('characters.support', [$game, $character]);
+        }
+
+        // 3. Redirect if there is a logged-in user and character is unclaimed
+        if ($user && $character->user_id === null) {
+            return to_route('characters.claim', [$game, $character]);
+        }
+
         return Inertia::render('characters/welcome', [
             'game_id' => $game->id,
             'character_id' => $character->id
@@ -126,9 +141,17 @@ class CharacterController extends Controller
         $characters = $game->characters()
             ->where('id', '!=', $character->id)
             ->with(['user:id,name,username'])
+            ->with(['blessing:id,type'])
             ->get()
             ->map(function ($character) {
-                return array_merge($character->toArray(), [
+                $data = $character->toArray();
+                $blessing_type = $character->blessing->type ?? null;
+
+                // Remove the blessing object and add blessing_type directly
+                unset($data['blessing']);
+                $data['blessing_type'] = $blessing_type;
+
+                return array_merge($data, [
                     'support_points' => $character->state()->supportPoints(),
                 ]);
             });
@@ -166,15 +189,15 @@ class CharacterController extends Controller
     {
         $user = Auth::user();
 
-        if ($character->user_id?->is($user->id)) {
-            return to_route('characters.show', [$game, $character]);
-        }
+        // if ($character->user_id?->is($user->id)) {
+        //     return to_route('characters.show', [$game, $character]);
+        // }
 
         $tier = $character->state()->tier();
 
-        if ($tier === 0) {
-            return to_route('characters.show', [$game, $character]);
-        }
+        // if ($tier === 0) {
+        //     return to_route('characters.show', [$game, $character]);
+        // }
 
         return Inertia::render('characters/upgrade', [
             'game' => $game,

@@ -27,16 +27,14 @@ export default function Claim({ character_id, game_id }: Props) {
                 </ol>
                 <p>If you have any questions, please join the chat group and ask away. I want this to be fun and can't wait to meet you</p>
             </div>
-            <div className="mb-2.5 h-[56px]">
+            <div className="mb-2.5">
                 <ActionAnchor href="https://t.me/+1ccKQVHfyChjMmUx" className="w-full">
                     Join The Chat Group
                 </ActionAnchor>
             </div>
-            <div className="h-[56px]">
-                <ActionLink href={show([game_id, character_id])} className="w-full">
-                    View Character
-                </ActionLink>
-            </div>
+            <ActionLink href={show([game_id, character_id])} className="w-full">
+                View Character
+            </ActionLink>
         </div>
     );
 }

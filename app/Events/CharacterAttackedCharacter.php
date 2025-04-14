@@ -6,11 +6,8 @@ use App\Enums\BlessingType;
 use App\States\CharacterState;
 use Glhd\Bits\Snowflake;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Log;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
-
-use function Illuminate\Log\log;
 
 class CharacterAttackedCharacter extends Event
 {
@@ -75,7 +72,7 @@ class CharacterAttackedCharacter extends Event
             }
         }
 
-        $attack = $character->attackPower();
+        $attack = $character->attackPower($target);
 
         $character_blessing = $character->blessing();
         if ($character_blessing?->type === BlessingType::DOUBLE_ATTACK_POWER) {
@@ -85,6 +82,17 @@ class CharacterAttackedCharacter extends Event
 
 
         $defense = $target->defensePower();
+
+        if ($target_blessing?->type === BlessingType::EVADE) {
+            if ($target->blessing_claimed_at?->isSameHour($this->acted_at)) {
+                if (random_int(0, 1) === 1) {
+                    $attack = 0;
+                }
+            } else {
+                $target->is_blessing_active = false;
+            }
+        }
+
         $target->health -= max($attack - $defense, 0);
 
 

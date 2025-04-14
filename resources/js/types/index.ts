@@ -2,18 +2,6 @@ export interface Auth {
     user: User;
 }
 
-export interface NavGroup {
-    title: string;
-    items: NavItem[];
-}
-
-export interface NavItem {
-    title: string;
-    href: string;
-    icon?: LucideIcon | null;
-    isActive?: boolean;
-}
-
 export interface SharedData {
     name: string;
     quote: { message: string; author: string };
@@ -56,6 +44,7 @@ export interface CharacterResponse {
     expended_points: number;
     support_points: number;
     supported_by: Array<UserOverview>;
+    blessing_type?: BlessingType;
 }
 
 export interface CharacterWithUser extends CharacterResponse {
@@ -105,9 +94,25 @@ interface TierFour {
 
 type Tier = TierZero | TierOne | TierTwo | TierThree | TierFour;
 
+export const BlessingType = {
+    DOUBLE_SUPPORT: 'double-support',
+    DOUBLE_ATTACK_POWER: 'double-attack-power',
+    INVINCIBLE: 'invincible',
+    DOUBLE_ACTION: 'double-action',
+    FREE_HEART: 'free-heart',
+    EVADE: 'evade',
+} as const;
+
+export type BlessingType = (typeof BlessingType)[keyof typeof BlessingType];
+
 export interface Blessing {
     id: string;
     name: string;
     slug: string;
     description: string;
+    type: BlessingType;
 }
+
+export const ELEMENTS = ['fire', 'water', 'earth', 'air', 'lightning', 'ice', 'metal', 'nature'] as const;
+
+export type Element = (typeof ELEMENTS)[number];

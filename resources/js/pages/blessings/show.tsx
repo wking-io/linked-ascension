@@ -8,6 +8,7 @@ interface Props {
     game: Game;
 }
 
+// TODO: Add a component for the blessing
 export default function Show({ blessing, character, game }: Props) {
     const { submit, processing } = useForm();
 

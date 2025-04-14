@@ -1,12 +1,14 @@
-import { ActionButton } from '@/components/action';
+import { ActionButton, ActionLink } from '@/components/action';
 import { Box } from '@/components/box';
 import { Health } from '@/components/health';
 import { ArmorIcon } from '@/icons/armor-icon';
+import { BackIcon } from '@/icons/back-icon';
 import { SupportPointsIcon } from '@/icons/support-points-icon';
 import { WeaponIcon } from '@/icons/weapon-icon';
 import { calculateDamage } from '@/lib/character';
 import { cn } from '@/lib/utils';
-import { CharacterResponse, CharacterWithUser, Game } from '@/types';
+import show from '@/routes/characters/show';
+import { BlessingType, CharacterResponse, CharacterWithUser, Game } from '@/types';
 import { attack } from '@actions/App/Http/Controllers/CharacterController';
 import { type PageProps } from '@inertiajs/core';
 import { useForm } from '@inertiajs/react';
@@ -29,8 +31,14 @@ export default function Target({ character, game, characters }: Props) {
 
     return (
         <div className="p-5">
-            <h1>Choose Target</h1>
-            <form onSubmit={handleSubmit} className="mt-5">
+            <div className="flex gap-2">
+                <ActionLink href={show({ game, character })} size="icon">
+                    <span className="sr-only">Back to character</span>
+                    <BackIcon />
+                </ActionLink>
+                <h1 className="mt-[5px]">Choose Target</h1>
+            </div>
+            <form onSubmit={handleSubmit} className="">
                 <fieldset>
                     <legend className="sr-only">Target</legend>
                     <div className={cn(data.target_id && 'mb-[103px]', 'flex flex-col gap-2')}>
@@ -38,10 +46,9 @@ export default function Target({ character, game, characters }: Props) {
                             const notTarget = data.target_id.length && data.target_id !== c.id;
                             const isTarget = data.target_id.length && data.target_id === c.id;
                             const previewHealth = isTarget ? calculateDamage(character, c) : undefined;
-                            console.log(previewHealth);
                             return (
-                                <div className="h-[94px]" key={c.id}>
-                                    <Box>
+                                <div className="relative h-[94px]" key={c.id}>
+                                    <Box className={cn(c.blessing_type === BlessingType.INVINCIBLE && 'pointer-events-none opacity-25')}>
                                         <input
                                             onChange={(e) => setData('target_id', e.target.value)}
                                             type="radio"
@@ -57,8 +64,8 @@ export default function Target({ character, game, characters }: Props) {
                                             <span className="-mt-1 mb-2 flex items-center justify-between gap-3">
                                                 <span className="flex items-center gap-3">
                                                     <Health health={c.health} previewHealth={previewHealth} />
-                                                    <WeaponIcon status={Boolean(c.unlocked_weapon_at?.length)} />
-                                                    <ArmorIcon status={Boolean(c.unlocked_armor_at?.length)} />
+                                                    {c.unlocked_weapon_at?.length && <WeaponIcon status={Boolean(c.unlocked_weapon_at?.length)} />}
+                                                    {c.unlocked_armor_at?.length && <ArmorIcon status={Boolean(c.unlocked_armor_at?.length)} />}
                                                 </span>
                                                 <span className="flex items-center gap-2 text-2xl">
                                                     <SupportPointsIcon />
@@ -67,6 +74,11 @@ export default function Target({ character, game, characters }: Props) {
                                             </span>
                                         </label>
                                     </Box>
+                                    {c.blessing_type === BlessingType.INVINCIBLE && (
+                                        <div className="bg-foreground/10 absolute inset-0 z-10 flex items-center justify-center backdrop-blur-xs">
+                                            <span className="text-2xl">INVINCIBLE</span>
+                                        </div>
+                                    )}
                                 </div>
                             );
                         })}

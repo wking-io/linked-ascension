@@ -2,6 +2,7 @@
 
 namespace App\States;
 
+use App\Enums\Element;
 use App\Models\Character;
 use Carbon\Carbon;
 use Glhd\Bits\Snowflake;
@@ -67,9 +68,12 @@ class CharacterState extends State
         return $this->blessing_id && $this->is_blessing_active ? BlessingState::load($this->blessing_id) : null;
     }
 
-    public function attackPower()
+    public function attackPower(CharacterState $target)
     {
-        return $this->unlocked_weapon_at ? 2 : 1;
+        $power = $this->unlocked_weapon_at ? 2 : 1;
+        $multiplier = $this->element && $target->element ? Element::from($this->element)->getDamageMultiplier(Element::from($target->element)) : 1;
+
+        return $power * $multiplier;
     }
 
     public function defensePower()

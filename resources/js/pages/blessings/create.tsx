@@ -1,9 +1,10 @@
+import { BlessingType } from '@/types';
 import type { PageProps } from '@inertiajs/core';
 import { useForm } from '@inertiajs/react';
 import store from '@routes/blessings/store';
 
 interface Props extends PageProps {
-    blessingTypes: string[];
+    blessingTypes: BlessingType[];
 }
 
 export default function Create({ blessingTypes }: Props) {
@@ -49,7 +50,7 @@ export default function Create({ blessingTypes }: Props) {
 
                 <div className="flex flex-col gap-2">
                     <label htmlFor="type">Type</label>
-                    <select className="border" id="type" value={data.type} onChange={(e) => setData('type', e.target.value)} required>
+                    <select className="border" id="type" value={data.type} onChange={(e) => setData('type', e.target.value as BlessingType)} required>
                         {blessingTypes.map((type) => (
                             <option key={type} value={type}>
                                 {type}

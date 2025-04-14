@@ -132,7 +132,7 @@ export default function Welcome({ game_id, character_id }: Props) {
             <div className="flex flex-1 items-center justify-center">
                 <Title className="-translate-y-4" />
             </div>
-            <div className="relative mb-5 flex flex-col items-center">
+            <div className="relative mb-5 flex flex-col items-center overflow-hidden">
                 <img src={bg} className="pixelated absolute bottom-0 left-1/2 max-w-none -translate-x-1/2" width={512} height={256} />
                 <canvas ref={canvasRef} className="pixelated relative" width={CANVAS_WIDTH} height={CANVAS_HEIGHT} />
             </div>
@@ -147,17 +147,15 @@ export default function Welcome({ game_id, character_id }: Props) {
                 </div>
                 {showContinue && <DialogueArrow className="absolute -bottom-1 left-1/2 -translate-x-1/2 animate-bounce" />}
             </div>
-            <div className="h-[56px]">
-                {isLastLine ? (
-                    <ActionLink href={claim([game_id, character_id])} className="w-full">
-                        Claim Character
-                    </ActionLink>
-                ) : (
-                    <ActionButton onClick={handleContinue} className="w-full">
-                        Continue
-                    </ActionButton>
-                )}
-            </div>
+            {isLastLine ? (
+                <ActionLink href={claim([game_id, character_id])} className="w-full">
+                    Claim Character
+                </ActionLink>
+            ) : (
+                <ActionButton onClick={handleContinue} className="w-full">
+                    Continue
+                </ActionButton>
+            )}
         </div>
     );
 }

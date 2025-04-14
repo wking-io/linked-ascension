@@ -8,55 +8,65 @@
 @import '../js/components/action.css';
 @import '../js/components/box.css';
 
-@theme {
-    --font-sans: 'Silkscreen', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-
+@theme static {
     /* RED */
     --background-fire: oklch(0.98 0.034 25);
+    --color-primary-fire: oklch(0.5 0.2 25);
     --foreground-fire: oklch(0.15 0.034 25);
 
     /* BLUE */
     --background-water: oklch(0.98 0.034 257);
+    --color-primary-water: oklch(0.5 0.2 257);
     --foreground-water: oklch(0.15 0.034 257);
 
     /* YELLOW */
     --background-lightning: oklch(0.98 0.034 93);
+    --color-primary-lightning: oklch(0.6 0.5 101);
     --foreground-lightning: oklch(0.15 0.034 93);
 
     /* BROWN */
     --background-earth: oklch(0.98 0.034 50);
+    --color-primary-earth: oklch(0.6 0.1 50);
     --foreground-earth: oklch(0.15 0.034 50);
 
     /* PURPLE */
     --background-ice: oklch(0.98 0.034 294);
+    --color-primary-ice: oklch(0.6 0.3 294);
     --foreground-ice: oklch(0.15 0.034 294);
 
     /* CYAN */
     --background-air: oklch(0.98 0.034 194);
+    --color-primary-air: oklch(0.6 0.5 194);
     --foreground-air: oklch(0.15 0.034 194);
 
     /* SILVER */
     --background-metal: oklch(0.98 0 230);
+    --color-primary-metal: oklch(0.7 0 230);
     --foreground-metal: oklch(0.15 0 230);
 
     /* GREEN */
     --background-nature: oklch(0.98 0.034 145);
+    --color-primary-nature: oklch(0.5 0.3 145);
     --foreground-nature: oklch(0.15 0.034 145);
 
     /* PINK */
     --background-default: oklch(0.98 0.015 329);
+    --color-primary-default: oklch(0.5 0.2 329);
     --foreground-default: oklch(0.15 0.03 329);
+}
 
-    --color-background: var(--background-earth);
-    --color-foreground: var(--foreground-earth);
-    --color-foreground-muted: --alpha(var(--foreground-earth) / 60%);
+@theme {
+    --font-sans: 'Silkscreen', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
 
-    --color-destructive: var(--destructive);
-    --color-destructive-foreground: var(--destructive-foreground);
+@theme inline {
+    /* RED */
+    --background: var(--background-earth);
+    --foreground: var(--foreground-earth);
 
-    --color-border: var(--border);
-    --color-input: var(--input);
-    --color-ring: var(--ring);
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-foreground-muted: --alpha(var(--foreground) / 60%);
 }
 
 /*
@@ -78,10 +88,6 @@
 }
 
 @layer base {
-    * {
-        @apply border-border;
-    }
-
     body {
         @apply bg-background text-foreground font-sans tracking-tight;
         text-rendering: geometricPrecision;
