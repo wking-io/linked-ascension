@@ -21,7 +21,7 @@ Route::controller(CharacterController::class)->group(function () {
 });
 
 // Authenticated and Admin Routes
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::middleware(['auth', 'can:isAdmin'])->group(function () {
     Route::controller(GameController::class)->prefix('games')->name('games.')->group(function () {
         Route::get('/create', 'create')->name('create');
         Route::post('/', 'store')->name('store');
