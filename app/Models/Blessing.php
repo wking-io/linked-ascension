@@ -12,7 +12,6 @@ class Blessing extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id',
         'name',
         'slug',
         'description',

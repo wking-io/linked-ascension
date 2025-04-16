@@ -20,7 +20,6 @@ class Character extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'id',
         'health',
         'unlocked_armor_at',
         'unlocked_weapon_at',
@@ -40,23 +39,20 @@ class Character extends Model
      *
      * @return array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
-            'id' => Snowflake::class,
-            'health' => 'int',
-            'expended_points' => 'int',
-            'bonus_points' => 'int',
-            'user_id' => Snowflake::class,
-            'game_id' => Snowflake::class,
-            'blessing_id' => Snowflake::class,
-            'unlocked_armor_at' => 'datetime',
-            'unlocked_weapon_at' => 'datetime',
-            'claimed_at' => 'datetime',
-            'last_acted_at' => 'datetime',
-            'blessing_claimed_at' => 'datetime',
-        ];
-    }
+    protected $casts = [
+        'id' => Snowflake::class,
+        'health' => 'int',
+        'expended_points' => 'int',
+        'bonus_points' => 'int',
+        'user_id' => Snowflake::class,
+        'game_id' => Snowflake::class,
+        'blessing_id' => Snowflake::class,
+        'unlocked_armor_at' => 'datetime',
+        'unlocked_weapon_at' => 'datetime',
+        'claimed_at' => 'datetime',
+        'last_acted_at' => 'datetime',
+        'blessing_claimed_at' => 'datetime',
+    ];
 
     public function state()
     {
