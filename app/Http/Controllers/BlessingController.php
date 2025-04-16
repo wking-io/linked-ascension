@@ -10,13 +10,12 @@ use App\Models\Blessing;
 use App\Models\Character;
 use App\Models\Game;
 use App\States\CharacterState;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class BlessingController extends Controller
 {
@@ -25,6 +24,7 @@ class BlessingController extends Controller
     public function index(): Response
     {
         $this->authorize('viewAny', Blessing::class);
+
         return Inertia::render('blessings/index', [
             'blessings' => Blessing::all(),
         ]);
@@ -52,6 +52,7 @@ class BlessingController extends Controller
     public function create(): Response
     {
         $this->authorize('create', Blessing::class);
+
         return Inertia::render('blessings/create', [
             'blessingTypes' => BlessingType::cases(),
         ]);
@@ -92,6 +93,7 @@ class BlessingController extends Controller
     {
         $user = Auth::user();
 
+        // @TODO: Consider a scope to DRY this up
         // Get the user's character in an active game
         $character = Character::query()
             ->where(function ($query) use ($user) {

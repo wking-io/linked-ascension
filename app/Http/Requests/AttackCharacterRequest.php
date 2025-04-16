@@ -2,10 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Game;
-use App\Models\Character;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
 class AttackCharacterRequest extends FormRequest
 {
@@ -15,6 +13,7 @@ class AttackCharacterRequest extends FormRequest
     public function authorize(): bool
     {
         $character = $this->route('character');
+
         return Gate::allows('attack', $character);
     }
 

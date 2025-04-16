@@ -27,7 +27,7 @@ class StoreBlessingRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['required', 'string', 'alpha_dash', 'max:255', 'unique:blessings'],
-            'type' => ['required', 'string', 'in:' . implode(',', array_column(BlessingType::cases(), 'value'))],
+            'type' => ['required', 'string', 'in:'.implode(',', array_column(BlessingType::cases(), 'value'))],
             'description' => ['required', 'string'],
         ];
     }

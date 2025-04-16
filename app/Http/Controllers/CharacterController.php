@@ -2,25 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Game;
-use Inertia\Inertia;
-use App\Models\Character;
-use Illuminate\Http\Request;
-use App\Events\CharacterHealedHeart;
-use App\Events\UserClaimedCharacter;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 use App\Events\AdminCreatedCharacter;
-use Illuminate\Http\RedirectResponse;
+use App\Events\CharacterAttackedCharacter;
+use App\Events\CharacterCollectedSupport;
+use App\Events\CharacterHealedHeart;
 use App\Events\CharacterUnlockedArmor;
-use App\Events\CharacterUnlockedWeapon;
 use App\Events\CharacterUnlockedElement;
 use App\Events\CharacterUnlockedSpecial;
-use App\Events\CharacterCollectedSupport;
-use App\Events\CharacterAttackedCharacter;
-use App\Http\Resources\AttackableCharacterResource;
+use App\Events\CharacterUnlockedWeapon;
+use App\Events\UserClaimedCharacter;
 use App\Http\Requests\AttackCharacterRequest;
+use App\Http\Resources\AttackableCharacterResource;
+use App\Models\Character;
+use App\Models\Game;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Inertia\Inertia;
 
 class CharacterController extends Controller
 {
@@ -150,6 +150,9 @@ class CharacterController extends Controller
         ]);
     }
 
+    // @TODO: I feel like this is one of several instances where we don't need to know the Character.
+    // It seems like you're expecting the User to have an active Character that we could refer to
+    // instead.
     public function attack(Game $game, Character $character, AttackCharacterRequest $request)
     {
         $target = Character::findOrFail($request->validated()['target_id']);
