@@ -90,7 +90,7 @@ class BlessingController extends Controller
         // Get the user's character in an active game
         $character = Character::query()
             ->where(function ($query) use ($user) {
-                $query->where('user_id', $user->id->id());
+                $query->where('user_id', $user->id);
             })
             ->first();
 
