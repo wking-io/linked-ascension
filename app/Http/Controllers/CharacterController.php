@@ -16,10 +16,14 @@ use App\Models\Game;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class CharacterController extends Controller
 {
+    use AuthorizesRequests;
+
     public function show(Game $game, Character $character)
     {
         if ($character->user_id === null) {
@@ -38,6 +42,8 @@ class CharacterController extends Controller
 
     public function edit(Game $game, Character $character)
     {
+        $this->authorize('update', $character);
+
         return Inertia::render('characters/edit', [
             'game' => $game,
             'character' => $character,
@@ -98,18 +104,15 @@ class CharacterController extends Controller
 
     public function claim(Game $game, Character $character)
     {
-        $user = Auth::user();
-
-        // Check if user already owns this character
-        if ($character->user_id?->is($user->id)) {
-            return to_route('characters.show', [$game, $character]);
-        }
-
-        // Check if user already has a character in this game
-        if ($game->characters()->where('user_id', $user->id)->exists()) {
+        $response = Gate::inspect('claim', $character);
+        if ($response->denied()) {
+            // Redirect if user cannot claim (e.g., already owns one in the game, or char is owned)
+            // We replicate the original redirect logic's most restrictive case.
             return to_route('characters.support', [$game, $character])
                 ->with('error', 'You already have a character in this game.');
         }
+
+        $user = Auth::user();
 
         UserClaimedCharacter::fire(
             game_id: $game->id,
@@ -134,9 +137,7 @@ class CharacterController extends Controller
 
     public function target(Game $game, Character $character)
     {
-        if (! $character->user_id?->is(Auth::user()->id)) {
-            return to_route('games.show', [$game]);
-        }
+        $this->authorize('attack', $character);
 
         $characters = $game->characters()
             ->where('id', '!=', $character->id)
@@ -166,9 +167,7 @@ class CharacterController extends Controller
 
     public function attack(Game $game, Character $character, Request $request)
     {
-        if (! $character->user_id?->is(Auth::user()->id)) {
-            return to_route('games.show', [$game]);
-        }
+        $this->authorize('attack', $character);
 
         $request->validate([
             'target_id' => ['required', 'exists:characters,id'],
@@ -188,9 +187,9 @@ class CharacterController extends Controller
 
     public function upgrade(Game $game, Character $character)
     {
-        $user = Auth::user();
-
-        if ($character->user_id?->is($user->id)) {
+        $response = Gate::inspect('upgrade', $character);
+        if ($response->denied()) {
+            // User doesn't own the character
             return to_route('characters.show', [$game, $character]);
         }
 
@@ -231,9 +230,9 @@ class CharacterController extends Controller
 
     public function unlockElement(Game $game, Character $character, Request $request)
     {
-        $user = Auth::user();
-
-        if (! $character->user_id?->is($user->id)) {
+        $response = Gate::inspect('unlock', $character);
+        if ($response->denied()) {
+            // User doesn't own the character
             return to_route('games.show', [$game]);
         }
 
@@ -252,9 +251,9 @@ class CharacterController extends Controller
 
     public function unlockArmor(Game $game, Character $character)
     {
-        $user = Auth::user();
-
-        if (! $character->user_id?->is($user->id)) {
+        $response = Gate::inspect('unlock', $character);
+        if ($response->denied()) {
+            // User doesn't own the character
             return to_route('games.show', [$game]);
         }
 
@@ -267,9 +266,9 @@ class CharacterController extends Controller
 
     public function unlockWeapon(Game $game, Character $character)
     {
-        $user = Auth::user();
-
-        if (! $character->user_id?->is($user->id)) {
+        $response = Gate::inspect('unlock', $character);
+        if ($response->denied()) {
+            // User doesn't own the character
             return to_route('games.show', [$game]);
         }
 
@@ -282,9 +281,9 @@ class CharacterController extends Controller
 
     public function unlockSpecial(Game $game, Character $character)
     {
-        $user = Auth::user();
-
-        if (! $character->user_id?->is($user->id)) {
+        $response = Gate::inspect('unlock', $character);
+        if ($response->denied()) {
+            // User doesn't own the character
             return to_route('games.show', [$game]);
         }
 
@@ -297,9 +296,9 @@ class CharacterController extends Controller
 
     public function healHeart(Game $game, Character $character)
     {
-        $user = Auth::user();
-
-        if (! $character->user_id?->is($user->id)) {
+        $response = Gate::inspect('heal', $character);
+        if ($response->denied()) {
+            // User doesn't own the character
             return to_route('games.show', [$game]);
         }
 
