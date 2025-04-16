@@ -5,6 +5,7 @@
         padding-bottom: 2px;
         border-bottom: 2px solid --alpha(var(--color-foreground) / 40%);
         box-shadow: 0 2px 0 0 --alpha(var(--color-foreground) / 20%);
+        touch-action: manipulation;
     }
 
     .action-shadow:before {

@@ -12,11 +12,11 @@ class GameState extends State
 {
     public const FIRST_THRESHOLD = 10;
 
-    public const SECOND_THRESHOLD = 20;
+    public const SECOND_THRESHOLD = 50;
 
-    public const THIRD_THRESHOLD = 40;
+    public const THIRD_THRESHOLD = 100;
 
-    public const FOURTH_THRESHOLD = 80;
+    public const FOURTH_THRESHOLD = 200;
 
     public string $name;
 

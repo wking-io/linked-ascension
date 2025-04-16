@@ -9,7 +9,7 @@ export const ELEMENTS = {
     NATURE: 'nature',
 } as const;
 
-type Element = (typeof ELEMENTS)[keyof typeof ELEMENTS];
+export type Element = (typeof ELEMENTS)[keyof typeof ELEMENTS];
 
 const ELEMENT_WEAKNESSES: Record<Element, Element> = {
     [ELEMENTS.FIRE]: ELEMENTS.WATER,

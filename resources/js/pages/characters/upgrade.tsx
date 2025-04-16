@@ -3,33 +3,34 @@ import { ActionButton } from '@/components/action';
 import { Health } from '@/components/health';
 import { SupportPointsIcon } from '@/icons/support-points-icon';
 import { CharacterResponse, Game } from '@/types';
+import { getElementBackground } from '@/utils/element-background';
 import { elementClass } from '@/utils/element-classes';
 import { elementCssVars } from '@/utils/element-css-vars';
 import { ELEMENTS } from '@/utils/elements';
+import { useCharacterRenderLoop } from '@/utils/use-character-render-loop';
 import { useForm } from '@inertiajs/react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import bg from '../../../images/bg.png';
 
 interface Props {
     character: CharacterResponse;
     tier: number;
     next_threshold: number;
     game: Game;
+    available_elements: string[];
 }
 
-const SPRITE_WIDTH = 128;
-const SPRITE_HEIGHT = 128;
-const CANVAS_SCALE = 1;
-const CANVAS_WIDTH = SPRITE_WIDTH * CANVAS_SCALE;
-const CANVAS_HEIGHT = SPRITE_HEIGHT * CANVAS_SCALE;
-
-export default function Upgrade({ game, character, tier, next_threshold }: Props) {
+export default function Upgrade({ game, character, tier, next_threshold, available_elements }: Props) {
+    tier = 1;
     const [selectedIndex, setSelectedIndex] = useState(0);
-    const options = getTierOptions(tier, Boolean(character?.unlocked_armor_at?.length));
+    const options = tier === 1 ? available_elements : getTierOptions(tier, Boolean(character?.unlocked_armor_at?.length));
     const selectedOption = options[selectedIndex];
     const { submit, setData } = useForm();
-
+    const previewAttribute = attributes[selectedOption as keyof typeof attributes];
+    const { canvasRef, canvasWidth, canvasHeight } = useCharacterRenderLoop({
+        ...character,
+        ...previewAttribute,
+    });
     const handlePrevious = () => {
         setSelectedIndex((prev) => (prev === 0 ? options.length - 1 : prev - 1));
     };
@@ -39,7 +40,6 @@ export default function Upgrade({ game, character, tier, next_threshold }: Props
     };
 
     const handleConfirm = () => {
-        // TODO: Implement confirmation logic based on tier and selected option
         if (tier === 1) {
             setData({ element: selectedOption });
             submit(unlockElement({ game, character }));
@@ -72,9 +72,14 @@ export default function Upgrade({ game, character, tier, next_threshold }: Props
                 <UpgradeHeading selection={selectedOption} />
                 <UpgradeDescription selection={selectedOption} />
             </div>
-            <div className="relative flex-1 overflow-hidden">
-                <img src={bg} className="pixelated absolute bottom-0 left-1/2 max-w-none -translate-x-1/2" width={512} height={256} />
-                <canvas className="pixelated relative" width={CANVAS_WIDTH} height={CANVAS_HEIGHT} />
+            <div className="relative flex flex-col items-center overflow-hidden">
+                <img
+                    src={getElementBackground(selectedOption)}
+                    className="pixelated absolute bottom-0 left-1/2 max-w-none -translate-x-1/2"
+                    width={512}
+                    height={256}
+                />
+                <canvas className="pixelated relative" ref={canvasRef} width={canvasWidth} height={canvasHeight} />
             </div>
             <div className="flex gap-x-3 gap-y-2 p-5">
                 {[1, 2].includes(tier) && (
@@ -95,10 +100,41 @@ export default function Upgrade({ game, character, tier, next_threshold }: Props
     );
 }
 
+const attributes = {
+    fire: {
+        element: ELEMENTS.FIRE,
+    },
+    water: {
+        element: ELEMENTS.WATER,
+    },
+    earth: {
+        element: ELEMENTS.EARTH,
+    },
+    air: {
+        element: ELEMENTS.AIR,
+    },
+    lightning: {
+        element: ELEMENTS.LIGHTNING,
+    },
+    ice: {
+        element: ELEMENTS.ICE,
+    },
+    metal: {
+        element: ELEMENTS.METAL,
+    },
+    nature: {
+        element: ELEMENTS.NATURE,
+    },
+    armor: {
+        unlocked_armor_at: new Date().toISOString(),
+    },
+    weapon: {
+        unlocked_weapon_at: new Date().toISOString(),
+    },
+};
+
 function getTierOptions(tier: number, has_armor: boolean): string[] {
-    if (tier === 1) {
-        return Object.values(ELEMENTS);
-    } else if (tier === 2) {
+    if (tier === 2) {
         return ['armor', 'weapon'];
     } else {
         return has_armor ? ['weapon'] : ['armor'];

@@ -2,12 +2,14 @@ import { healHeart } from '@/actions/App/Http/Controllers/CharacterController';
 import { ActionAnchor, ActionButton, ActionLink } from '@/components/action';
 import { Health } from '@/components/health';
 import { SupportPointsIcon } from '@/icons/support-points-icon';
+import { attackPower, defensePower } from '@/lib/character';
 import target from '@/routes/characters/target';
 import { CharacterResponse, Game, SharedData } from '@/types';
+import { getElementBackground } from '@/utils/element-background';
+import { useCharacterRenderLoop } from '@/utils/use-character-render-loop';
 import { type PageProps } from '@inertiajs/core';
 import { useForm, usePage } from '@inertiajs/react';
-import { useEffect, useRef, useState } from 'react';
-import bg from '../../../images/bg.png';
+import { useEffect, useState } from 'react';
 
 interface Props extends PageProps {
     game: Game;
@@ -16,19 +18,11 @@ interface Props extends PageProps {
     next_threshold: number;
 }
 
-const SPRITE_WIDTH = 128;
-const SPRITE_HEIGHT = 128;
-const CANVAS_SCALE = 1;
-const CANVAS_WIDTH = SPRITE_WIDTH * CANVAS_SCALE;
-const CANVAS_HEIGHT = SPRITE_HEIGHT * CANVAS_SCALE;
-// const FRAME_COUNT = 12; // Adjust based on your sprite sheet
-// const FPS = 16;
-
 export default function Show({ game, character, next_threshold, github_username }: Props) {
     const { auth } = usePage<SharedData>().props;
-    const canvasRef = useRef<HTMLCanvasElement>(null);
     const [timeRemaining, setTimeRemaining] = useState<number | null>(null);
     const healForm = useForm();
+    const { canvasRef, canvasWidth, canvasHeight } = useCharacterRenderLoop(character);
 
     const handleHealHeart = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -80,9 +74,24 @@ export default function Show({ game, character, next_threshold, github_username 
                     {character.support_points}/{next_threshold}
                 </p>
             </div>
-            <div className="relative flex-1">
-                <img src={bg} className="pixelated absolute bottom-0 left-1/2 max-w-none -translate-x-1/2" width={512} height={256} />
-                <canvas ref={canvasRef} className="pixelated relative" width={CANVAS_WIDTH} height={CANVAS_HEIGHT} />
+            <div className="flex justify-between gap-2 px-5 pt-24">
+                <div className="flex flex-col">
+                    <p className="">{auth.user.name}</p>
+                    <p className="text-foreground-muted">@{auth.user.username}</p>
+                </div>
+                <div className="flex flex-col">
+                    <p className="">Atk: {attackPower(character)}</p>
+                    <p className="">Def: {defensePower(character)}</p>
+                </div>
+            </div>
+            <div className="border-foreground/50 relative flex flex-col items-center overflow-hidden border-b-2 pt-8">
+                <img
+                    src={getElementBackground(character.element)}
+                    className="pixelated absolute bottom-0 left-1/2 max-w-none -translate-x-1/2"
+                    width={512}
+                    height={256}
+                />
+                <canvas ref={canvasRef} className="pixelated relative" width={canvasWidth} height={canvasHeight} />
             </div>
             {auth.user.id === character.user_id ? (
                 <div className="grid grid-cols-2 gap-x-3 gap-y-2 p-5">

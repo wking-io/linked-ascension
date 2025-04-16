@@ -1,10 +1,10 @@
 import { ActionButton, ActionLink } from '@/components/action';
 import { Title } from '@/components/title';
 import { DialogueArrow } from '@/icons/dialogue-arrow-icon';
+import { getElementBackground } from '@/utils/element-background';
 import type { PageProps } from '@inertiajs/core';
 import claim from '@routes/characters/claim';
 import { useEffect, useRef, useState } from 'react';
-import bg from '../../../images/bg.png';
 import spriteSheet from '../../../images/gem.png';
 
 const SPRITE_WIDTH = 128; // Adjust based on your sprite dimensions
@@ -133,7 +133,12 @@ export default function Welcome({ game_id, character_id }: Props) {
                 <Title className="-translate-y-4" />
             </div>
             <div className="relative mb-5 flex flex-col items-center overflow-hidden">
-                <img src={bg} className="pixelated absolute bottom-0 left-1/2 max-w-none -translate-x-1/2" width={512} height={256} />
+                <img
+                    src={getElementBackground()}
+                    className="pixelated absolute bottom-0 left-1/2 max-w-none -translate-x-1/2"
+                    width={512}
+                    height={256}
+                />
                 <canvas ref={canvasRef} className="pixelated relative" width={CANVAS_WIDTH} height={CANVAS_HEIGHT} />
             </div>
             <div className="relative mb-5 min-h-[240px]">

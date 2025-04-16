@@ -140,6 +140,7 @@ class CharacterController extends Controller
 
         $characters = $game->characters()
             ->where('id', '!=', $character->id)
+            ->whereNotNull('user_id')
             ->with(['user:id,name,username'])
             ->with(['blessing:id,type'])
             ->get()
@@ -189,20 +190,42 @@ class CharacterController extends Controller
     {
         $user = Auth::user();
 
-        // if ($character->user_id?->is($user->id)) {
-        //     return to_route('characters.show', [$game, $character]);
-        // }
+        if ($character->user_id?->is($user->id)) {
+            return to_route('characters.show', [$game, $character]);
+        }
 
         $tier = $character->state()->tier();
 
-        // if ($tier === 0) {
-        //     return to_route('characters.show', [$game, $character]);
-        // }
+        if ($tier === 0) {
+            return to_route('characters.show', [$game, $character]);
+        }
+
+        // Get all elements claimed by other characters in this game
+        $claimedElements = $game->characters()
+            ->whereNotNull('element')
+            ->pluck('element')
+            ->toArray();
+
+        // Define all available elements
+        $allElements = [
+            'fire',
+            'water',
+            'earth',
+            'air',
+            'lightning',
+            'ice',
+            'metal',
+            'nature'
+        ];
+
+        // Filter out claimed elements
+        $availableElements = array_values(array_diff($allElements, $claimedElements));
 
         return Inertia::render('characters/upgrade', [
             'game' => $game,
             'character' => $character,
             'tier' => $tier,
+            'available_elements' => $availableElements,
         ]);
     }
 

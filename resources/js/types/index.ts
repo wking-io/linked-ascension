@@ -112,7 +112,3 @@ export interface Blessing {
     description: string;
     type: BlessingType;
 }
-
-export const ELEMENTS = ['fire', 'water', 'earth', 'air', 'lightning', 'ice', 'metal', 'nature'] as const;
-
-export type Element = (typeof ELEMENTS)[number];

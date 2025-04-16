@@ -10,9 +10,9 @@
 
 @theme static {
     /* RED */
-    --background-fire: oklch(0.98 0.034 25);
-    --color-primary-fire: oklch(0.5 0.2 25);
-    --foreground-fire: oklch(0.15 0.034 25);
+    --background-fire: oklch(0.98 0.034 5);
+    --color-primary-fire: oklch(0.5 0.2 5);
+    --foreground-fire: oklch(0.15 0.034 5);
 
     /* BLUE */
     --background-water: oklch(0.98 0.034 257);
@@ -20,9 +20,9 @@
     --foreground-water: oklch(0.15 0.034 257);
 
     /* YELLOW */
-    --background-lightning: oklch(0.98 0.034 93);
-    --color-primary-lightning: oklch(0.6 0.5 101);
-    --foreground-lightning: oklch(0.15 0.034 93);
+    --background-lightning: oklch(0.98 0.05 90);
+    --color-primary-lightning: oklch(0.6 0.5 90);
+    --foreground-lightning: oklch(0.15 0.05 90);
 
     /* BROWN */
     --background-earth: oklch(0.98 0.034 50);
