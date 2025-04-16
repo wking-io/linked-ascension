@@ -13,13 +13,18 @@ use App\States\CharacterState;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class BlessingController extends Controller
 {
+    use AuthorizesRequests;
+
     public function index(): Response
     {
+        $this->authorize('viewAny', Blessing::class);
         return Inertia::render('blessings/index', [
             'blessings' => Blessing::all(),
         ]);
@@ -28,7 +33,8 @@ class BlessingController extends Controller
     public function show(Game $game, Character $character, Blessing $blessing)
     {
         $user = Auth::user();
-        if (! $character->user_id?->is($user->id)) {
+        $response = Gate::inspect('view', $character);
+        if ($response->denied()) {
             return to_route('users.show', [$user]);
         }
 
@@ -45,6 +51,7 @@ class BlessingController extends Controller
 
     public function create(): Response
     {
+        $this->authorize('create', Blessing::class);
         return Inertia::render('blessings/create', [
             'blessingTypes' => BlessingType::cases(),
         ]);
@@ -52,6 +59,7 @@ class BlessingController extends Controller
 
     public function store(StoreBlessingRequest $request): RedirectResponse
     {
+        $this->authorize('create', Blessing::class);
         $validated = $request->validated();
 
         AdminCreatedBlessing::fire(
@@ -66,7 +74,8 @@ class BlessingController extends Controller
 
     public function claim(Game $game, Character $character, Blessing $blessing): RedirectResponse
     {
-        if (! $character->user_id?->is(Auth::user()->id)) {
+        $response = Gate::inspect('claim', [$blessing, $character]); // Passing $blessing in to use the BlessingPolicy
+        if ($response->denied()) {
             return to_route('games.show', [$game]);
         }
 

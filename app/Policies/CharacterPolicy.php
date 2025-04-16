@@ -21,8 +21,7 @@ class CharacterPolicy
      */
     public function view(User $user, Character $character): bool
     {
-        // Allow any authenticated user to view a character profile
-        return true;
+        return $character->user_id === $user->id;
     }
 
     /**
