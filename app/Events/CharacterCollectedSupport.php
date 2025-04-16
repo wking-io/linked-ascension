@@ -24,7 +24,7 @@ class CharacterCollectedSupport extends Event
     public function validate(UserState $supporter)
     {
         $this->assert(
-            !$supporter->hasSupportedCharacter($this->character_id),
+            ! $supporter->hasSupportedCharacter($this->character_id),
             'User has already supported character.'
         );
     }

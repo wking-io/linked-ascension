@@ -26,7 +26,7 @@ class CharacterAttackedCharacter extends Event
 
     public function validate(CharacterState $character, CharacterState $target)
     {
-        $can_act = !$character->last_acted_at?->isSameHour($this->acted_at);
+        $can_act = ! $character->last_acted_at?->isSameHour($this->acted_at);
 
         $character_blessing = $character->blessing();
         $can_act = $character_blessing?->type === BlessingType::DOUBLE_ACTION;
@@ -80,7 +80,6 @@ class CharacterAttackedCharacter extends Event
             $character->is_blessing_active = false;
         }
 
-
         $defense = $target->defensePower();
 
         if ($target_blessing?->type === BlessingType::EVADE) {
@@ -94,7 +93,6 @@ class CharacterAttackedCharacter extends Event
         }
 
         $target->health -= max($attack - $defense, 0);
-
 
         if ($target->health <= 0) {
             if ($target_blessing?->type === BlessingType::FREE_HEART) {

@@ -6,8 +6,8 @@ use App\States\CharacterState;
 use App\States\GameState;
 use Carbon\Carbon;
 use Glhd\Bits\Snowflake;
-use Thunk\Verbs\Event;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
+use Thunk\Verbs\Event;
 
 class CharacterUnlockedSpecial extends Event
 {

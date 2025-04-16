@@ -1,16 +1,17 @@
 <?php
 
+use App\Http\Controllers\BlessingController;
 use App\Http\Controllers\CharacterController;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\BlessingController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     if (Auth::check()) {
         return to_route('users.show', Auth::user());
     }
+
     return to_route('login');
 })->name('home');
 
@@ -76,4 +77,4 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

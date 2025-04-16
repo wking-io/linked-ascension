@@ -59,6 +59,7 @@ enum Element: string
         if ($this->isStrength($attacker)) {
             return 2; // Double damage for strength
         }
+
         return 1; // Normal damage
     }
 }

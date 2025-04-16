@@ -3,10 +3,9 @@
 namespace App\Events;
 
 use App\States\CharacterState;
-use App\States\GameState;
 use Glhd\Bits\Snowflake;
-use Thunk\Verbs\Event;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
+use Thunk\Verbs\Event;
 
 class CharacterHealedHeart extends Event
 {

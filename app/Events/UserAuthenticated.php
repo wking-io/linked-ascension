@@ -26,7 +26,7 @@ class UserAuthenticated extends Event
         $state->username = $this->username;
         $state->email = $this->email;
         $state->provider_id = $this->provider_id;
-        $state->is_admin = $this->username === "wking-io";
+        $state->is_admin = $this->username === 'wking-io';
     }
 
     public function handle(UserState $user)

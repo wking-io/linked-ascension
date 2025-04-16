@@ -11,12 +11,12 @@ use App\Events\CharacterUnlockedElement;
 use App\Events\CharacterUnlockedSpecial;
 use App\Events\CharacterUnlockedWeapon;
 use App\Events\UserClaimedCharacter;
-use Illuminate\Http\Request;
-use Inertia\Inertia;
 use App\Models\Character;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Game;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class CharacterController extends Controller
 {
@@ -66,7 +66,7 @@ class CharacterController extends Controller
 
         return Inertia::render('characters/welcome', [
             'game_id' => $game->id,
-            'character_id' => $character->id
+            'character_id' => $character->id,
         ]);
     }
 
@@ -92,7 +92,7 @@ class CharacterController extends Controller
 
         return Inertia::render('characters/support', [
             'game' => $game,
-            'character' => $character
+            'character' => $character,
         ]);
     }
 
@@ -134,7 +134,7 @@ class CharacterController extends Controller
 
     public function target(Game $game, Character $character)
     {
-        if (!$character->user_id?->is(Auth::user()->id)) {
+        if (! $character->user_id?->is(Auth::user()->id)) {
             return to_route('games.show', [$game]);
         }
 
@@ -166,12 +166,12 @@ class CharacterController extends Controller
 
     public function attack(Game $game, Character $character, Request $request)
     {
-        if (!$character->user_id?->is(Auth::user()->id)) {
+        if (! $character->user_id?->is(Auth::user()->id)) {
             return to_route('games.show', [$game]);
         }
 
         $request->validate([
-            'target_id' => ['required', 'exists:characters,id']
+            'target_id' => ['required', 'exists:characters,id'],
         ]);
 
         $target = Character::findOrFail($request->target_id);
@@ -215,7 +215,7 @@ class CharacterController extends Controller
             'lightning',
             'ice',
             'metal',
-            'nature'
+            'nature',
         ];
 
         // Filter out claimed elements
@@ -233,13 +233,13 @@ class CharacterController extends Controller
     {
         $user = Auth::user();
 
-        if (!$character->user_id?->is($user->id)) {
+        if (! $character->user_id?->is($user->id)) {
             return to_route('games.show', [$game]);
         }
 
         // @TODO: Add other elements
         $request->validate([
-            'element' => ['required', 'string', 'in:fire,water,earth,air']
+            'element' => ['required', 'string', 'in:fire,water,earth,air'],
         ]);
 
         CharacterUnlockedElement::fire(
@@ -254,7 +254,7 @@ class CharacterController extends Controller
     {
         $user = Auth::user();
 
-        if (!$character->user_id?->is($user->id)) {
+        if (! $character->user_id?->is($user->id)) {
             return to_route('games.show', [$game]);
         }
 
@@ -269,7 +269,7 @@ class CharacterController extends Controller
     {
         $user = Auth::user();
 
-        if (!$character->user_id?->is($user->id)) {
+        if (! $character->user_id?->is($user->id)) {
             return to_route('games.show', [$game]);
         }
 
@@ -284,7 +284,7 @@ class CharacterController extends Controller
     {
         $user = Auth::user();
 
-        if (!$character->user_id?->is($user->id)) {
+        if (! $character->user_id?->is($user->id)) {
             return to_route('games.show', [$game]);
         }
 
@@ -299,7 +299,7 @@ class CharacterController extends Controller
     {
         $user = Auth::user();
 
-        if (!$character->user_id?->is($user->id)) {
+        if (! $character->user_id?->is($user->id)) {
             return to_route('games.show', [$game]);
         }
 

@@ -11,9 +11,9 @@ use App\Models\Game;
 use App\States\CharacterState;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Support\Facades\Auth;
 
 class BlessingController extends Controller
 {
@@ -27,7 +27,7 @@ class BlessingController extends Controller
     public function show(Game $game, Character $character, Blessing $blessing)
     {
         $user = Auth::user();
-        if (!$character->user_id?->is($user->id)) {
+        if (! $character->user_id?->is($user->id)) {
             return to_route('users.show', [$user]);
         }
 
@@ -54,7 +54,7 @@ class BlessingController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['required', 'string', 'alpha_dash', 'max:255', 'unique:blessings'],
-            'type' => ['required', 'string', 'in:' . implode(',', array_column(BlessingType::cases(), 'value'))],
+            'type' => ['required', 'string', 'in:'.implode(',', array_column(BlessingType::cases(), 'value'))],
             'description' => ['required', 'string'],
         ]);
 
@@ -70,7 +70,7 @@ class BlessingController extends Controller
 
     public function claim(Game $game, Character $character, Blessing $blessing): RedirectResponse
     {
-        if (!$character->user_id?->is(Auth::user()->id)) {
+        if (! $character->user_id?->is(Auth::user()->id)) {
             return to_route('games.show', [$game]);
         }
 
@@ -97,7 +97,7 @@ class BlessingController extends Controller
         $state = CharacterState::load($character->id);
         $game = $state->game();
 
-        if (!$character || $game->isActive()) {
+        if (! $character || $game->isActive()) {
             return to_route('users.show', [$user])
                 ->with('error', 'You don\'t have any characters in active games.');
         }
