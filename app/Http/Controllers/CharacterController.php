@@ -167,6 +167,7 @@ class CharacterController extends Controller
             ->with('success', 'Attack successful!');
     }
 
+    // @TODO: Move to reusable Service controller.
     public function upgrade(Game $game, Character $character)
     {
         $response = Gate::inspect('upgrade', $character);
@@ -188,6 +189,7 @@ class CharacterController extends Controller
             ->toArray();
 
         // Define all available elements
+        // @TODO: Move to Enum
         $allElements = [
             'fire',
             'water',
@@ -219,7 +221,9 @@ class CharacterController extends Controller
         }
 
         // @TODO: Add other elements
+        // @TODO: Move to FormRequest
         $request->validate([
+            // @TODO: Move in to look at enum (Consider Caleb's Sushi package for this)
             'element' => ['required', 'string', 'in:fire,water,earth,air'],
         ]);
 

@@ -13,6 +13,7 @@ class GameController extends Controller
 {
     public function index(): Response
     {
+        // @TODO: Use APIResource similar to AttackableCharacterResource for Games
         return Inertia::render('games/index', [
             'games' => Game::query()
                 ->orderBy('starts_at', 'desc')
