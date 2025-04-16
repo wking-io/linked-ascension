@@ -19,6 +19,7 @@ use App\Events\CharacterUnlockedSpecial;
 use App\Events\CharacterCollectedSupport;
 use App\Events\CharacterAttackedCharacter;
 use App\Http\Resources\AttackableCharacterResource;
+use App\Http\Requests\AttackCharacterRequest;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class CharacterController extends Controller
@@ -149,15 +150,9 @@ class CharacterController extends Controller
         ]);
     }
 
-    public function attack(Game $game, Character $character, Request $request)
+    public function attack(Game $game, Character $character, AttackCharacterRequest $request)
     {
-        $this->authorize('attack', $character);
-
-        $request->validate([
-            'target_id' => ['required', 'exists:characters,id'],
-        ]);
-
-        $target = Character::findOrFail($request->target_id);
+        $target = Character::findOrFail($request->validated()['target_id']);
 
         CharacterAttackedCharacter::fire(
             game_id: $game->id,
