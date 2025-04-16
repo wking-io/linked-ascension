@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\BlessingType;
 use App\Events\AdminCreatedBlessing;
 use App\Events\CharacterClaimedBlessing;
+use App\Http\Requests\StoreBlessingRequest;
 use App\Models\Blessing;
 use App\Models\Character;
 use App\Models\Game;
@@ -49,14 +50,9 @@ class BlessingController extends Controller
         ]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(StoreBlessingRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'slug' => ['required', 'string', 'alpha_dash', 'max:255', 'unique:blessings'],
-            'type' => ['required', 'string', 'in:'.implode(',', array_column(BlessingType::cases(), 'value'))],
-            'description' => ['required', 'string'],
-        ]);
+        $validated = $request->validated();
 
         AdminCreatedBlessing::fire(
             name: $validated['name'],
