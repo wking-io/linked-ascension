@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\AdminCreatedCharacter;
-use App\Events\CharacterAttackedCharacter;
-use App\Events\CharacterCollectedSupport;
-use App\Events\CharacterHealedHeart;
-use App\Events\CharacterUnlockedArmor;
-use App\Events\CharacterUnlockedElement;
-use App\Events\CharacterUnlockedSpecial;
-use App\Events\CharacterUnlockedWeapon;
-use App\Events\UserClaimedCharacter;
-use App\Models\Character;
 use App\Models\Game;
-use Illuminate\Http\RedirectResponse;
+use Inertia\Inertia;
+use App\Models\Character;
 use Illuminate\Http\Request;
+use App\Events\CharacterHealedHeart;
+use App\Events\UserClaimedCharacter;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use Inertia\Inertia;
+use App\Events\AdminCreatedCharacter;
+use Illuminate\Http\RedirectResponse;
+use App\Events\CharacterUnlockedArmor;
+use App\Events\CharacterUnlockedWeapon;
+use App\Events\CharacterUnlockedElement;
+use App\Events\CharacterUnlockedSpecial;
+use App\Events\CharacterCollectedSupport;
+use App\Events\CharacterAttackedCharacter;
+use App\Http\Resources\AttackableCharacterResource;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class CharacterController extends Controller
@@ -139,25 +140,12 @@ class CharacterController extends Controller
     {
         $this->authorize('attack', $character);
 
-        $characters = Character::attackableTargets($character, $game)
-            ->get()
-            ->map(function ($character) {
-                $data = $character->toArray();
-                $blessing_type = $character->blessing?->type ?? null;
-
-                // Remove the blessing object and add blessing_type directly
-                unset($data['blessing']);
-                $data['blessing_type'] = $blessing_type;
-
-                return array_merge($data, [
-                    'support_points' => $character->state()->supportPoints(),
-                ]);
-            });
+        $characters = Character::attackableTargets($character, $game)->get();
 
         return Inertia::render('characters/target', [
             'character' => $character,
             'game' => $game,
-            'characters' => $characters,
+            'characters' => AttackableCharacterResource::collection($characters),
         ]);
     }
 
