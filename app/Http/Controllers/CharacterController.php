@@ -139,15 +139,11 @@ class CharacterController extends Controller
     {
         $this->authorize('attack', $character);
 
-        $characters = $game->characters()
-            ->where('id', '!=', $character->id)
-            ->whereNotNull('user_id')
-            ->with(['user:id,name,username'])
-            ->with(['blessing:id,type'])
+        $characters = Character::attackableTargets($character, $game)
             ->get()
             ->map(function ($character) {
                 $data = $character->toArray();
-                $blessing_type = $character->blessing->type ?? null;
+                $blessing_type = $character->blessing?->type ?? null;
 
                 // Remove the blessing object and add blessing_type directly
                 unset($data['blessing']);
