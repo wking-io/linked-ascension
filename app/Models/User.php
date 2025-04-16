@@ -22,13 +22,21 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'id',
         'name',
         'username',
         'is_admin',
         'email',
         'provider',
         'provider_id',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => Snowflake::class,
     ];
 
     /**
@@ -39,18 +47,6 @@ class User extends Authenticatable
     protected $hidden = [
         'remember_token',
     ];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'id' => Snowflake::class,
-        ];
-    }
 
     public function state()
     {

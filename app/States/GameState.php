@@ -3,10 +3,10 @@
 namespace App\States;
 
 use App\Models\Game;
-use Illuminate\Support\Carbon;
-use Thunk\Verbs\State;
 use Glhd\Bits\Snowflake;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Thunk\Verbs\State;
 
 class GameState extends State
 {
@@ -43,7 +43,7 @@ class GameState extends State
 
     public function hasUser(Snowflake $user_id): bool
     {
-        return $this->characters()->contains(fn($character) => $character->user_id === $user_id);
+        return $this->characters()->contains(fn ($character) => $character->user_id === $user_id);
     }
 
     public function model()
@@ -58,6 +58,6 @@ class GameState extends State
 
     public function characters()
     {
-        return collect($this->character_ids)->map(fn($id) => CharacterState::load($id));
+        return collect($this->character_ids)->map(fn ($id) => CharacterState::load($id));
     }
 }

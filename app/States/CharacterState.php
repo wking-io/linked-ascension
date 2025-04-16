@@ -93,7 +93,7 @@ class CharacterState extends State
 
     public function supportedBy()
     {
-        return $this->supported_by_ids->map(fn($id) => UserState::load($id));
+        return $this->supported_by_ids->map(fn ($id) => UserState::load($id));
     }
 
     public function isSupportedBy(Snowflake $user_id): bool

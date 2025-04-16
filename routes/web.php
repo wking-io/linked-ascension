@@ -1,71 +1,80 @@
 <?php
 
+use App\Http\Controllers\BlessingController;
 use App\Http\Controllers\CharacterController;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\BlessingController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     if (Auth::check()) {
         return to_route('users.show', Auth::user());
     }
+
     return to_route('login');
 })->name('home');
 
 // Public character routes
-Route::get('games/{game}/characters/{character}/welcome', [CharacterController::class, 'welcome'])->name('characters.welcome');
-Route::get('games/{game}/characters/{character}/support', [CharacterController::class, 'support'])->name('characters.support');
-
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('games/{game}/characters/{character}/edit', [CharacterController::class, 'edit'])->name('characters.edit');
+Route::controller(CharacterController::class)->group(function () {
+    Route::get('games/{game}/characters/{character}/welcome', 'welcome')->name('characters.welcome');
+    Route::get('games/{game}/characters/{character}/support', 'support')->name('characters.support');
 });
 
+// Authenticated and Admin Routes
+Route::middleware(['auth', 'can:isAdmin'])->group(function () {
+    Route::controller(GameController::class)->prefix('games')->name('games.')->group(function () {
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{game}/edit', 'edit')->name('edit');
+    });
+
+    Route::controller(CharacterController::class)->group(function () {
+        Route::post('games/{game}', 'store')->name('characters.store'); // Note: This was moved from the GameController group, assuming it relates to storing a character within a game.
+        Route::get('games/{game}/characters/{character}/edit', 'edit')->name('characters.edit');
+    });
+
+    Route::controller(UserController::class)->prefix('users')->name('users.')->group(function () {
+        Route::get('/', 'index')->name('index');
+    });
+
+    Route::controller(BlessingController::class)->prefix('blessings')->name('blessings.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+    });
+});
+
+// Authenticated Routes
 Route::middleware(['auth'])->group(function () {
-    Route::get('games/{game}/characters/{character}', [CharacterController::class, 'show'])->name('characters.show');
-    Route::get('games/{game}/characters/{character}/claim', [CharacterController::class, 'claim'])->name('characters.claim');
-    Route::get('games/{game}/characters/{character}/target', [CharacterController::class, 'target'])->name('characters.target');
-    Route::post('games/{game}/characters/{character}/attack', [CharacterController::class, 'attack'])->name('characters.attack');
-    Route::get('games/{game}/characters/{character}/upgrade', [CharacterController::class, 'upgrade'])->name('characters.upgrade');
-    Route::post('games/{game}/characters/{character}/unlock-element', [CharacterController::class, 'unlockElement'])->name('characters.element.store');
-    Route::post('games/{game}/characters/{character}/unlock-armor', [CharacterController::class, 'unlockArmor'])->name('characters.armor.store');
-    Route::post('games/{game}/characters/{character}/unlock-weapon', [CharacterController::class, 'unlockWeapon'])->name('characters.weapon.store');
-    Route::post('games/{game}/characters/{character}/unlock-special', [CharacterController::class, 'unlockSpecial'])->name('characters.unlockSpecial');
-    Route::post('games/{game}/characters/{character}/heal-heart', [CharacterController::class, 'healHeart'])->name('characters.healHeart');
+    Route::controller(GameController::class)->prefix('games')->name('games.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{game}', 'show')->name('show');
+    });
+
+    Route::controller(CharacterController::class)->prefix('games/{game}/characters/{character}')->name('characters.')->group(function () {
+        Route::get('/', 'show')->name('show');
+        Route::get('/claim', 'claim')->name('claim');
+        Route::get('/target', 'target')->name('target');
+        Route::post('/attack', 'attack')->name('attack');
+        Route::get('/upgrade', 'upgrade')->name('upgrade');
+        Route::post('/unlock-element', 'unlockElement')->name('element.store');
+        Route::post('/unlock-armor', 'unlockArmor')->name('armor.store');
+        Route::post('/unlock-weapon', 'unlockWeapon')->name('weapon.store');
+        Route::post('/unlock-special', 'unlockSpecial')->name('unlockSpecial'); // Consider renaming to specials.store?
+        Route::post('/heal-heart', 'healHeart')->name('healHeart'); // Consider renaming to hearts.store or similar?
+    });
+
+    Route::controller(UserController::class)->prefix('users')->name('users.')->group(function () {
+        Route::get('/{user}', 'show')->name('show');
+        Route::get('/{user}/edit', 'edit')->name('edit');
+    });
+
+    Route::controller(BlessingController::class)->name('blessings.')->group(function () {
+        Route::get('blessings/{blessing}', 'withCharacter')->name('withCharacter'); // Does this need character context?
+        Route::get('games/{game}/characters/{character}/blessings/{blessing}', 'show')->name('show');
+        Route::post('games/{game}/characters/{character}/blessings/{blessing}/claim', 'claim')->name('claim');
+    });
 });
 
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('games/create', [GameController::class, 'create'])->name('games.create');
-    Route::post('games', [GameController::class, 'store'])->name('games.store');
-    Route::post('games/{game}', [CharacterController::class, 'store'])->name('characters.store');
-    Route::get('games/{game}/edit', [GameController::class, 'edit'])->name('games.edit');
-});
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('games', [GameController::class, 'index'])->name('games.index');
-    Route::get('games/{game}', [GameController::class, 'show'])->name('games.show');
-});
-
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('users', [UserController::class, 'index'])->name('users.index');
-});
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
-    Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-});
-
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('blessings', [BlessingController::class, 'index'])->name('blessings.index');
-    Route::get('blessings/create', [BlessingController::class, 'create'])->name('blessings.create');
-    Route::post('blessings', [BlessingController::class, 'store'])->name('blessings.store');
-});
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('blessings/{blessing}', [BlessingController::class, 'withCharacter'])->name('blessings.withCharacter');
-    Route::get('games/{game}/characters/{character}/blessings/{blessing}', [BlessingController::class, 'show'])->name('blessings.show');
-    Route::post('games/{game}/characters/{character}/blessings/{blessing}/claim', [BlessingController::class, 'claim'])->name('blessings.claim');
-});
-
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

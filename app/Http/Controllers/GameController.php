@@ -8,17 +8,17 @@ use App\Models\Game;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
-use Thunk\Verbs\Facades\Verbs;
 
 class GameController extends Controller
 {
     public function index(): Response
     {
+        // @TODO: Use APIResource similar to AttackableCharacterResource for Games
         return Inertia::render('games/index', [
             'games' => Game::query()
                 ->orderBy('starts_at', 'desc')
                 ->get()
-                ->map(fn(Game $game) => [
+                ->map(fn (Game $game) => [
                     'id' => $game->id,
                     'name' => $game->name,
                     'starts_at' => $game->starts_at,
@@ -56,7 +56,7 @@ class GameController extends Controller
     public function edit(Game $game): Response
     {
         return Inertia::render('games/edit', [
-            'game' => $game
+            'game' => $game,
         ]);
     }
 }

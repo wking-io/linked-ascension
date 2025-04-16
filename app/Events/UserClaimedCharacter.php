@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-use App\Models\Character;
 use App\States\CharacterState;
 use App\States\GameState;
 use App\States\UserState;
@@ -32,7 +31,7 @@ class UserClaimedCharacter extends Event
     public function validate(GameState $game)
     {
         $this->assert(
-            !$game->hasUser($this->user_id),
+            ! $game->hasUser($this->user_id),
             'User is already in the game.'
         );
     }

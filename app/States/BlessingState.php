@@ -11,8 +11,11 @@ use Thunk\Verbs\State;
 class BlessingState extends State
 {
     public string $name;
+
     public string $slug;
+
     public string $description;
+
     public BlessingType $type;
 
     public Collection $character_ids;

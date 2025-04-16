@@ -38,7 +38,7 @@ class UserState extends State
 
     public function hasCharacter(Snowflake $character_id): bool
     {
-        return $this->character_ids->contains(fn($id) => $id->is($character_id));
+        return $this->character_ids->contains(fn ($id) => $id->is($character_id));
     }
 
     public function model()
@@ -48,16 +48,16 @@ class UserState extends State
 
     public function supportedCharacters()
     {
-        return $this->supported_character_ids->map(fn($id) => CharacterState::load($id));
+        return $this->supported_character_ids->map(fn ($id) => CharacterState::load($id));
     }
 
     public function characters()
     {
-        return $this->character_ids->map(fn($id) => CharacterState::load($id));
+        return $this->character_ids->map(fn ($id) => CharacterState::load($id));
     }
 
     public function hasSupportedCharacter(Snowflake $character_id)
     {
-        return $this->supported_character_ids->contains(fn($id) => $id->is($character_id));
+        return $this->supported_character_ids->contains(fn ($id) => $id->is($character_id));
     }
 }

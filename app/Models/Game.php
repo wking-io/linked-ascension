@@ -18,25 +18,21 @@ class Game extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'id',
         'name',
         'starts_at',
         'ends_at',
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast.
      *
-     * @return array<string, string>
+     * @var array
      */
-    protected function casts(): array
-    {
-        return [
-            'id' => Snowflake::class,
-            'starts_at' => 'datetime',
-            'ends_at' => 'datetime',
-        ];
-    }
+    protected $casts = [
+        'id' => Snowflake::class,
+        'starts_at' => 'datetime',
+        'ends_at' => 'datetime',
+    ];
 
     public function state()
     {

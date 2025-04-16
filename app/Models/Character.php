@@ -4,11 +4,13 @@ namespace App\Models;
 
 use App\States\CharacterState;
 use Glhd\Bits\Database\HasSnowflakes;
+use Glhd\Bits\Snowflake;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Glhd\Bits\Snowflake;
 
 class Character extends Model
 {
@@ -20,7 +22,6 @@ class Character extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'id',
         'health',
         'unlocked_armor_at',
         'unlocked_weapon_at',
@@ -40,23 +41,20 @@ class Character extends Model
      *
      * @return array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
-            'id' => Snowflake::class,
-            'health' => 'int',
-            'expended_points' => 'int',
-            'bonus_points' => 'int',
-            'user_id' => Snowflake::class,
-            'game_id' => Snowflake::class,
-            'blessing_id' => Snowflake::class,
-            'unlocked_armor_at' => 'datetime',
-            'unlocked_weapon_at' => 'datetime',
-            'claimed_at' => 'datetime',
-            'last_acted_at' => 'datetime',
-            'blessing_claimed_at' => 'datetime',
-        ];
-    }
+    protected $casts = [
+        'id' => Snowflake::class,
+        'health' => 'int',
+        'expended_points' => 'int',
+        'bonus_points' => 'int',
+        'user_id' => Snowflake::class,
+        'game_id' => Snowflake::class,
+        'blessing_id' => Snowflake::class,
+        'unlocked_armor_at' => 'datetime',
+        'unlocked_weapon_at' => 'datetime',
+        'claimed_at' => 'datetime',
+        'last_acted_at' => 'datetime',
+        'blessing_claimed_at' => 'datetime',
+    ];
 
     public function state()
     {
@@ -93,5 +91,17 @@ class Character extends Model
     public function blessing(): BelongsTo
     {
         return $this->belongsTo(Blessing::class);
+    }
+
+    /**
+     * Scope a query to only include attackable targets for a given character in a specific game.
+     */
+    #[Scope]
+    protected function attackableTargets(Builder $query, Character $character, Game $game): void
+    {
+        $query->where('game_id', $game->id)
+            ->where('id', '!=', $character->id)
+            ->whereNotNull('user_id')
+            ->with(['user:id,name,username', 'blessing:id,type']);
     }
 }

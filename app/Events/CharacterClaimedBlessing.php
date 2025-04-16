@@ -2,8 +2,8 @@
 
 namespace App\Events;
 
-use App\States\CharacterState;
 use App\States\BlessingState;
+use App\States\CharacterState;
 use Carbon\Carbon;
 use Glhd\Bits\Snowflake;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
@@ -29,7 +29,7 @@ class CharacterClaimedBlessing extends Event
     public function validate(CharacterState $character)
     {
         $this->assert(
-            !$character->blessing_id,
+            ! $character->blessing_id,
             'Character already has a blessing.'
         );
     }

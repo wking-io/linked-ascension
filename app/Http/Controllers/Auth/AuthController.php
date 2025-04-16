@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Events\UserAuthenticated;
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -26,6 +25,7 @@ class AuthController extends Controller
         if (request()->has('redirect_to')) {
             session()->put('post_auth_redirect', request()->query('redirect'));
         }
+
         return Socialite::driver('github')->redirect();
     }
 

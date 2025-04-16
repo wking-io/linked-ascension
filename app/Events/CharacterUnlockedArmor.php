@@ -6,8 +6,8 @@ use App\States\CharacterState;
 use App\States\GameState;
 use Carbon\Carbon;
 use Glhd\Bits\Snowflake;
-use Thunk\Verbs\Event;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
+use Thunk\Verbs\Event;
 
 class CharacterUnlockedArmor extends Event
 {
@@ -20,6 +20,7 @@ class CharacterUnlockedArmor extends Event
     {
         $this->unlocked_at = now();
     }
+
     public function validate(CharacterState $character)
     {
         $required_threshold = $character->unlocked_weapon_at ? GameState::THIRD_THRESHOLD : GameState::SECOND_THRESHOLD;
