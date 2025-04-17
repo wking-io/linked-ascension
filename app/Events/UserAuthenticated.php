@@ -33,6 +33,7 @@ class UserAuthenticated extends Event
     {
         User::create(
             [
+                'id' => $this->user_id,
                 'provider_id' => $user->provider_id,
                 'name' => $user->name,
                 'username' => $user->username,
