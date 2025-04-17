@@ -20,7 +20,6 @@ interface Props extends PageProps {
 }
 
 export default function Target({ character, game, characters }: Props) {
-    console.log(characters);
     const { data, setData, submit, processing } = useForm({
         target_id: '',
     });

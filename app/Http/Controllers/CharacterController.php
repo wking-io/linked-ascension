@@ -164,6 +164,7 @@ class CharacterController extends Controller
                 $user = User::find($character->user_id);
                 $data['user'] = $user;
                 $data['blessing_type'] = $character->blessing()->type ?? null;
+                $data['support_points'] = $character->state()->supportPoints();
                 return $data;
             })->values()->toArray(),
         ]);
