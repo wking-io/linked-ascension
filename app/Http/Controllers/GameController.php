@@ -29,11 +29,10 @@ class GameController extends Controller
 
     public function show(Game $game): Response
     {
+        $characters = $game->characters()->get();
         return Inertia::render('games/show', [
             'game' => $game,
-            'characters' => $game->characters()
-                ->with(['user:id,name,username'])
-                ->get(),
+            'characters' => $characters,
         ]);
     }
 
