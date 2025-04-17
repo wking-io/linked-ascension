@@ -100,9 +100,14 @@ class CharacterController extends Controller
     {
         $user = Auth::user();
 
+
         // Check if user already owns this character
         if ($character->user_id?->is($user->id)) {
             return to_route('characters.show', [$game, $character]);
+        }
+
+        if ($character->user_id) {
+            return to_route('characters.support', [$game, $character]);
         }
 
         // Check if user already has a character in this game
