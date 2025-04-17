@@ -74,6 +74,10 @@ class CharacterController extends Controller
     {
         $user = Auth::user();
 
+        if (!$user) {
+            return to_route('users.show', $user);
+        }
+
         // 1. Redirect if character is unclaimed
         if ($character->user_id === null) {
             return to_route('users.show', $user);
