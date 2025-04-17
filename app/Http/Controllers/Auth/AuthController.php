@@ -58,6 +58,9 @@ class AuthController extends Controller
         return redirect()->to($redirect);
     }
 
+    /**
+     * Log the user out of the application.
+     */
     public function logout(): RedirectResponse
     {
         Auth::logout();

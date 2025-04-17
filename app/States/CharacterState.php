@@ -4,6 +4,7 @@ namespace App\States;
 
 use App\Enums\Element;
 use App\Models\Character;
+use App\Models\User;
 use Carbon\Carbon;
 use Glhd\Bits\Snowflake;
 use Illuminate\Support\Collection;
@@ -150,6 +151,11 @@ class CharacterState extends State
     public function toArray(): array
     {
         $owner = $this->owner();
+
+        if (!$owner) {
+            $owner = User::load($this->user_id);
+        }
+
         return [
             'id' => $this->id,
             'health' => $this->health,
@@ -165,6 +171,7 @@ class CharacterState extends State
             'support_points' => $this->supportPoints(),
             'supported_by' => $this->supportedBy()->toArray(),
             'blessing_type' => $this->blessing()?->type,
+            'user' => $owner,
         ];
     }
 }

@@ -75,6 +75,6 @@ Route::get('preview', function () {
 })->name('preview');
 
 // Authentication routes
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 require __DIR__ . '/auth.php';
