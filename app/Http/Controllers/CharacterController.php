@@ -152,9 +152,14 @@ class CharacterController extends Controller
             ->where('user_id', '!=', null)
             ->where('user_id', '!=', '303499880094707712')
             ->where('id', '!=', $character->id->id())
-            ->with('user')
             ->get();
 
+        $characters = $characters->map(function ($character) {
+            $data = $character->toArray();
+            $data['user'] = $character->user()->toArray();
+            $data['blessing_type'] = $character->blessing()->type ?? null;
+            return $data;
+        });
 
         return Inertia::render('characters/target', [
             'character' => $character,
