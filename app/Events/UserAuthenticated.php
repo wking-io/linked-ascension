@@ -12,7 +12,7 @@ class UserAuthenticated extends Event
     #[StateId(UserState::class)]
     public ?int $user_id = null;
 
-    public string $name;
+    public ?string $name;
 
     public string $username;
 
@@ -22,7 +22,7 @@ class UserAuthenticated extends Event
 
     public function apply(UserState $state)
     {
-        $state->name = $this->name;
+        $state->name = $this->name ?? "Mysterious Stranger";
         $state->username = $this->username;
         $state->email = $this->email;
         $state->provider_id = $this->provider_id;

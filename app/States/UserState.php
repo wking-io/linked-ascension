@@ -9,7 +9,7 @@ use Thunk\Verbs\State;
 
 class UserState extends State
 {
-    public string $name;
+    public ?string $name;
 
     public string $username;
 
@@ -27,6 +27,7 @@ class UserState extends State
 
     public function __construct()
     {
+        $this->name = "Mysterious Stranger";
         $this->character_ids = collect();
         $this->supported_character_ids = collect();
     }
