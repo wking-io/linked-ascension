@@ -12,9 +12,9 @@ class GameState extends State
 {
     public const FIRST_THRESHOLD = 10;
 
-    public const SECOND_THRESHOLD = 50;
+    public const SECOND_THRESHOLD = 25;
 
-    public const THIRD_THRESHOLD = 100;
+    public const THIRD_THRESHOLD = 50;
 
     public const FOURTH_THRESHOLD = 200;
 
