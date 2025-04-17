@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BlessingController;
+use App\Http\Controllers\Auth\AuthController;
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -67,5 +68,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('games/{game}/characters/{character}/blessings/{blessing}', [BlessingController::class, 'show'])->name('blessings.show');
     Route::post('games/{game}/characters/{character}/blessings/{blessing}/claim', [BlessingController::class, 'claim'])->name('blessings.claim');
 });
+
+// Authentication routes
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 require __DIR__ . '/auth.php';
