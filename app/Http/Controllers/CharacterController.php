@@ -148,12 +148,18 @@ class CharacterController extends Controller
         }
 
         $game_state = $game->state();
-        $characters = $game_state->characters();
+        $characters = Character::where('game_id', $game->id)
+            ->where('user_id', '!=', null)
+            ->where('user_id', '!=', '303499880094707712')
+            ->where('id', '!=', $character->id->id())
+            ->with('user')
+            ->get();
+
 
         return Inertia::render('characters/target', [
             'character' => $character,
             'game' => $game,
-            'characters' => $characters->filter(fn($c) => $c->id !== $character->id->id() && $c->user_id !== null && $c->user_id->id() !== '303499880094707712')->map(fn($c) => $c->toArray()),
+            'characters' => $characters,
         ]);
     }
 
