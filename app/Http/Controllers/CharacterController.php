@@ -32,7 +32,7 @@ class CharacterController extends Controller
             'game' => $game,
             'character' => array_merge($character->toArray(), ['support_points' => $character->state()->supportPoints()]),
             'next_threshold' => $character->state()->nextThreshold(),
-            'github_username' => $player?->username,
+            'player' => $player,
         ]);
     }
 
@@ -84,7 +84,7 @@ class CharacterController extends Controller
         }
 
         // 2. Redirect if user owns this character or already supports this character
-        if ($character->user_id?->is($user->id) || ($user && $character->state()->isSupportedBy($user->id))) {
+        if ($character->user_id?->is($user->id) || $character->state()->isSupportedBy($user->id)) {
             return to_route('characters.show', [$game, $character]);
         }
 

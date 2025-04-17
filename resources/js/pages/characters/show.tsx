@@ -4,7 +4,7 @@ import { Health } from '@/components/health';
 import { SupportPointsIcon } from '@/icons/support-points-icon';
 import { attackPower, defensePower } from '@/lib/character';
 import target from '@/routes/characters/target';
-import { CharacterResponse, Game, SharedData } from '@/types';
+import { CharacterResponse, Game, SharedData, User } from '@/types';
 import { getElementBackground } from '@/utils/element-background';
 import { useCharacterRenderLoop } from '@/utils/use-character-render-loop';
 import { type PageProps } from '@inertiajs/core';
@@ -14,11 +14,11 @@ import { useEffect, useState } from 'react';
 interface Props extends PageProps {
     game: Game;
     character: CharacterResponse;
-    github_username: string;
+    player: User;
     next_threshold: number;
 }
 
-export default function Show({ game, character, next_threshold, github_username }: Props) {
+export default function Show({ game, character, next_threshold, player }: Props) {
     const { auth } = usePage<SharedData>().props;
     const [timeRemaining, setTimeRemaining] = useState<number | null>(null);
     const healForm = useForm();
@@ -76,8 +76,8 @@ export default function Show({ game, character, next_threshold, github_username 
             </div>
             <div className="flex justify-between gap-2 px-5 pt-24">
                 <div className="flex flex-col">
-                    <p className="">{auth.user.name}</p>
-                    <p className="text-foreground-muted">@{auth.user.username}</p>
+                    <p className="">{player?.name}</p>
+                    <p className="text-foreground-muted">@{player?.username}</p>
                 </div>
                 <div className="flex flex-col">
                     <p className="">Atk: {attackPower(character)}</p>
@@ -109,7 +109,7 @@ export default function Show({ game, character, next_threshold, github_username 
                 </div>
             ) : (
                 <div className="p-5">
-                    <ActionAnchor href={`https://github.com/${github_username}`} target="_blank">
+                    <ActionAnchor href={`https://github.com/${player?.username}`} target="_blank">
                         View Players GitHub
                     </ActionAnchor>
                 </div>
