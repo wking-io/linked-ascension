@@ -75,7 +75,7 @@ class CharacterController extends Controller
         $user = Auth::user();
 
         if (!$user) {
-            return to_route('users.show', $user);
+            return to_route('login');
         }
 
         // 1. Redirect if character is unclaimed
