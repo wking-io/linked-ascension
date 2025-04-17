@@ -148,7 +148,7 @@ class CharacterController extends Controller
         }
 
         $characters = $game->characters()
-            ->where('id', '!=', $character->id)
+            ->where('id', '!=', $character->id->id())
             ->whereNotNull('user_id')
             ->with(['user:id,name,username'])
             ->with(['blessing:id,type'])
