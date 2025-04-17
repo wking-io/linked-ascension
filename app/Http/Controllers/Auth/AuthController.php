@@ -33,16 +33,20 @@ class AuthController extends Controller
     {
         $githubUser = Socialite::driver('github')->user();
 
-        $user_id = UserAuthenticated::fire(
-            name: $githubUser->getName(),
-            username: $githubUser->getNickname(),
-            email: $githubUser->getEmail(),
-            provider_id: $githubUser->getId(),
-        )->user_id;
+        $user = User::where('provider_id', $githubUser->getId())->first();
 
-        Verbs::commit();
+        if (!$user) {
+            $user_id = UserAuthenticated::fire(
+                name: $githubUser->getName(),
+                username: $githubUser->getNickname(),
+                email: $githubUser->getEmail(),
+                provider_id: $githubUser->getId(),
+            )->user_id;
 
-        $user = User::where('id', $user_id)->first();
+            Verbs::commit();
+            $user = User::where('id', $user_id)->first();
+        }
+
 
         event(new Registered($user));
 

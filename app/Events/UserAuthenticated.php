@@ -31,12 +31,9 @@ class UserAuthenticated extends Event
 
     public function handle(UserState $user)
     {
-        User::updateOrCreate(
+        User::create(
             [
                 'provider_id' => $user->provider_id,
-            ],
-            [
-                'id' => $user->id,
                 'name' => $user->name,
                 'username' => $user->username,
                 'email' => $user->email,

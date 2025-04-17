@@ -31,7 +31,9 @@ class GameController extends Controller
     {
         return Inertia::render('games/show', [
             'game' => $game,
-            'characters' => $game->characters,
+            'characters' => $game->characters()
+                ->with(['user:id,name,username'])
+                ->get(),
         ]);
     }
 
