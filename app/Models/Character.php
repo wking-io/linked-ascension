@@ -94,4 +94,10 @@ class Character extends Model
     {
         return $this->belongsTo(Blessing::class);
     }
+
+    public function supportPoints(): int
+    {
+        $supporters = $this->supportedBy()->count();
+        return $supporters - $this->expended_points + $this->bonus_points;
+    }
 }

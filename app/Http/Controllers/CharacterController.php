@@ -161,12 +161,11 @@ class CharacterController extends Controller
                 return $c->user_id != '303499880094707712' && $c->id->id() != $character->id->id() && $c->user_id !== null;
             })->map(function ($character) {
                 $data = $character->toArray();
-                $user = User::find($character->user_id);
+                $user = User::find(id: $character->user_id);
                 $data['user'] = $user;
-                $state = $character->state();
-                $blessing = $state->blessing();
+                $blessing = $character->blessing();
                 $data['blessing_type'] = $blessing->type ?? null;
-                $data['support_points'] = $state->supportPoints();
+                $data['support_points'] = $character->supportPoints;
                 return $data;
             })->values()->toArray(),
         ]);
