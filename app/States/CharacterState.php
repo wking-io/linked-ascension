@@ -150,11 +150,7 @@ class CharacterState extends State
 
     public function toArray(): array
     {
-        $owner = $this->owner();
-
-        if (!$owner) {
-            $owner = User::load($this->user_id);
-        }
+        $owner = User::find($this->user_id->id())->first();
 
         return [
             'id' => $this->id,
