@@ -52,6 +52,7 @@ export interface CharacterWithUser extends CharacterResponse {
         id: string;
         name: string;
         username: string;
+        email: string;
     };
 }
 

@@ -60,4 +60,14 @@ class UserState extends State
     {
         return $this->supported_character_ids->contains(fn($id) => $id->is($character_id));
     }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'username' => $this->username,
+            'email' => $this->email,
+        ];
+    }
 }

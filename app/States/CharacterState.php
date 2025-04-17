@@ -164,6 +164,7 @@ class CharacterState extends State
             'support_points' => $this->supportPoints(),
             'supported_by' => $this->supportedBy()->toArray(),
             'blessing_type' => $this->blessing()?->type,
+            'user' => $this->owner()?->toArray(),
         ];
     }
 }
