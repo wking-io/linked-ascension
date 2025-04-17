@@ -153,7 +153,7 @@ class CharacterController extends Controller
         return Inertia::render('characters/target', [
             'character' => $character,
             'game' => $game,
-            'characters' => $characters->filter(fn($c) => $c->id !== $character->id->id() && $c->user_id !== null && $c->user_id->id() !== '303499880094707712')->map(fn($c) => $c->toArray()),
+            'characters' => $characters->map(fn($c) => $c->toArray()),
         ]);
     }
 
