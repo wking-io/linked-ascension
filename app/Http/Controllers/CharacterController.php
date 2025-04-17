@@ -55,7 +55,7 @@ class CharacterController extends Controller
         }
 
         // 2. Redirect if character is claimed or user has a character in this game
-        if ($character->user_id !== null) {
+        if ($character->user_id !== null || ($user && $game->characters()->where('user_id', $user->id)->exists())) {
             return to_route('characters.support', [$game, $character]);
         }
 
