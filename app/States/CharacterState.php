@@ -149,6 +149,7 @@ class CharacterState extends State
 
     public function toArray(): array
     {
+        $owner = $this->owner();
         return [
             'id' => $this->id,
             'health' => $this->health,
@@ -164,7 +165,7 @@ class CharacterState extends State
             'support_points' => $this->supportPoints(),
             'supported_by' => $this->supportedBy()->toArray(),
             'blessing_type' => $this->blessing()?->type,
-            'user' => $this->owner()?->toArray(),
+            'user' => $owner ? $owner->toArray() : null,
         ];
     }
 }
