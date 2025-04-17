@@ -24,7 +24,7 @@ class StoreGameRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'starts_at' => ['required', 'date', 'after:now'],
+            'starts_at' => ['required', 'date'],
             'ends_at' => ['required', 'date', 'after:starts_at'],
         ];
     }

@@ -146,4 +146,24 @@ class CharacterState extends State
 
         return 0;
     }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'health' => $this->health,
+            'game_id' => $this->game_id,
+            'user_id' => $this->user_id,
+            'element' => $this->element,
+            'unlocked_armor_at' => $this->unlocked_armor_at,
+            'unlocked_weapon_at' => $this->unlocked_weapon_at,
+            'unlocked_special_at' => $this->unlocked_special_at,
+            'claimed_at' => $this->claimed_at,
+            'last_acted_at' => $this->last_acted_at,
+            'expended_points' => $this->expended_points,
+            'support_points' => $this->supportPoints(),
+            'supported_by' => $this->supportedBy()->toArray(),
+            'blessing_type' => $this->blessing()?->type,
+        ];
+    }
 }

@@ -147,29 +147,13 @@ class CharacterController extends Controller
             return to_route('games.show', [$game]);
         }
 
-        $characters = $game->characters()
-            ->where('id', '!=', $character->id->id())
-            ->whereNotNull('user_id')
-            ->with(['user:id,name,username'])
-            ->with(['blessing:id,type'])
-            ->get()
-            ->map(function ($character) {
-                $data = $character->toArray();
-                $blessing_type = $character->blessing->type ?? null;
-
-                // Remove the blessing object and add blessing_type directly
-                unset($data['blessing']);
-                $data['blessing_type'] = $blessing_type;
-
-                return array_merge($data, [
-                    'support_points' => $character->state()->supportPoints(),
-                ]);
-            });
+        $game_state = $game->state();
+        $characters = $game_state->characters();
 
         return Inertia::render('characters/target', [
             'character' => $character,
             'game' => $game,
-            'characters' => $characters,
+            'characters' => $characters->filter(fn($c) => $c->id !== $character->id->id())->map(fn($c) => $c->toArray()),
         ]);
     }
 
