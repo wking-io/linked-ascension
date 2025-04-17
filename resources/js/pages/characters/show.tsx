@@ -99,7 +99,7 @@ export default function Show({ game, character, next_threshold, player }: Props)
                         Attack {timeRemaining !== null ? `in ${formatTime(timeRemaining)}` : 'Now!'}
                     </ActionLink>
                     <form onSubmit={handleHealHeart}>
-                        <ActionButton disabled={character.support_points === 0} type="submit" className="w-full">
+                        <ActionButton disabled={character.support_points === 0 || character.health === 12} type="submit" className="w-full">
                             Heal Heart
                         </ActionButton>
                     </form>
