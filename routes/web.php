@@ -7,6 +7,7 @@ use App\Http\Controllers\GameController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BlessingController;
 use App\Http\Controllers\Auth\AuthController;
+use Inertia\Inertia;
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -68,6 +69,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('games/{game}/characters/{character}/blessings/{blessing}', [BlessingController::class, 'show'])->name('blessings.show');
     Route::post('games/{game}/characters/{character}/blessings/{blessing}/claim', [BlessingController::class, 'claim'])->name('blessings.claim');
 });
+
+Route::get('preview', function () {
+    return Inertia::render('preview');
+})->name('preview');
 
 // Authentication routes
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
