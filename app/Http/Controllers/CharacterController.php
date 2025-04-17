@@ -11,6 +11,7 @@ use App\Events\CharacterUnlockedElement;
 use App\Events\CharacterUnlockedSpecial;
 use App\Events\CharacterUnlockedWeapon;
 use App\Events\UserClaimedCharacter;
+use App\Models\Blessing;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Character;
@@ -163,9 +164,9 @@ class CharacterController extends Controller
                 $data = $character->toArray();
                 $user = User::find(id: $character->user_id);
                 $data['user'] = $user;
-                $blessing = $character->blessing();
+                $blessing = Blessing::find(id: $character->blessing_id?->id());
                 $data['blessing_type'] = $blessing->type ?? null;
-                $data['support_points'] = $character->supportPoints;
+                $data['support_points'] = $character->supportPoints();
                 return $data;
             })->values()->toArray(),
         ]);
