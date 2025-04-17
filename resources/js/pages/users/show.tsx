@@ -14,6 +14,7 @@ export default function Show({ user }: Props) {
         <Layout user={auth.user}>
             <p>{user.name}</p>
             {auth.user.is_admin && <Link href={create()}>Create Game</Link>}
+            <p>If you have a token and just logged in with Github, scan your token again. Sorry!</p>
         </Layout>
     );
 }
