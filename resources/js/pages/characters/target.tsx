@@ -20,6 +20,7 @@ interface Props extends PageProps {
 }
 
 export default function Target({ character, game, characters }: Props) {
+    console.log(characters);
     const { data, setData, submit, processing } = useForm({
         target_id: '',
     });
@@ -36,7 +37,7 @@ export default function Target({ character, game, characters }: Props) {
                 <fieldset>
                     <legend className="sr-only">Target</legend>
                     <div className="flex flex-col gap-2">
-                        {characters.map((c) => {
+                        {characters?.map((c) => {
                             const notTarget = data.target_id.length && data.target_id !== c.id;
                             const isTarget = data.target_id.length && data.target_id === c.id;
                             const previewHealth = isTarget ? calculateDamage(character, c) : undefined;

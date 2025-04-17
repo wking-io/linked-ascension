@@ -16,6 +16,7 @@ use Inertia\Inertia;
 use App\Models\Character;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Game;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 
 class CharacterController extends Controller
@@ -147,24 +148,24 @@ class CharacterController extends Controller
             return to_route('games.show', [$game]);
         }
 
-        $game_state = $game->state();
         $characters = Character::where('game_id', $game->id)
-            ->where('user_id', '!=', null)
-            ->where('user_id', '!=', '303499880094707712')
-            ->where('id', '!=', $character->id->id())
+            // ->where('user_id', '!=', '303499880094707712')
+            // ->where('id', '!=', $character->id->id())
             ->get();
 
-        $characters = $characters->map(function ($character) {
-            $data = $character->toArray();
-            $data['user'] = $character->user()->toArray();
-            $data['blessing_type'] = $character->blessing()->type ?? null;
-            return $data;
-        });
 
         return Inertia::render('characters/target', [
             'character' => $character,
             'game' => $game,
-            'characters' => $characters,
+            'characters' => $characters->filter(function ($c) use ($character) {
+                return $c->user_id != '303499880094707712' && $c->id->id() != $character->id->id();
+            })->map(function ($character) {
+                $data = $character->toArray();
+                $user = User::find($character->user_id);
+                $data['user'] = $user;
+                $data['blessing_type'] = $character->blessing()->type ?? null;
+                return $data;
+            })->values()->toArray(),
         ]);
     }
 
