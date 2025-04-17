@@ -98,7 +98,7 @@ class CharacterState extends State
 
     public function isSupportedBy(Snowflake $user_id): bool
     {
-        return $this->supported_by_ids->contains($user_id);
+        return $this->supported_by_ids->contains(fn($id) => $id->is($user_id));
     }
 
     public function nextThreshold(): int
