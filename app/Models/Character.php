@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Glhd\Bits\Snowflake;
+use Illuminate\Support\Facades\DB;
 
 class Character extends Model
 {
@@ -97,7 +98,9 @@ class Character extends Model
 
     public function supportPoints(): int
     {
-        $supporters = $this->supportedBy()->count();
-        return $supporters - $this->expended_points + $this->bonus_points;
+        $supportCount = DB::table('character_support')
+            ->where('character_id', $this->id->id())
+            ->count();
+        return $supportCount - $this->expended_points + $this->bonus_points;
     }
 }

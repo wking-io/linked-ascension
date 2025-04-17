@@ -30,9 +30,10 @@ class CharacterController extends Controller
 
         $player = $character->user;
 
+
         return Inertia::render('characters/show', [
             'game' => $game,
-            'character' => array_merge($character->toArray(), ['support_points' => $character->state()->supportPoints()]),
+            'character' => array_merge($character->toArray(), ['support_points' => $character->supportPoints()]),
             'next_threshold' => $character->state()->nextThreshold(),
             'player' => $player,
         ]);
