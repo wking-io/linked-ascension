@@ -38,7 +38,7 @@ class CharacterController extends Controller
         $canUpgrade = $canGetFirstUpgrade || $canGetSecondeUpgrade || $canGetThirdUpgrade;
 
         if ($canUpgrade) {
-            return to_route('characters.upgrade');
+            return to_route('characters.upgrade', [$game, $character]);
         }
 
         return Inertia::render('characters/show', [
