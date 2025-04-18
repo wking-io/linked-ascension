@@ -1,3 +1,3 @@
 export default function Support() {
-    return <p>Coming soon!</p>;
+    return <p>Congratulations! You are now supporting this character.</p>;
 }

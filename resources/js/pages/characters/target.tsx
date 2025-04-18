@@ -39,7 +39,7 @@ export default function Target({ character, game, characters }: Props) {
                         {characters?.map((c) => {
                             const notTarget = data.target_id.length && data.target_id !== c.id;
                             const isTarget = data.target_id.length && data.target_id === c.id;
-                            const previewHealth = isTarget ? character.health - calculateDamage(character, c) : undefined;
+                            const previewHealth = isTarget ? c.health - calculateDamage(character, c) : undefined;
                             return (
                                 <div className="relative h-[94px]" key={c.id}>
                                     <Box className={cn(c.blessing_type === BlessingType.INVINCIBLE && 'pointer-events-none opacity-25')}>

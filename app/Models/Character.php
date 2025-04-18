@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Element;
 use App\States\CharacterState;
 use Glhd\Bits\Database\HasSnowflakes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,7 +22,6 @@ class Character extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'id',
         'health',
         'unlocked_armor_at',
         'unlocked_weapon_at',
@@ -91,9 +91,27 @@ class Character extends Model
     /**
      * Get the blessing that this character has.
      */
-    public function blessing(): BelongsTo
+    public function blessing()
     {
         return $this->belongsTo(Blessing::class);
+    }
+
+    public function attackPower(Character $target)
+    {
+        $power = $this->unlocked_weapon_at ? 2 : 1;
+        $multiplier = $this->element && $target->element ? Element::from($this->element)->getDamageMultiplier(Element::from($target->element)) : 1;
+
+        return $power * $multiplier;
+    }
+
+    public function defensePower()
+    {
+        return $this->unlocked_armor_at ? 1 : 0;
+    }
+
+    public function canAct(): bool
+    {
+        return $this->health > 0 && $this->last_acted_at->addMinutes(30) < now();
     }
 
     public function supportPoints(): int
@@ -102,5 +120,59 @@ class Character extends Model
             ->where('character_id', $this->id->id())
             ->count();
         return $supportCount - $this->expended_points + $this->bonus_points;
+    }
+
+    public function isSupportedBy(Snowflake $supporterId): bool
+    {
+        return DB::table('character_support')
+            ->where('character_id', $this->id->id())
+            ->where('user_id', $supporterId->id())
+            ->exists();
+    }
+
+    public function tier(): int
+    {
+        $points = $this->supportPoints();
+
+        if ($points >= Game::FOURTH_THRESHOLD) {
+            return 4;
+        }
+
+        if ($points >= Game::THIRD_THRESHOLD) {
+            return 3;
+        }
+
+        if ($points >= Game::SECOND_THRESHOLD) {
+            return 2;
+        }
+
+        if ($points >= Game::FIRST_THRESHOLD) {
+            return 1;
+        }
+
+        return 0;
+    }
+
+    public function nextThreshold(): int
+    {
+        $points = $this->supportPoints();
+
+        if ($points >= Game::FOURTH_THRESHOLD || $this->unlocked_special_at) {
+            return 999;
+        }
+
+        if ($points >= Game::THIRD_THRESHOLD || ($this->unlocked_armor_at && $this->unlocked_weapon_at)) {
+            return Game::FOURTH_THRESHOLD;
+        }
+
+        if ($points >= Game::SECOND_THRESHOLD || $this->unlocked_armor_at || $this->unlocked_weapon_at) {
+            return Game::THIRD_THRESHOLD;
+        }
+
+        if ($points >= Game::FIRST_THRESHOLD || $this->element) {
+            return Game::SECOND_THRESHOLD;
+        }
+
+        return Game::FIRST_THRESHOLD;
     }
 }

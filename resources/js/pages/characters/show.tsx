@@ -36,10 +36,28 @@ export default function Show({ game, character, next_threshold, player }: Props)
 
         const lastActedAt = new Date(character.last_acted_at);
         const now = new Date();
-        const nextHour = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 1, 0, 0, 0);
 
-        if (lastActedAt.getHours() === now.getHours() && lastActedAt.getDate() === now.getDate()) {
-            const diff = nextHour.getTime() - now.getTime();
+        // Calculate next half hour (either :30 or :00)
+        const getNextHalfHour = (date: Date) => {
+            const result = new Date(date);
+            if (date.getMinutes() < 30) {
+                // Next half hour is :30 of the current hour
+                result.setMinutes(30, 0, 0);
+            } else {
+                // Next half hour is :00 of the next hour
+                result.setHours(date.getHours() + 1, 0, 0, 0);
+            }
+            return result;
+        };
+
+        const nextHalfHour = getNextHalfHour(now);
+
+        // Only show cooldown if character acted in the current half-hour period
+        const inSameHalfHourPeriod =
+            lastActedAt.getHours() === now.getHours() && Math.floor(lastActedAt.getMinutes() / 30) === Math.floor(now.getMinutes() / 30);
+
+        if (inSameHalfHourPeriod) {
+            const diff = nextHalfHour.getTime() - now.getTime();
             setTimeRemaining(diff);
         } else {
             setTimeRemaining(null);
@@ -47,8 +65,14 @@ export default function Show({ game, character, next_threshold, player }: Props)
 
         const interval = setInterval(() => {
             const now = new Date();
-            const diff = nextHour.getTime() - now.getTime();
-            if (diff <= 0) {
+            const nextHalfHour = getNextHalfHour(now);
+            const diff = nextHalfHour.getTime() - now.getTime();
+
+            // Use the last acted at time we already parsed above, since we know it's valid
+            const inSameHalfHourPeriod =
+                lastActedAt.getHours() === now.getHours() && Math.floor(lastActedAt.getMinutes() / 30) === Math.floor(now.getMinutes() / 30);
+
+            if (!inSameHalfHourPeriod || diff <= 0) {
                 setTimeRemaining(null);
             } else {
                 setTimeRemaining(diff);

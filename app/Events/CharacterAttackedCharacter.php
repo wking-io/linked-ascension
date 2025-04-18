@@ -26,14 +26,14 @@ class CharacterAttackedCharacter extends Event
 
     public function validate(CharacterState $character, CharacterState $target)
     {
-        $can_act = !$character->last_acted_at?->isSameHour($this->acted_at);
+        $can_act = !$character->last_acted_at?->isSameHalfHour($this->acted_at);
 
         $character_blessing = $character->blessing();
         $can_act = $character_blessing?->type === BlessingType::DOUBLE_ACTION;
 
         $this->assert(
             $can_act,
-            'Character has already used their action for this hour.'
+            'Character has already used their action for this half hour.'
         );
 
         $this->assert(
@@ -47,13 +47,13 @@ class CharacterAttackedCharacter extends Event
         $target_blessing = $target->blessing();
 
         if ($target_blessing?->type === BlessingType::INVINCIBLE) {
-            if ($target->blessing_claimed_at?->isSameHour($this->acted_at)) {
+            if ($target->blessing_claimed_at?->isSameHalfHour($this->acted_at)) {
                 return;
             }
         }
 
         $character_blessing = $character->blessing();
-        if ($character_blessing?->type === BlessingType::DOUBLE_ACTION && $character->last_acted_at?->isSameHour($this->acted_at)) {
+        if ($character_blessing?->type === BlessingType::DOUBLE_ACTION && $character->last_acted_at?->isSameHalfHour($this->acted_at)) {
             $character->is_blessing_active = false;
         }
 
@@ -65,7 +65,7 @@ class CharacterAttackedCharacter extends Event
         $target_blessing = $target->blessing();
 
         if ($target_blessing?->type === BlessingType::INVINCIBLE) {
-            if ($target->blessing_claimed_at?->isSameHour($this->acted_at)) {
+            if ($target->blessing_claimed_at?->isSameHalfHour($this->acted_at)) {
                 return;
             } else {
                 $target->is_blessing_active = false;
@@ -84,7 +84,7 @@ class CharacterAttackedCharacter extends Event
         $defense = $target->defensePower();
 
         if ($target_blessing?->type === BlessingType::EVADE) {
-            if ($target->blessing_claimed_at?->isSameHour($this->acted_at)) {
+            if ($target->blessing_claimed_at?->isSameHalfHour($this->acted_at)) {
                 if (random_int(0, 1) === 1) {
                     $attack = 0;
                 }

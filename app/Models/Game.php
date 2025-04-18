@@ -11,6 +11,13 @@ use Illuminate\Database\Eloquent\Model;
 class Game extends Model
 {
     use HasFactory, HasSnowflakes;
+    public const FIRST_THRESHOLD = 10;
+
+    public const SECOND_THRESHOLD = 25;
+
+    public const THIRD_THRESHOLD = 50;
+
+    public const FOURTH_THRESHOLD = 200;
 
     /**
      * The attributes that are mass assignable.
@@ -18,7 +25,6 @@ class Game extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'id',
         'name',
         'starts_at',
         'ends_at',

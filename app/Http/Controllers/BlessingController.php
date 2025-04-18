@@ -8,7 +8,6 @@ use App\Events\CharacterClaimedBlessing;
 use App\Models\Blessing;
 use App\Models\Character;
 use App\Models\Game;
-use App\States\CharacterState;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -94,14 +93,13 @@ class BlessingController extends Controller
             })
             ->first();
 
-        $state = CharacterState::load($character->id);
-        $game = $state->game();
+        $game = Game::find($character->game_id);
 
         if (!$character || $game->isActive()) {
             return to_route('users.show', [$user])
                 ->with('error', 'You don\'t have any characters in active games.');
         }
 
-        return to_route('blessings.show', [$character->game, $character, $blessing]);
+        return to_route('blessings.show', [$game, $character, $blessing]);
     }
 }

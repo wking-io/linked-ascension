@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\BlessingType;
 use App\Events\AdminCreatedCharacter;
 use App\Events\CharacterAttackedCharacter;
 use App\Events\CharacterCollectedSupport;
@@ -30,11 +31,20 @@ class CharacterController extends Controller
 
         $player = $character->user;
 
+        $supportPoints = $character->supportPoints();
+        $canGetFirstUpgrade = $character->element === null && $supportPoints >= Game::FIRST_THRESHOLD;
+        $canGetSecondeUpgrade = $character->unlocked_armor_at === null && $character->unlocked_weapon_at === null && $supportPoints >= Game::SECOND_THRESHOLD;
+        $canGetThirdUpgrade = $character->unlocked_weapon_at === null && $supportPoints >= Game::THIRD_THRESHOLD;
+        $canUpgrade = $canGetFirstUpgrade || $canGetSecondeUpgrade || $canGetThirdUpgrade;
+
+        if ($canUpgrade) {
+            return to_route('characters.upgrade');
+        }
 
         return Inertia::render('characters/show', [
             'game' => $game,
             'character' => array_merge($character->toArray(), ['support_points' => $character->supportPoints()]),
-            'next_threshold' => $character->state()->nextThreshold(),
+            'next_threshold' => $character->nextThreshold(),
             'player' => $player,
         ]);
     }
@@ -44,7 +54,7 @@ class CharacterController extends Controller
         return Inertia::render('characters/edit', [
             'game' => $game,
             'character' => $character,
-            'next_threshold' => $character->state()->nextThreshold(),
+            'next_threshold' => $character->nextThreshold(),
         ]);
     }
 
@@ -87,15 +97,23 @@ class CharacterController extends Controller
         }
 
         // 2. Redirect if user owns this character or already supports this character
-        if ($character->user_id?->is($user->id) || $character->state()->isSupportedBy($user->id)) {
+        if ($character->user_id?->is($user->id) || $character->isSupportedBy($user->id)) {
             return to_route('characters.show', [$game, $character]);
         }
 
-        CharacterCollectedSupport::fire(
-            game_id: $game->id,
-            character_id: $character->id,
-            supporter_id: $user->id
-        );
+        $character->load('blessing');
+
+        $character->supportedBy()->attach($user->id->id());
+
+        if ($character->blessing?->type === BlessingType::DOUBLE_SUPPORT) {
+            if ($character->blessing_claimed_at->addMinutes(15) < now()) {
+                $character->bonus_points += 1;
+            } else {
+                $character->is_blessing_active = false;
+            }
+        }
+
+        $character->save();
 
         return Inertia::render('characters/support', [
             'game' => $game,
@@ -123,10 +141,13 @@ class CharacterController extends Controller
                 ->with('error', 'You already have a character in this game.');
         }
 
-        UserClaimedCharacter::fire(
-            game_id: $game->id,
-            character_id: $character->id,
-            user_id: $user->id
+
+        $character->update(
+            [
+                'user_id' => $user->id,
+                'game_id' => $game->id,
+                'claimed_at' => now(),
+            ]
         );
 
         return Inertia::render('characters/claim', [
@@ -137,9 +158,12 @@ class CharacterController extends Controller
 
     public function store(Game $game): RedirectResponse
     {
-        AdminCreatedCharacter::fire(
-            game_id: $game->id,
-        )->game_id;
+        Character::create(
+            [
+                'game_id' => $game->id,
+                'health' => 12,
+            ]
+        );
 
         return to_route('games.show', $game);
     }
@@ -160,7 +184,7 @@ class CharacterController extends Controller
             'character' => $character,
             'game' => $game,
             'characters' => $characters->filter(function ($c) use ($character) {
-                return $c->user_id != '303499880094707712' && $c->id->id() != $character->id->id() && $c->user_id !== null;
+                return true;
             })->map(function ($character) {
                 $data = $character->toArray();
                 $user = User::find(id: $character->user_id);
@@ -183,13 +207,58 @@ class CharacterController extends Controller
             'target_id' => ['required', 'exists:characters,id']
         ]);
 
-        $target = Character::findOrFail($request->target_id);
+        $target = Character::findOrFail($request->target_id)->with('blessing')->first();
 
-        CharacterAttackedCharacter::fire(
-            game_id: $game->id,
-            character_id: $character->id,
-            target_id: $target->id
-        );
+        $acted_at = now();
+
+        if ($target->blessing?->type === BlessingType::INVINCIBLE) {
+            if ($target->blessing_claimed_at?->isSameHalfHour($acted_at)) {
+                return;
+            } else {
+                $target->is_blessing_active = false;
+            }
+        }
+
+        if ($character->blessing?->type === BlessingType::DOUBLE_ACTION && $character->last_acted_at?->isSameHalfHour($acted_at)) {
+            $character->is_blessing_active = false;
+        }
+
+        $attack = $character->attackPower($target);
+
+        if ($character->blessing?->type === BlessingType::DOUBLE_ATTACK_POWER) {
+            $attack *= 2;
+            $character->is_blessing_active = false;
+        }
+
+
+        $defense = $target->defensePower();
+
+        if ($target->blessing?->type === BlessingType::EVADE) {
+            if ($target->blessing_claimed_at?->isSameHalfHour($acted_at)) {
+                if (random_int(0, 1) === 1) {
+                    $attack = 0;
+                }
+            } else {
+                $target->is_blessing_active = false;
+            }
+        }
+
+        $target->health -= max($attack - $defense, 0);
+
+
+        if ($target->health <= 0) {
+            if ($target->blessing?->type === BlessingType::FREE_HEART) {
+                $target->health = 4;
+                $target->is_blessing_active = false;
+            }
+        }
+
+        // Update the models with the state values
+        $character->last_acted_at = $acted_at;
+
+        // Save both models
+        $character->save();
+        $target->save();
 
         return to_route('characters.show', [$game, $character])
             ->with('success', 'Attack successful!');
@@ -203,7 +272,7 @@ class CharacterController extends Controller
             return to_route('characters.show', [$game, $character]);
         }
 
-        $tier = $character->state()->tier();
+        $tier = $character->tier();
 
         if ($tier === 0) {
             return to_route('characters.show', [$game, $character]);
@@ -251,10 +320,8 @@ class CharacterController extends Controller
             'element' => ['required', 'string', 'in:fire,water,earth,air']
         ]);
 
-        CharacterUnlockedElement::fire(
-            character_id: $character->id,
-            element: $request->element
-        );
+        $character->element = $request->validated('element');
+        $character->save();
 
         return to_route('characters.show', [$game, $character]);
     }
@@ -267,9 +334,8 @@ class CharacterController extends Controller
             return to_route('games.show', [$game]);
         }
 
-        CharacterUnlockedArmor::fire(
-            character_id: $character->id,
-        );
+        $character->is_armor_unlocked = true;
+        $character->save();
 
         return to_route('characters.show', [$game, $character]);
     }
@@ -282,9 +348,8 @@ class CharacterController extends Controller
             return to_route('games.show', [$game]);
         }
 
-        CharacterUnlockedWeapon::fire(
-            character_id: $character->id,
-        );
+        $character->is_weapon_unlocked = true;
+        $character->save();
 
         return to_route('characters.show', [$game, $character]);
     }
@@ -297,9 +362,8 @@ class CharacterController extends Controller
             return to_route('games.show', [$game]);
         }
 
-        CharacterUnlockedSpecial::fire(
-            character_id: $character->id,
-        );
+        $character->is_special_unlocked = true;
+        $character->save();
 
         return to_route('characters.show', [$game, $character]);
     }
@@ -312,9 +376,8 @@ class CharacterController extends Controller
             return to_route('games.show', [$game]);
         }
 
-        CharacterHealedHeart::fire(
-            character_id: $character->id,
-        );
+        $character->health = min($character->health + 4, 12);
+        $character->save();
 
         return to_route('characters.show', [$game, $character]);
     }

@@ -14,7 +14,6 @@ class Blessing extends Model
     use HasFactory, HasSnowflakes;
 
     protected $fillable = [
-        'id',
         'name',
         'slug',
         'description',
