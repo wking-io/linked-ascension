@@ -335,7 +335,7 @@ class CharacterController extends Controller
             return to_route('games.show', [$game]);
         }
 
-        $character->is_armor_unlocked = true;
+        $character->unlocked_armor_at = now();
         $character->save();
 
         return to_route('characters.show', [$game, $character]);
@@ -349,7 +349,7 @@ class CharacterController extends Controller
             return to_route('games.show', [$game]);
         }
 
-        $character->is_weapon_unlocked = true;
+        $character->unlocked_weapon_at = now();
         $character->save();
 
         return to_route('characters.show', [$game, $character]);
@@ -363,7 +363,7 @@ class CharacterController extends Controller
             return to_route('games.show', [$game]);
         }
 
-        $character->is_special_unlocked = true;
+        $character->unlocked_special_at = now();
         $character->save();
 
         return to_route('characters.show', [$game, $character]);
