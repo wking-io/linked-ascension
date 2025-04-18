@@ -21,7 +21,6 @@ interface Props {
 }
 
 export default function Upgrade({ game, character, tier, next_threshold, available_elements }: Props) {
-    tier = 1;
     const [selectedIndex, setSelectedIndex] = useState(0);
     const options = tier === 1 ? available_elements : getTierOptions(tier, Boolean(character?.unlocked_armor_at?.length));
     const selectedOption = options[selectedIndex];
