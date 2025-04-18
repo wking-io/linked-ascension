@@ -63,7 +63,7 @@ export default function Target({ character, game, characters }: Props) {
                                                 </span>
                                                 <span className="flex items-center gap-2 text-2xl">
                                                     <SupportPointsIcon />
-                                                    {character.support_points ?? 0}
+                                                    {c.support_points ?? 0}
                                                 </span>
                                             </span>
                                         </label>

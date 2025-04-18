@@ -119,7 +119,7 @@ class Character extends Model
         $supportCount = DB::table('character_support')
             ->where('character_id', $this->id->id())
             ->count();
-        return $supportCount - $this->expended_points + $this->bonus_points;
+        return $supportCount + ($this->bonus_points - $this->expended_points);
     }
 
     public function isSupportedBy(Snowflake $supporterId): bool
