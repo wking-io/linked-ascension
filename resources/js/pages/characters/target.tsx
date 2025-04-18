@@ -55,7 +55,7 @@ export default function Target({ character, game, characters }: Props) {
                                         <label key={c.id} className={cn(notTarget && 'opacity-50', 'flex flex-col gap-2')} htmlFor={`target-${c.id}`}>
                                             <span className="max-w-[300px] truncate" title={c.user?.name ?? 'Mysterious Stranger'}>
                                                 {c.user?.name ?? 'Mysterious Stranger'}
-                                                {c.element ? <span className={cn(elementClass(c.element), 'ml-1')}>[${c.element}]</span> : null}
+                                                {c.element ? <span className={cn(elementClass(c.element), 'ml-1')}>[{c.element}]</span> : null}
                                             </span>
                                             <span className="-mt-1 mb-2 flex items-center justify-between gap-3">
                                                 <span className="flex items-center gap-3">
