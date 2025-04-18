@@ -30,6 +30,13 @@ export default function Upgrade({ game, character, tier, next_threshold, availab
         ...character,
         ...previewAttribute,
     });
+
+    useEffect(() => {
+        if (tier === 1) {
+            setData({ element: selectedOption });
+        }
+    }, [selectedOption]);
+
     const handlePrevious = () => {
         setSelectedIndex((prev) => (prev === 0 ? options.length - 1 : prev - 1));
     };
@@ -40,7 +47,6 @@ export default function Upgrade({ game, character, tier, next_threshold, availab
 
     const handleConfirm = () => {
         if (tier === 1) {
-            setData({ element: selectedOption });
             submit(unlockElement({ game, character }));
         } else if (tier === 2) {
             const action = selectedOption === 'armor' ? unlockArmor : unlockWeapon;

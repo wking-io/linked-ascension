@@ -317,11 +317,11 @@ class CharacterController extends Controller
         }
 
         // @TODO: Add other elements
-        $request->validate([
-            'element' => ['required', 'string', 'in:fire,water,earth,air']
+        $validated = $request->validate([
+            'element' => ['required', 'string', 'in:fire,water,earth,air,lightning,ice,metal,nature']
         ]);
 
-        $character->element = $request->validated('element');
+        $character->element = $validated['element'];
         $character->save();
 
         return to_route('characters.show', [$game, $character]);
