@@ -268,11 +268,12 @@ class CharacterController extends Controller
     {
         $user = Auth::user();
 
-        if ($character->user_id?->is($user->id)) {
+        if (!$character->user_id?->is($user->id)) {
             return to_route('characters.show', [$game, $character]);
         }
 
         $tier = $character->tier();
+
 
         if ($tier === 0) {
             return to_route('characters.show', [$game, $character]);
