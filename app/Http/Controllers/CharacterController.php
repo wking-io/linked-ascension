@@ -184,7 +184,9 @@ class CharacterController extends Controller
             'character' => $character,
             'game' => $game,
             'characters' => $characters->filter(function ($c) use ($character) {
-                return true;
+                return $c->user_id != '303499880094707712' &&
+                    $c->id->id() != $character->id->id() &&
+                    $c->user_id !== null;
             })->map(function ($character) {
                 $data = $character->toArray();
                 $user = User::find(id: $character->user_id);
